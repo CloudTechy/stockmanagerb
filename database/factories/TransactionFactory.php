@@ -10,7 +10,7 @@ $factory->define(App\Transaction::class, function (Faker $faker) {
     return [
 
         'due_date' => $faker->dateTime($max = 'now', $timezone = null),
-        'status' => $faker->randomElement($array = array('paid', 'pending', 'not-paid')),
+        'status' => 'not-paid',
         'user_id' => $user,
     ];
 });

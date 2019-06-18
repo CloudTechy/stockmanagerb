@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,6 +18,7 @@ class OrderResource extends JsonResource
     {
         $user = new User($this->user);
         $customer = new CustomerResource($this->customer);
+        $transaction = Transaction::where('invoice_id', $this->invoiceID)->first();
 
         return [
 
@@ -28,7 +30,8 @@ class OrderResource extends JsonResource
             'customer_id' => $this->customer_id,
             'user_id' => $this->user_id,
             'invoice_id' => $this->invoiceId,
-            'transaction_id' => $this->transactionId,
+            'transaction_id' => empty($transaction) ? null : $transaction->id,
+            'status' => empty($transaction) ? null : $transaction->status,
             'orderDetails' => OrderDetailResource::collection($this->orderDetails),
             'Total_amount' => $this->amount,
             'Total_quantity' => $this->quantity,

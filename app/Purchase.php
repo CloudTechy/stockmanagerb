@@ -11,7 +11,6 @@ class Purchase extends Model
 
     public function getInvoiceIdAttribute()
     {
-
         return empty($this->invoice) ? null : $this->invoice->id;
     }
     public function getTransactionIdAttribute()
@@ -29,9 +28,7 @@ class Purchase extends Model
 
     public function purchaseDetails()
     {
-
         return $this->hasMany(PurchaseDetail::class);
-
     }
 
     public function user()

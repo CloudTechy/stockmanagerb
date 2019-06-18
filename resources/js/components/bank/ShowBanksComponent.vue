@@ -41,7 +41,6 @@
                                 <button @click="loadEditbank(bank,index)" type="button" title="edit this bank" class="btn btn-outline-primary m-1"  data-toggle="modal" data-target="#editBankModal" ><i class="fas fa-pen"></i></button>
                                 <button @click="deleteBank(bank.name,index+start)" type="button" title="delete this bank" class="btn btn-outline-danger m-1"><i class="fas fa-trash-alt"></i></button>
                             </td>
-                            
                         </tr>
                          <tr v-if = "loading == false && pageLoader(current_page).length == 0">
                             <td colspan="4">

@@ -35,8 +35,6 @@
                             <th>Added By</th>
                             <th>Created</th>
                             <th>Action</th>
-                            
-
                         </tr>
                     </thead>
                     <tbody id="body">
@@ -60,7 +58,7 @@
                                 </div>
                             </td>
                         </tr>
-                         <td colspan="7">
+                         <td colspan="8">
                             <li class="p-4 m-3 border border-info" v-if="loading == false && $root.myFilter(transactions,search).length == 0">
                                 <h4 class="text-center small text-secondary">Transactions Not Found</h4>
                             </li>

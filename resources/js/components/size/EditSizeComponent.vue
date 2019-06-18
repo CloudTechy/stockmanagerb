@@ -47,7 +47,6 @@
     export default {
 
         data() { 
-           
             return {
                 form : new Form({
                     name: '',
@@ -55,44 +54,45 @@
                 }),
                 size:'',
             }
-
         },
         created(){
             Fire.$on('edit_size', (data)=> {this.form.fill(data); this.size = data})
         },
+        beforeDestroy(){
+            this.$refs.closeButton.click();
+            this.form.reset();
+        },
         methods: {
-            
             editSizeAxios(){
             	this.$Progress.start();
-                    this.form.patch('./api/sizes/'+this.size.name)
-                    .then(response => {
-                        this.$refs.closeButton.click()
+                this.form.patch('./api/sizes/'+this.size.name)
+                .then(response => {
+                    this.$refs.closeButton.click()
+                    if(response.data.status == true){
+                        Fire.$emit('size_edited')
+                        this.form.reset()
+                        this.$refs.size_name.classList.remove('is-invalid')
+                        this.$refs.size_description.classList.remove('is-invalid');
+                        this.$Progress.finish()
+                        this.$root.alert('success','success','size edited')
+                    }
 
-                        if(response.data.status == true){
-                            Fire.$emit('size_edited')
-                            this.form.reset()
-                            this.$refs.size_name.classList.remove('is-invalid')
-                            this.$refs.size_description.classList.remove('is-invalid');
-                            this.$Progress.finish()
-                            this.$root.alert('success','success','size edited')
-                        }
-
-                        else{
-                            this.$Progress.fail()
-                            this.$root.alert('error','error','An unexpected error occured, Try again Later')
-                        }
-                    })
-                    .catch( error => {
+                    else{
                         this.$Progress.fail()
-                        this.$root.alert('error','error',error.response.data.message)
-                        var error = error.response.data.error;
-                        console.log(error);
-                        if(error.name){
-                            this.$refs.size_name.classList.add('is-invalid');
-                        }
-                        if (error.description) {
-                            this.$refs.size_description.classList.add('is-invalid');
-                        }
+                        this.$root.alert('error','error','An unexpected error occured, Try again Later')
+                    }
+                })
+                .catch( error => {
+                    this.$Progress.fail()
+                    this.$root.alert('error','error',error.response.data.message)
+                    var error = error.response.data.error;
+                    console.log(error);
+                    if(error.name){
+                        this.$refs.size_name.classList.add('is-invalid');
+                    }
+                    if (error.description) {
+                        this.$refs.size_description.classList.add('is-invalid');
+                    }
                 });  
             },
 

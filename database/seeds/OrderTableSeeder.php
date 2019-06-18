@@ -22,11 +22,11 @@ class OrderTableSeeder extends Seeder
 
             factory(App\OrderDetail::class, mt_rand(1, 5))->create(['order_id' => $order->id]);
 
-            $total_price = Order::find($order->id)->amount;
+            $order = Order::find($order->id);
 
-            factory(Transaction::class)->create(['amount' => $total_price, 'payment' => $total_price, 'invoice_id' => function () use ($order) {
+            factory(Transaction::class)->create(['cost' => $order->cost, 'amount' => $order->amount, 'payment' => 0, 'invoice_id' => function () use ($order) {
 
-                return factory(Invoice::class)->create(['type' => 'order', 'order_id' => $order->id])->id;
+                return factory(Invoice::class)->create(['cost' => $order->cost, 'amount' => $order->amount, 'type' => 'order', 'order_id' => $order->id])->id;
             }]);
 
         });

@@ -31,16 +31,15 @@ class PurchaseTableSeeder extends Seeder
                         $attribute_id = Attribute::where('type', $purchaseDetail->brand)->first()->id;
 
                         factory(AttributeProduct::class, 1)->create(['product_id' => $product->id, 'attribute_id' => $attribute_id, 'purchase_price' => $purchaseDetail->price, 'sale_price' => $purchaseDetail->price + 1000, 'percent_sale' => $purchaseDetail->percent_sale, "available_stock" => $purchaseDetail->quantity, 'size' => $purchaseDetail->size]);
-
                     });
 
                 });
 
-                $total_price = Purchase::find($purchase->id)->amount;
+                $purchase = Purchase::find($purchase->id);
 
-                factory(Transaction::class)->create(['amount' => $total_price, 'payment' => $total_price, 'invoice_id' => function () use ($purchase) {
+                factory(Transaction::class)->create(['cost' => $purchase->amount, 'amount' => $purchase->amount, 'payment' => 0, 'invoice_id' => function () use ($purchase) {
 
-                    return factory(Invoice::class)->create(['type' => 'purchase', 'purchase_id' => $purchase->id])->id;
+                    return factory(Invoice::class)->create(['cost' => $purchase->amount, 'amount' => $purchase->amount, 'type' => 'purchase', 'purchase_id' => $purchase->id])->id;
                 }]);
 
             });

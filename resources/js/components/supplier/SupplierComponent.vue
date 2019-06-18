@@ -149,9 +149,6 @@
             owed : '',
             }
         },
-        beforeDestroy() {
-            window.dispatchEvent(new Event('close_sidebar_min'))
-        },
         created(){
             Fire.$on('supplier_created', (data)=> {
                 this.loadSuppliers();
@@ -184,7 +181,6 @@
               }
               return data;
             },
-
         },
         methods: {
             loadSuppliers(){

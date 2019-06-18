@@ -66,7 +66,7 @@ Stockmanager Web Application by Spacehub Technologies
 </div>
 </div>
 
-<body id="body" class="hold-transition sidebar-mini"  style="height: auto;" onload="myFunction()">
+<body id="body" class="hold-transition sidebar-mini m-0 p-0"  style="height: auto;" onload="myFunction()">
 
   <div  id = "myDiv" style="display:none;">
     <div class="wrapper" id="dashboard" class="animate-bottom">
@@ -130,7 +130,7 @@ Stockmanager Web Application by Spacehub Technologies
 var myVar;
 
 function myFunction() {
-  myVar = setTimeout(showPage, 3000);
+  myVar = setTimeout(showPage, 0);
 }
 
 function showPage() {

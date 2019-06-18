@@ -48,7 +48,7 @@
                                 {{  $root.numeral(product.price) }}
                             </td>
                             <td class="text-capitalize">
-                                <span v-bind:class="{badge:true, 'badge-warning':product.stock < 50, 'badge-danger':product.stock <= 10,  'badge-success' : product.stock > 50 }">{{  product.stock }}
+                                <span v-bind:class="{badge:true, 'badge-warning':product.stock < 50, 'badge-danger':product.stock <= 10,  'badge-success' : product.stock >= 50 }">{{  product.stock }}
                                 </span>
                             </td>
                             <td class="text-center">
@@ -68,10 +68,10 @@
                     <tfoot v-if = "cart.length != 0">
                         <tr>
                             <td class="text-center" colspan="4">
-                                <button @click="loadViewCart" data-toggle="modal" data-target="#viewCart" type="button" title="view products in your cart" class="  m-1 btn btn-outline-warning"><i class="fa fa-shopping-cart fa-fw"></i> View Cart</button>
+                                <button @click="loadViewCart" data-toggle="modal" data-target="#viewCart" type="button" title="view products in your cart" class="  m-1 btn btn-warning"><i class="fa fa-shopping-cart fa-fw"></i> View Cart</button>
                             </td>
                             <td class="text-center" colspan="3">
-                                <button @click="loadCheckoutCart" data-toggle="modal" data-target="#checkoutCart" type="button" title="checkout and pay" class="  m-1 btn btn-outline-success">Check out</button>
+                                <button @click="loadCheckoutCart" data-toggle="modal" data-target="#checkoutCart" type="button" title="checkout and pay" class="  m-1 btn btn-success"><i class="fas fa-money-check fas-fw"></i> Checkout</button>
                             </td>
                         </tr>
                     </tfoot>
@@ -113,7 +113,7 @@
               <add-cart-component @cart_created = "loadCart" @closeCart = "closeCart" v-if = "addCartShow == true"></add-cart-component>
         </div>
         <div v-if = "viewCartShow == true" class="modal fade" id="viewCart">
-              <view-cart-component @updateCart = "updateCart" @closeViewCart = "closeCart" v-if = "viewCartShow == true"></view-cart-component>
+              <view-cart-component @order_created = "refreshCart" @updateCart = "updateCart" @closeViewCart = "closeCart" v-if = "viewCartShow == true"></view-cart-component>
         </div>
         <div v-if = "checkoutCartShow == true" class="modal fade" id="checkoutCart">
               <checkout-cart-component @order_created = "refreshCart" @closeViewCheckoutCart = "closeCart" v-if = "checkoutCartShow == true"></checkout-cart-component>
@@ -179,6 +179,9 @@
             end(){
                 return parseInt(this.rowsPerPage * (this.current_page - 1)) + parseInt(this.rowsPerPage);  
             }         
+        },
+        beforeDestroy(){
+                this.$root.OrderCustomerID = '';
         },
         methods: {
             loadProducts(){

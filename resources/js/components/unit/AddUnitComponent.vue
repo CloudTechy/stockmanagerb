@@ -32,18 +32,20 @@
     
     export default {
         data() { 
-           
             return {
                	form : new Form({
                     name: '',
                 }),
             }
-
         },
+        beforeDestroy(){
+            this.$refs.closeButton.click();
+            this.form.reset();
+        }, 
         methods: {
             addUnit(){
                 this.$Progress.start();
-                this.form.post('./api/units/')
+                this.form.post('./api/units')
                 .then(response => {
                     this.$refs.closeButton.click()
                     if(response.data.status == true){

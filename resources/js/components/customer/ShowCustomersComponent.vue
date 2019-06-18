@@ -57,7 +57,8 @@
                             <td class="text-capitalize">{{  customer.added_by }}</td>
                             <td class="text-capitalize small">{{  customer.date }}</td>
                             <td>
-                                <div style="width: 150px;">
+                                <div style="width: 200px;">
+                                    <button @click="createOrder(customer.id,index+start)" type="button" title="make order" class="btn btn-outline-success"><i class="fas fa-shopping-cart"></i></button>
                                     <button  @click="loadEditCustomer(customer,index)" type="button" title="edit this customer" class="btn btn-outline-primary m-1"  data-toggle="modal" data-target="#editCustomerModal" ><i class="fas fa-pen"></i></button>
                                     <button @click="loadView(customer,index+start)" type="button" title="view more" class="  m-1 btn btn-outline-info"><i class="fas fa-street-view"></i></button>
                                     <button @click="deleteCustomer(customer.id,index+start)" type="button" title="delete this customer" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></button>
@@ -250,6 +251,11 @@
             loadView(data,index){
                 Fire.$emit('view', data);
                 return true;
+            },
+            createOrder(id,index){
+                this.$root.OrderCustomerID = id;
+                this.$router.push('/orders')
+
             },
             deleteCustomer(id,index){
             this.$swal({

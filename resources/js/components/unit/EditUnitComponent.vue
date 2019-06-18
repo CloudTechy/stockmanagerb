@@ -42,20 +42,21 @@
     
     export default {
         data() { 
-           
             return {
                 form : new Form({
                     name: '',
                 }),
                 unit:''
             }
-
         },
         created(){
             Fire.$on('edit_unit', (data)=> {this.form.fill(data); this.unit=data})
         },
+        beforeDestroy(){
+            this.$refs.closeButton.click();
+            this.form.reset();
+        }, 
         methods: {
-            
             editUnitAxios(){
             	this.$Progress.start();
                     this.form.patch('./api/units/'+this.unit.name)

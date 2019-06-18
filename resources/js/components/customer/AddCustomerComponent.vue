@@ -60,25 +60,25 @@
 <script>
     
     export default {
-        mounted(){
-            
-        },
         data() { 
-           
             return {
                	form : new Form({
                     name : '',
                     number:'',
                     email: undefined,
                     note: '',
-                    }),
+                }),
             }
 
+        },
+        beforeDestroy(){
+            this.$refs.closeButton.click()
+            this.form.reset()
         },
         methods: {
             add(){
                 this.$Progress.start();
-                this.form.post('./api/customers/')
+                this.form.post('./api/customers')
                 .then(response => {
                     this.$refs.closeButton.click()
                     window.dispatchEvent(new Event('close_sidebar_min'));

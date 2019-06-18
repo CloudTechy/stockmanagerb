@@ -38,15 +38,13 @@
                         <table  class="table table-bordered table-hover table-striped dataTable" >
                             <thead class="text-center ">
                                 <tr role="row " >
-                                    <th>Customer
-                                    </th>
-                                    <th>Done By
-                                    </th>
+                                    <th>Customer</th>
+                                    <th>Done By</th>
                                     <th>Amount <br> 
                                         (<span style="text-decoration: line-through">N</span>)
                                     </th>
-                                    <th>Date
-                                    </th>
+                                    <th>Status<br>
+                                    <th>Date</th>
                                 </tr>
                             </thead>
                             <tbody id="body">   
@@ -54,6 +52,11 @@
                                     <td>{{ order.customer_name }}</td>
                                     <td>{{ order.user }}</td>
                                     <td>{{ numeral(order.Total_amount) }}</td>
+                                    <td class="text-center">
+                                        <span v-bind:class="{badge:true, 'badge-danger':order.status == 'not-paid',  'badge-success' : order.status == 'paid', 'badge-warning':order.status == 'pending' }">
+                                            {{ order.status }}
+                                        </span>
+                                    </td>
                                     <td>{{ order.date }}</td>
                                 </tr>
                                  <tr v-if = "loading == false && pageLoader(current_page).length == 0">
@@ -65,7 +68,7 @@
                             <tfoot class="text-center">
                             <tr>
                                 <th>Customer</th><th>Done By</th>
-                                <th>Amount</th><th>Date</th>
+                                <th>Amount</th><th>Status</th><th>Date</th>
                             </tr>
                             </tfoot>
                         </table>

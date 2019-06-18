@@ -79,14 +79,14 @@
 								                {{ $root.numeral(customer.owing) }}
 								              </span>
 								              <h3 href="javascript:void(0)" class="users-list-name">{{customer.name }} </h3>
-                                              <h3 href="javascript:void(0)" class="users-list-name">{{"customer id: " + customer.id }} </h3>
-                                              <span style="cursor: pointer" v-if = "customer.owing > 0 && customer.orders.length > 0" class="badge float-right badge-secondary small strong">
-                                                <div class="small"  @click.prevent = "$root.addTransactionComponent(customer.orders,'order')" >
-                                                    <button  title="make transaction" class=" btn-link badge badge-secondary btn-secondary small m-1" data-toggle="" data-target=""  >
-                                                          {{'pay ' + customer.orders.length + ' order(s)'}}
-                                                    </button>
-                                                </div>
-                                              </span>
+                              <h3 href="javascript:void(0)" class="users-list-name">{{"customer id: " + customer.id }} </h3>
+                              <span style="cursor: pointer" v-if = "customer.owing > 0 && customer.orders.length > 0" class="badge float-right badge-secondary small strong">
+                                <div class="small"  @click.prevent = "$root.addTransactionComponent(customer.orders,'order')" >
+                                    <button  title="make transaction" class=" btn-link badge badge-secondary btn-secondary small m-1" data-toggle="" data-target=""  >
+                                          {{'pay ' + customer.orders.length + ' order(s)'}}
+                                    </button>
+                                </div>
+                              </span>
 								              <span v-if="customer.number != null" class="users-list-date">
 								                {{'Number: ' + customer.number }}
 								              </span>
@@ -144,6 +144,9 @@
             owed : '',
             }
         },
+        beforeDestroy() {
+            window.dispatchEvent(new Event('close_sidebar_min'))
+        },
         created(){
             Fire.$on('customer_created', (data)=> {
                 this.loadCustomers();
@@ -164,7 +167,6 @@
         watch : {
         },
          computed: {
-
             filteredCustomers (){
                 var data = [];
               if(this.search){
@@ -176,47 +178,45 @@
               }
               return data;
             },
-
         },
         methods: {
-            loadCustomers(){
-                this.form.get('./api/customers')
-                .then (response =>{
-                	if(response.data.status == true){
-                		this.loading = false;
-                    	this.customers = response.data.data.item;
-                    	response.data.data.item.forEach(this.countDebtors);	
-                	}
-                	else{
-                		console.log("loadCustomer did not return positive response");
-                	}
-                    
-                })
-                .catch (error => {
-                    this.error = error.response.data.error;
-                    console.log(error);
-                }); 
-                this.loadOwing()
-            },
-
-            countDebtors(customer){
-            	if(customer.owing > 0 ){
-            		this.debtors.push(customer);
-            	}
-            },
-            addComponent(event){
-            	window.dispatchEvent(new Event('sidebar_min'))
-            	return true;
-            },
-            loadOwing(){
-		    	this.form.get('./api/statistics/customers?owing')
-			  	.then(response  => {
-				this.owed = numeral(response.data.data.item[0].owing).format('0,0');
-			    })
-			    .catch( error => {
-			     this.error = error.response.data.error;
-			    }); 
-		    }
+          loadCustomers(){
+              this.form.get('./api/customers')
+              .then (response =>{
+              	if(response.data.status == true){
+              		this.loading = false;
+                  	this.customers = response.data.data.item;
+                    window.dispatchEvent(new Event('sidebar_min'))
+                  	response.data.data.item.forEach(this.countDebtors);	
+              	}
+              	else{
+              		console.log("loadCustomer did not return positive response");
+              	} 
+              })
+              .catch (error => {
+                  this.error = error.response.data.error;
+                  console.log(error);
+              }); 
+              this.loadOwing()
+          },
+          countDebtors(customer){
+          	if(customer.owing > 0 ){
+          		this.debtors.push(customer);
+          	}
+          },
+          addComponent(event){
+          	window.dispatchEvent(new Event('sidebar_min'))
+          	return true;
+          },
+          loadOwing(){
+  		    	this.form.get('./api/statistics/customers?owing')
+  			  	.then(response  => {
+  				    this.owed = numeral(response.data.data.item[0].owing).format('0,0');
+  			    })
+  			    .catch( error => {
+  			     this.error = error.response.data.error;
+  			    }); 
+          }
         }
 
     }

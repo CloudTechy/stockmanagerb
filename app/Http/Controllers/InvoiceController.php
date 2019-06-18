@@ -79,6 +79,7 @@ class InvoiceController extends Controller
                 $invoice['order_id'] = $validated['order_id'];
                 $invoice['user_id'] = $validated['user_id'];
                 $invoice['amount'] = $order->amount;
+                $invoice['cost'] = $order->cost;
                 $validated['amount'] = $order->amount;
 
                 $invoice_order = Invoice::where('order_id', $validated['order_id']);
@@ -98,6 +99,7 @@ class InvoiceController extends Controller
                 $invoice['purchase_id'] = $validated['purchase_id'];
                 $invoice['user_id'] = $validated['user_id'];
                 $invoice['amount'] = $purchase->amount;
+                $invoice['cost'] = $purchase->amount;
                 $validated['amount'] = $purchase->amount;
 
                 $invoice_purchase = Invoice::where('purchase_id', $validated['purchase_id']);

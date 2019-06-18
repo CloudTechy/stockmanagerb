@@ -35,20 +35,21 @@
     
     export default {
         data() { 
-           
             return {
                	form : new Form({
                     name: '',
                     description:'No Description Yet',
                 }),
             }
-
+        },
+        beforeDestroy(){
+            this.$refs.closeButton.click();
+            this.form.reset();
         },
         methods: {
-            
             addSize(){
                 this.$Progress.start();
-                this.form.post('./api/sizes/')
+                this.form.post('./api/sizes')
                 .then(response => {
                     this.$refs.closeButton.click()
                     if(response.data.status == true){

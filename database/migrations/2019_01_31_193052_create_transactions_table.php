@@ -16,6 +16,7 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('invoice_id')->index();
+            $table->bigInteger('cost')->default(0);
             $table->bigInteger('amount')->default(0);
             $table->bigInteger('payment')->default(0);
             $table->string('status')->index()->default('pending');

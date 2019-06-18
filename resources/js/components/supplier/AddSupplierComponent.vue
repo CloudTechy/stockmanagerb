@@ -103,7 +103,6 @@
             this.loadBanks();
         },
         data() { 
-           
             return {
                	form : new Form({
                     name:  "",
@@ -120,12 +119,15 @@
                 banks : '',
                 error: '',
             }
-
+        },
+        beforeDestroy(){
+            this.$refs.closeButton.click();
+            this.form.reset();
         },
         methods: {
             add(){
                 this.$Progress.start();
-                this.form.post('./api/suppliers/')
+                this.form.post('./api/suppliers')
                 .then(response => {
                     this.$refs.closeButton.click()
                     window.dispatchEvent(new Event('close_sidebar_min'));

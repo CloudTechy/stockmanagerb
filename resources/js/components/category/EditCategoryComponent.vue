@@ -59,8 +59,11 @@
         created(){
             Fire.$on('edit_category', (data)=> {this.form.fill(data); this.category = data})
         },
+        beforeDestroy(){
+            this.$refs.closeButton.click()
+            this.form.reset()
+        },
         methods: {
-            
             editCategoryAxios(){
             	this.$Progress.start();
                     this.form.patch('./api/categories/'+this.category.name)

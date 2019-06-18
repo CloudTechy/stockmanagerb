@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header text-center">
-                <h3 class="modal-title display-4 font-weight-bold small ">Make Payment</h3>
+                <h3 class="modal-title display-4 font-weight-bold small ">Payment Module</h3>
                 <button type="button" @click = "closeAddModalComponent" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="card card-primary card-outline">
@@ -136,28 +136,29 @@
             // })
 
             if(this.$root.transaction != undefined){
-                    this.transaction = this.$root.transaction
-                    this.form.invoice_id = this.transaction.invoice_id
-                    this.transactionView = true
-                    this.normalView = false
+                this.transaction = this.$root.transaction
+                this.form.invoice_id = this.transaction.invoice_id
+                this.transactionView = true
+                this.normalView = false
             }
              if(this.$root.orderIDs != undefined){
-                    this.idTypes = this.$root.orderIDs
-                    // this.form.invoice_id = this.idTypes.invoiceId
-                    this.transaction_type = 'orders'
-                    this.transactionView = false
-                    this.normalView = true
+                this.$Progress.start();
+                this.idTypes = this.$root.orderIDs
+                // this.form.invoice_id = this.idTypes.invoiceId
+                this.transaction_type = 'orders'
+                this.transactionView = false
+                this.normalView = true
             }
             else if(this.$root.purchaseIDs != undefined){
-                    this.idTypes = this.$root.purchaseIDs
-                    // this.form.invoice_id = this.idTypes.invoiceId
-                    this.transaction_type = 'purchases'
-                    this.transactionView = false
-                    this.normalView = true
+                this.idTypes = this.$root.purchaseIDs
+                // this.form.invoice_id = this.idTypes.invoiceId
+                this.transaction_type = 'purchases'
+                this.transactionView = false
+                this.normalView = true
             }
             else if(this.$root.invoice != undefined){
-                    this.invoice = this.$root.invoice
-                    this.loadInvoiceView();
+                this.invoice = this.$root.invoice
+                this.loadInvoiceView();
             }
             else{
                 this.normalView = true
@@ -200,7 +201,22 @@
             }
 
         },
-            
+        beforeDestroy(){
+            this.transaction = ''
+            this.idTypes = ''
+            this.transactionView = false;
+            this.normalView = true;
+            this.invoice = '';
+            this.form.reset()
+            this.$root.transaction = undefined
+            this.$root.orderIDs = undefined
+            this.$root.purchaseIDs = undefined
+            this.form.invoice_id = ''
+            this.transaction_type = ''
+            this.form.invoice_id = ''
+            window.dispatchEvent(new Event('close_sidebar_min'));
+            //this.$refs.closeButton.click();
+        },  
         methods: {
             add(){
                 this.$Progress.start();
@@ -233,11 +249,6 @@
             closeAddModalComponent(){
                 Fire.$emit('transaction_created', this.transaction)
                 window.dispatchEvent(new Event('close_sidebar_min'));
-                this.transaction = ''
-                this.idTypes = ''
-                this.transactionView = false;
-                this.invoice = '';
-                this.form.reset()
                 if(this.$route.path == "/payment"){
 
                     this.$router.go(-1)
@@ -253,24 +264,11 @@
                     } 
                 })
                 .catch( error => {
-                    var error = error.response.message;
-                    console.log(error);
+                    console.log(error.response);
+                    this.$root.alert('error','error',error.response.data.message)
+                   this.closeAddModalComponent()
                 })
 
-            },
-            beforeDestroy(){
-                this.transaction = ''
-                this.idTypes = ''
-                this.transactionView = false;
-                this.normalView = true;
-                this.invoice = '';
-                this.form.reset()
-                this.$root.transaction = undefined
-                this.$root.orderIDs = undefined
-                this.$root.purchaseIDs = undefined
-                this.form.invoice_id = ''
-                this.transaction_type = ''
-                this.form.invoice_id = ''
             },
             loadInvoiceView(){
                 this.transaction = ''
@@ -295,21 +293,23 @@
                         } 
                     })
                     .catch( error => {
-                        var error = error.response;
-                        console.log(response);
+                        console.log(error.response);
+                        this.$root.alert('error','error',error.response.data.message)
+                        this.closeAddModalComponent()
                     })
                 }
             },
             load(type){
                 this.form.get('./api/'+type)
-                 .then(response => {
+                .then(response => {
                     if(response.data.status == true){
                         this.idTypes = response.data.data.item
                     } 
                 })
                 .catch( error => {
-                    var error = error.response.error;
-                    console.log(error);
+                    console.log(error.response);
+                    this.$root.alert('error','error',error.response.data.message)
+                    this.closeAddModalComponent()
                 })
             },
             loadTransaction(id){
@@ -322,8 +322,9 @@
                     } 
                 })
                 .catch( error => {
-                    var error = error.response.error;
-                    console.log(error);
+                    console.log(error.response);
+                    this.$root.alert('error','error',error.response.data.message)
+                    this.closeAddModalComponent()
                 })
             }
         }

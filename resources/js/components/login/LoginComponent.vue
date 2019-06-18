@@ -89,9 +89,9 @@
         },
         beforeRouteEnter (to, from, next) {
             
-          next(vm => {
+        next(vm => {
                 
-                if(from.path == "" ||  from.path == undefined){
+            if(from.path == "" ||  from.path == undefined || from.path == '/payment' ){
                 vm.path = "/dashboard"
             }
             else{
@@ -99,9 +99,8 @@
             }
             if (vm.$session.exists() && window.axios.defaults.headers.common['Authorization'] != undefined) {
                 window.axios.defaults.headers.common['Authorization'] = 'Bearer '+ this.$session.get('token')
-
-           console.log(window.axios.defaults.headers.common['Authorization']);
-           vm.$router.push(vm.path)
+                console.log(window.axios.defaults.headers.common['Authorization']);
+                vm.$router.push(vm.path)
           }
           else {
             console.log('user unauthorized');

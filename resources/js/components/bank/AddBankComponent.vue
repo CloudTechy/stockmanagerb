@@ -44,19 +44,20 @@
     export default {
 
         data() { 
-           
             return {
                 form : new Form({
                     name: '',
                 }),
             }
-
+        },
+        beforeDestroy(){
+            this.$refs.closeButton.click()
+            this.form.reset()
         },
         methods: {
-            
             addBank(){
                 this.$Progress.start();
-                this.form.post('./api/banks/')
+                this.form.post('./api/banks')
                 .then(response => {
                     this.$refs.closeButton.click()
                     if(response.data.status == true){

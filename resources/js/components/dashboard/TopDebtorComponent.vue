@@ -36,7 +36,7 @@
                 </tr>
                 <tr v-if = "loading == false && filteredDebtors == 0">
                     <td colspan="4">
-                        <h4 class="text-center">Customer Not Found</h4>
+                        <h4  class="text-center m-1 p-2 border border-success small text-success">CONGRATS!!! You have no debtor</h4>
                     </td>
                 </tr>
             </tbody>

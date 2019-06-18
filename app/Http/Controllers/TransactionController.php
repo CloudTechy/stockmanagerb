@@ -75,6 +75,7 @@ class TransactionController extends Controller
             $newTransaction = Transaction::where('invoice_id', $validated['invoice_id']);
             $type = $invoice->type;
             $validated['amount'] = $invoice->amount;
+            $validated['cost'] = $invoice->cost;
 
             if ($type == 'order') {
                 $transaction = $newTransaction->update($validated);
@@ -92,6 +93,7 @@ class TransactionController extends Controller
             $invoice = Invoice::find($validated['invoice_id']);
             $type = $invoice->type;
             $validated['amount'] = $invoice->amount;
+            $validated['cost'] = $invoice->cost;
             $validated['status'] = 'not-paid';
 
             if ($type == 'order') {

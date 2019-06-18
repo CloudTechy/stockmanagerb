@@ -44,16 +44,17 @@
             Fire.$on('edit_bank', (data)=> {this.form.fill(data); this.bank = data})
         },
         data() { 
-           
             return {
                	form : new Form({
                     name: '',
                 }),
                 bank: ''
             }
-
         },
-
+        beforeDestroy(){
+            this.$refs.closeButton.click()
+            this.form.reset()
+        },
         methods: {
             
             editBankAxios(){

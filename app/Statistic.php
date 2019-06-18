@@ -8,7 +8,7 @@ use \DB;
 
 class Statistic extends Model
 {
-    protected $fields = ['count', 'revenue', 'total', 'quantity', 'owing', 'new', 'owed', 'type', 'status', 'products', 'amount', 'date', 'day', 'month', 'year', 'start_date', 'end_date'];
+    protected $fields = ['count', 'order_revenue', 'revenue', 'total', 'quantity', 'owing', 'new', 'owed', 'type', 'status', 'products', 'amount', 'date', 'day', 'month', 'year', 'start_date', 'end_date'];
 
     public function scopeSupplierFilter($queryx, $filter)
     {
@@ -144,7 +144,12 @@ class Statistic extends Model
                     }
                     if ($key == 'revenue') {
                         $queryMade = $query
-                            ->select(DB::raw('SUM(transactions.payment) as revenue, SUM(transactions.amount) as cost, COUNT(transactions.id) as count,SUM(transactions.payment   - transactions.amount) as profit'));
+                            ->select(DB::raw('SUM(transactions.payment) as revenue, SUM(transactions.amount) as cost, COUNT(transactions.id) as count,SUM(transactions.payment   - transactions.cost) as profit'));
+                    }
+                    if ($key == 'order_revenue') {
+                        $queryMade = $query
+                            ->select(DB::raw('SUM(transactions.payment) as amount, SUM(transactions.cost) as cost, COUNT(transactions.id) as count,SUM(transactions.payment   - transactions.cost) as profit'))
+                            ->whereRaw('transactions.payment > 0 AND invoices.type = "order"');
                     }
                     if ($key == 'status') {
                         $queryMade = $query
@@ -252,9 +257,7 @@ class Statistic extends Model
         if (empty($filter['end_date'])) {
             $filter['end_date'] = Carbon::now()->toDateString();
         }
-
         try {
-
             $query = DB::table('order_details')
                 ->join('orders', 'order_details.order_id', '=', 'orders.id');
             foreach ($filter as $key => $val) {
@@ -280,7 +283,6 @@ class Statistic extends Model
                     } else {
                         return $query;
                     }
-
                 }
             }
         } catch (Exception $bug) {

@@ -49,7 +49,6 @@
             Fire.$on('edit_brand', (data)=> {this.form.fill(data); this.brand = data})
         },
         data() { 
-           
             return {
                	form : new Form({
                     type: '',
@@ -58,9 +57,11 @@
                 }),
                 brand: ''
             }
-
         },
-
+        beforeDestroy(){
+            this.$refs.closeButton.click()
+            this.form.reset()
+        },
         methods: {
             
             editBrandAxios(){

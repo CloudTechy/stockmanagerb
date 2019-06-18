@@ -10,7 +10,7 @@
             {{percentProfit}}
             <small>%</small>
           </span>
-          <span class="info-box-text">Profit This Month</span>
+          <span class="info-box-text">Monthly Profit</span>
         </div>
       </div>
     </div>
@@ -20,7 +20,7 @@
         <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-warehouse"></i></span>
         <div class="info-box-content">
         	<span class="info-box-number">{{stock.total}}</span>
-          <span class="info-box-text">Total Stock</span>
+          <span class="info-box-text">Stock</span>
         </div>
       </div>
     </div>
@@ -32,8 +32,8 @@
       <div class="info-box mb-3">
         <span class="info-box-icon bg-success elevation-1"><i class="fa fa-shopping-cart"></i></span>
         <div class="info-box-content">
-          <span class="info-box-number">{{orders.count}}</span>
-          <span class="info-box-text">Total Sales this Month</span>
+          <span class="info-box-number">{{orders.order}}</span>
+          <span class="info-box-text">Monthly Sales</span>
         </div>    
       </div>
     </div>
@@ -55,11 +55,13 @@
 <script>
   export default {
     mounted(){
-      this.bootstrap();
+      
     },
     watch : {
        	orderDetails : function(){
-       		this.percentProfit = Math.round(this.orderDetails.profit/ this.orderDetails.cost * 100);
+          if(this.orderDetails){
+       		 this.percentProfit = Math.round(this.orderDetails.profit/ this.orderDetails.cost * 100);
+          }
        	}
      },
     created(){
@@ -69,16 +71,17 @@
       Fire.$on('order_created', data => {
         this.bootstrap();
       })
+      this.bootstrap();
     },
     data() { 
       var d = new Date();
     	return {
 		 	  month : d.getMonth() + 1,
 		    year : d.getFullYear(),
-      	orderDetails : [],
+      	orderDetails : '',
       	percentProfit : 0,
       	stock : {total:0},
-      	orders: {count:0},
+      	orders: {order:0},
       	owed : 0,
       	error : '',
         form : new Form(),
@@ -93,9 +96,9 @@
 			this.loadOwing();
 		   },
 	    loadOrderDetails(){
-	    	this.form.get('./api/statistics/transactions?revenue&month='+this.month+'&year='+this.year)
+	    	this.form.get('./api/statistics/transactions?order_revenue&month='+this.month+'&year='+this.year)
 		  .then(response  => {
-		    	this.orderDetails = response.data.data.item[0];
+        this.orderDetails = response.data.data.item.length !=0 ? response.data.data.item[0] :'';
 		    })
 		    .catch( error => {
 		      this.error = error.response.data.error;
@@ -111,9 +114,9 @@
 		    });  
 	    },
 	    loadOrders(){
-	    	this.form.get('./api/statistics/transactions?status=paid&month='+this.month+'&year='+this.year)
+	    	this.form.get('./api/statistics/transactions?type=order&month='+this.month+'&year='+this.year)
 		  .then(response  => {
-		    	this.orders = response.data.data.item[0];
+         this.orders = response.data.data.item.length !=0 ? response.data.data.item[0] :{count:0};
 		    })
 		    .catch( error => {
 		      this.error = error.response.data.error;

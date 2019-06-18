@@ -46,22 +46,23 @@
     Vue.component(AlertSuccess.name, AlertSuccess)
     
     export default {
-
         data() { 
-           
             return {
                 form : new Form({
                     type: '',
                     description:'No Description Yet',
                 }),
             }
-
+        },
+        beforeDestroy(){
+            this.$refs.closeButton.click()
+            this.form.reset()
         },
         methods: {
             
             addBrand(){
                 this.$Progress.start();
-                this.form.post('./api/attributes/')
+                this.form.post('./api/attributes')
                 .then(response => {
                     this.$refs.closeButton.click()
                     if(response.data.status == true){

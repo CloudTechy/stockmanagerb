@@ -17,7 +17,7 @@
                                         <fieldset class="border border-warning p-2">
                                             <legend  class="w-auto small font-weight-bold border bg-warning">Supplier Info</legend>
                                             <div class="form-group">
-                                                <label for="name ">Choose Supplier</label>
+                                                <label for="name ">Supplier ID</label>
                                                     <input id= "supplier_id" ref="supplier_id" name = "supplier_id" list = "suppliers" class="form-control" type="text" v-model = "supplierID" required="" >
                                                     <datalist id="suppliers">
                                                         <option  v-for = "supplier in suppliers" :value="supplier.id"></option>
@@ -116,6 +116,10 @@
             this.loadUnits();
             this.loadSizes();
             this.loadCategories();
+
+            if(this.$root.purchaseSupplierID){
+                this.supplierID = this.$root.purchaseSupplierID;
+            } 
         },
         data() { 
            
@@ -157,6 +161,13 @@
             }
 
         },
+        beforeDestroy(){
+            this.form.reset();
+            this.supplierStatus = false;
+            this.supplierID = '';
+            this.supplier_details = '';
+            this.$refs.closeButton.click();
+        },
         methods: {
             loadSuppliers(){
                 this.form.get('./api/suppliers/')
@@ -173,14 +184,8 @@
                 // this.loadSizes();
                 // this.loadCategories();
             },
-            beforeDestroy(){
-                this.form.reset();
-                this.supplierStatus = false;
-                this.supplierID = '';
-                this.supplier_details = ''
-            },
             getPurchase(id){
-                 this.form.post('./api/purchases/')
+                 this.form.post('./api/purchases')
                 .then(response => {
                    this.purchase =  response.data.data
                    this.form.purchaseDetails[0].purchase_id = this.purchase.id
@@ -214,13 +219,13 @@
             add(){
 
                 this.$Progress.start();
-                this.form.post('./api/purchasedetails/')
+                this.form.post('./api/purchasedetails')
                 .then(response => {
                     if(response.data.status == true){
                         Fire.$emit('product_created', response.data.data)
                         this.form.reset()
                         this.$Progress.finish()
-                        this.$root.alert('success','success','supplier created')
+                        this.$root.alert('success','success','product added')
                     }
                     else{
                         this.$Progress.fail()

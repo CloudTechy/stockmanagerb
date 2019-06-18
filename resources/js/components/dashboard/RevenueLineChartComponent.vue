@@ -33,9 +33,9 @@
             <div class="description-block border-right">
               <h5 class="description-header">
                 <span style="text-decoration: line-through">N</span>
-                {{numeral(revenueStat.revenue) }}
+                {{numeral(revenueStat.amount) }}
               </h5>
-              <span class="description-text">TOTAL REVENUE</span>
+              <span class="description-text">INCOME</span>
             </div>
           </div>
 
@@ -45,7 +45,7 @@
                 <span style="text-decoration: line-through">N</span>
                 {{numeral(revenueStat.cost) }}
               </h5>
-              <span class="description-text">TOTAL COST</span>
+              <span class="description-text">EXPENSES</span>
             </div>
           </div>
 
@@ -55,7 +55,7 @@
                 <span style="text-decoration: line-through">N</span>
                 {{numeral(revenueStat.profit) }}
               </h5>
-              <span class="description-text">TOTAL PROFIT</span>
+              <span class="description-text">NET PROFIT</span>
             </div>
           </div>
         </div>
@@ -90,7 +90,7 @@
             statistics : [],
             loading : true,
             error : '',
-            revenueStat: "",
+            revenueStat: [],
 
             months : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
             lineData: [],
@@ -125,10 +125,10 @@
                 }); 
             },
             loadRevenueStat(){
-                this.form.get('./api/statistics/transactions?revenue&year='+this.year+'&month='+this.month)
+                this.form.get('./api/statistics/transactions?order_revenue&year='+this.year+'&month='+this.month)
                 .then( response => {
                     if(response.data.status == true){
-                        this.revenueStat = response.data.data.item.length !=0 ? response.data.data.item[0] : "";
+                        this.revenueStat = response.data.data.item.length !=0 ? response.data.data.item[0] : [];
                     } 
                 })
                 .catch( error => {

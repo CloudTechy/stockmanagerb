@@ -80,7 +80,6 @@
             
         },
         data() { 
-           
             return {
                	form : new Form({
                     last_name: '',
@@ -92,14 +91,17 @@
                     activated : 1,
                     user_level_id : 1,
                     number:'',
-                    }),
+                }),
             }
-
         },
+        beforeDestroy(){
+            this.$refs.closeButton.click();
+            this.form.reset();
+        }, 
         methods: {
             add(){
                 this.$Progress.start();
-                this.form.post('./api/users/')
+                this.form.post('./api/users')
                 .then(response => {
                     this.$refs.closeButton.click()
                     window.dispatchEvent(new Event('close_sidebar_min'));

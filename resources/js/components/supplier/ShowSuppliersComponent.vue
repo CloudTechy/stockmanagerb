@@ -26,7 +26,7 @@
                 <div class="table-responsive-sm table-responsive">
                 <table  class="table table-small table-hover dataTable" >
                     <thead>
-                        <tr role="row " >
+                        <tr role="row" >
                             <th>Names</th>
                             <th>Phone</th>
                             <th>Email</th>
@@ -56,7 +56,8 @@
                             </td>
                             <td class="text-capitalize small">{{  supplier.date }}</td>
                             <td>
-                                <div style="width: 150px;">
+                                <div style="width: 200px;">
+                                    <button @click="createPurchase(supplier.id,index+start)" type="button" title="make purchase" class="btn btn-outline-success"><i class="fas fa-shopping-cart"></i></button>
                                     <button  @click="loadEditSupplier(supplier,index)" type="button" title="edit this supplier" class="btn btn-outline-primary small m-1"  data-toggle="modal" data-target="#editSupplierModal" ><i class="fas fa-pen"></i></button>
                                     <button @click="loadView(supplier,index+start)" type="button" title="view more" class="  m-1 btn btn-outline-info"><i class="fas fa-street-view"></i></button>
                                     <button @click="deleteSupplier(supplier.id,index+start)" type="button" title="delete this supplier" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></button>
@@ -248,6 +249,11 @@
                 Fire.$emit('view', data);
                 window.dispatchEvent(new Event('sidebar_min'))
                 return true;
+            },
+            createPurchase(id,index){
+                this.$root.purchaseSupplierID = id;
+                this.$router.push('/products')
+
             },
             deleteSupplier(id,index){
             this.$swal({

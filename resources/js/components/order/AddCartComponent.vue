@@ -46,7 +46,7 @@
                                                 <td class="font-weight-bold">Quantity: </td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input  type="number" v-model="form.quantity" required="" min="1" class="form-control" ref="quantity" placeholder="quantity">
+                                                        <input  type="number" v-model="form.quantity" required="" min="1" class="form-control" ref="quantity" placeholder="Enter quantity">
                                                     </div>
                                                 </td>
                                             </tr>
@@ -73,7 +73,7 @@
 <script>
     export default {
         mounted(){
-            if(this.$root.product != undefined || this.$root.product != ''){
+            if(this.$root.product){
                 this.product = this.$root.product;
                 this.index = this.$root.index;
                 this.product.quantity = 0;
@@ -81,6 +81,7 @@
                 this.form.category = this.product.category;
                 this.form.brand = this.product.brand;
                 this.form.size = this.product.size
+                this.$refs.quantity.focus();
                 this.$root.product = '';
             }
         },
@@ -96,26 +97,27 @@
                 product : {},
             }
         },
+        beforeDestroy(){
+            this.product = {};
+            this.product.quantity = 0
+            this.form.reset();
+            this.$refs.closeButton.click();
+
+        },
         methods:{
             add(){
-
                 if(this.product.stock < this.form.quantity){
                     this.$root.alert('error','error','not enough stock for this product')
-                }else{
+                }
+                else{
                     var product = this.product.id;
                     var quantity = this.form.quantity;
                     this.product.quantity = this.form.quantity
                     this.$emit('cart_created',this.product)
-                    //this.$emit('cart_created',{[product]:quantity})
                     this.$refs.closeButton.click();
                     this.closeComponent()
                 }
                 
-            },
-            beforeDestroy(){
-                this.product = {};
-                this.product.quantity = 0
-                this.form.reset();
             },
             closeComponent(){
                 this.product = {};

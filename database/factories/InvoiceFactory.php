@@ -9,6 +9,5 @@ $factory->define(App\Invoice::class, function (Faker $faker) {
     return [
 
         'user_id' => $user,
-        'amount' => $faker->numberBetween(1000, 30000),
     ];
 });

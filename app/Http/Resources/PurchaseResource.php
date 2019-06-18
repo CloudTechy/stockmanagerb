@@ -17,10 +17,7 @@ class PurchaseResource extends JsonResource
     {
         $user = new User($this->user);
         $supplier = new SupplierResource($this->supplier);
-        // $invoice = Invoice::where('purchase_id', $this->id)->first();
-        //  empty($invoice) ? null : $invoice->id
         $transaction = Transaction::where('invoice_id', $this->invoiceID)->first();
-        //dd($transaction->id);
 
         return [
 

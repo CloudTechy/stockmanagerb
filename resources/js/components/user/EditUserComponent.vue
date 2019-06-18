@@ -73,7 +73,6 @@
             $('.btn-group-toggle').button('toggle')
         },
         data() { 
-           
             return {
                 form : new Form({
                     last_name: '',
@@ -84,7 +83,6 @@
                 user:'',
                 user_levels: [],
             }
-
         },
         created(){
             Fire.$on('edit_user', (data)=> {this.form.fill(data);
@@ -95,8 +93,11 @@
              this.form.user_level_id = 1
          })
         },
+        beforeDestroy(){
+            this.$refs.closeButton.click();
+            this.form.reset();
+        }, 
         methods: {
-            
             add(){
                 this.$Progress.start();
                 this.form.patch('./api/users/'+this.user.id)

@@ -17,32 +17,14 @@
       <div class="content">
         <div  class="container-fluid">
             <div class="card card-success card-outline m-auto ">
-        <div class="card-header">
-            <h5 class="card-title"> Order</h5>
-        </div>
-  
-        <!-- <div class="card-body no-print box-profile">
-          <div class="row container text-center  mb-2 mt-4">
 
-            <div class="col mb-3 text-center">
-              <div class="circle border-success mb-lg-4"><div class="inner-circle border-secondary"><p  class=" circle-text">{{ orderStat.count }}</p></div></div>
-              <h4 class="profile-username ">Orders</h4>
-            </div>
-            <div class="col mb-3 text-center">
-              <div class="circle border-success mb-lg-4"><div class="inner-circle border-secondary"><p class="circle-text">{{ orderStat.stock }}</p></div></div>
-              <h4 class="profile-username ">Stock</h4>
-            </div>
-          </div>
-        </div> -->
-        <hr>
-
-        <div class="no-print">
-          <div class="card-header  mb-2">
-            <h5 class="card-title font-weight-bold text-secondary">Make an Order</h5>
-          </div>
-          <show-orders-component></show-orders-component>
-        </div>
-        <hr>
+              <div class="no-print">
+                <div class="card-header  mb-2">
+                  <h5 class="card-title font-weight-bold text-secondary">Make an Order</h5>
+                </div>
+                <show-orders-component></show-orders-component>
+              </div>
+              <hr>
 
         <!-- <div class="row">
             <div class="card-body box-profile">

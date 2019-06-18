@@ -35,7 +35,7 @@
                 </tr>
                 <tr v-if = "loading == false && filteredDebts == 0">
                     <td colspan="4">
-                        <h4 class="text-center">Vendor Not Found</h4>
+                        <h4  class="text-center m-1 p-2 border border-success small text-success">CONGRATS!!! You are not owing any vendor</h4>
                     </td>
                 </tr>
             </tbody>

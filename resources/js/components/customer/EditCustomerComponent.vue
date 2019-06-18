@@ -76,25 +76,26 @@
             $('.btn-group-toggle').button('toggle')
         },
         data() { 
-           
             return {
                 form : new Form({
                     name : '',
                     number:'',
                     email: undefined,
                     note: '',
-                    }),
+                }),
                 customer: '',
             }
-
         },
         created(){
             Fire.$on('edit_customer', (data)=> {this.form.fill(data);
              this.customer=data
          })
         },
+        beforeDestroy(){
+            this.$refs.closeButton.click()
+            this.form.reset()
+        },
         methods: {
-            
             add(){
                 this.$Progress.start();
                 this.form.patch('./api/customers/'+this.customer.id)

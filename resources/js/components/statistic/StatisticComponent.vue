@@ -43,9 +43,9 @@
                   <div class="description-block border-right">
                     <h5 class="description-header">
                       <span style="text-decoration: line-through">N</span>
-                      {{numeral(revenueStat.revenue) }}
+                      {{numeral(revenueStat.amount) }}
                     </h5>
-                    <span class="description-text">TOTAL REVENUE</span>
+                    <span class="description-text">REVENUE</span>
                   </div>
                 </div>
 
@@ -55,7 +55,7 @@
                       <span style="text-decoration: line-through">N</span>
                       {{numeral(revenueStat.cost) }}
                     </h5>
-                    <span class="description-text">TOTAL COST</span>
+                    <span class="description-text">COST</span>
                   </div>
                 </div>
 
@@ -65,7 +65,7 @@
                       <span style="text-decoration: line-through">N</span>
                       {{numeral(revenueStat.profit) }}
                     </h5>
-                    <span class="description-text">TOTAL PROFIT</span>
+                    <span class="description-text">PROFIT</span>
                   </div>
                 </div>
               </div>
@@ -140,7 +140,7 @@
                 }); 
             },
             loadRevenueStat(){
-                this.form.get('./api/statistics/transactions?revenue&year='+this.year)
+                this.form.get('./api/statistics/transactions?order_revenue&year='+this.year)
                 .then( response => {
                     if(response.data.status == true){
                         this.revenueStat = response.data.data.item.length !=0 ? response.data.data.item[0] : "";

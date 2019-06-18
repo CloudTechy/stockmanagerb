@@ -103,7 +103,6 @@
             this.loadBanks();
         },
         data() { 
-           
             return {
                 form : new Form({
                     name:  "",
@@ -120,7 +119,6 @@
                 banks : '',
                 supplier: '',
             }
-
         },
 
         created(){
@@ -130,8 +128,11 @@
             this.form.bank_name = data.bank_details[0].bank  != undefined ? '':data.bank_details[0].bank
             this.form.acc_name = data.bank_details[0].account_name != undefined ? '':data.bank_details[0].account_name
             this.form.acc_number = data.bank_details[0].account_number != undefined ? '':data.bank_details[0].account_number
-
          })
+        },
+        beforeDestroy(){
+            this.$refs.closeButton.click();
+            this.form.reset();
         },
         methods: {
             add(){
