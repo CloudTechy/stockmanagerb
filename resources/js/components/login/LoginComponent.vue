@@ -14,7 +14,7 @@
                     </span>
 
                     <div class="wrap-input100" >
-                        <input v-model="form.email" required="" class="input100 is-invalid" type="text" ref = "email" name="email" placeholder="Email">
+                        <input v-model="form.email" required="" class="input100 is-invalid" type="email" ref = "email" name="email" placeholder="Email">
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-envelope" aria-hidden="true"></i>
