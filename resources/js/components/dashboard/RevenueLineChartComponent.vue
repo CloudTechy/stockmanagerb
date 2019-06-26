@@ -45,7 +45,7 @@
                 <span style="text-decoration: line-through">N</span>
                 {{numeral(revenueStat.cost) }}
               </h5>
-              <span class="description-text">EXPENSES</span>
+              <span class="description-text">COST</span>
             </div>
           </div>
 

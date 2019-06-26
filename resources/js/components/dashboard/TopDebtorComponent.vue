@@ -31,7 +31,7 @@
                         <div v-bind:class="{'progress-bar' : true, 'bg-danger': getPercent(debtor.owing) >= 70,'bg-warning': getPercent(debtor.owing) >= 30, 'bg-success': getPercent(debtor.owing) > 0} " v-bind:style="{width: getPercent(debtor.owing) + '%'}"></div>
                       </div>
                     </td>
-                    <td class="text-center"><span v-bind:class="{badge:true,'bg-danger': getPercent(debtor.owing) >= 70,'bg-warning': getPercent(debtor.owing) >= 30, 'bg-success': getPercent(debtor.owing) > 0}">{{ getPercent(debtor.owing) }}%</span>
+                    <td class="text-center"><span v-bind:class="{badge:true,'bg-danger': getPercent(debtor.owing) >= 70,'bg-warning': getPercent(debtor.owing) >= 30, 'bg-success': getPercent(debtor.owing) >= 0}">{{ getPercent(debtor.owing) }}%</span>
                     </td>
                 </tr>
                 <tr v-if = "loading == false && filteredDebtors == 0">

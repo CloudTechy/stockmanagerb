@@ -237,33 +237,7 @@ const app = new Vue({
       return data;
     },
     loadUser(email){
-      this.$Progress.start()
-      this.form.get('./api/users/?email='+email)
-      .then(response => {
-        if(response.data.status == true){
-          this.user = response.data.data.item[0];
-          if(this.user.activated == 0){
-            window.axios.defaults.headers.common['Authorization'] = '';
-            this.$root.alert('error','error','Account deactivated')
-            this.$router.push(this.path)
-          }
-          else{
-            this.$root.alert('success','success','logged in')
-            Fire.$emit('user_login_confirmed',response.data.data.item[0])  
-          }
-        }
-        else{
-          this.$Progress.fail()
-          this.$root.alert('error','error','An unexpected error occured, Try again Later')
-        }
-      })
-      .catch( error => {
-        this.$Progress.fail()
-        var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message
-        this.$root.alert('error','error',message)
-        var error = error.response.data.error;
-        console.log(error);
-      }); 
+      
     },
     addTransactionComponent(transaction,type){
       if (transaction == undefined) {

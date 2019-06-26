@@ -123,10 +123,10 @@
                         this.$session.start()
                         this.$session.set('token',token)
                         this.$Progress.finish()
-                        this.$router.push(this.path)
                         if(window.axios.defaults.headers.common['Authorization'] =='Bearer '+ token){
                         console.log('user logged in')
-                        Fire.$emit('user_login', email)
+                        this.loadUser(email)
+                        //Fire.$emit('user_login', email)
                         }
                         else{
                             console.log('user not logged in');
@@ -140,19 +140,61 @@
                 })
                 .catch( error => {
                     this.$Progress.fail()
-                    var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message
-                    this.$root.alert('error','error',message)
-                    var error = error.response.data.error;
-                    this.error = error
-                    console.log(error);
-                    if(error.email){
-                        this.$refs.email.classList.add('is-invalid');
+                    if(error.response){
+                        var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message
+                        this.$root.alert('error','error',message)
+                        var error = error.response.data.error;
+                        this.error = error
+                        console.log(error);
+                        if(error.email){
+                            this.$refs.email.classList.add('is-invalid');
+                        }
+                        if (error.description) {
+                            this.$refs.password.classList.add('is-invalid');
+                        }
                     }
-                    if (error.description) {
-                        this.$refs.password.classList.add('is-invalid');
+                    else {
+                       this.$root.alert('error','error','Server is not running');
                     }
                 }); 
             },
+            loadUser(email){
+                this.$Progress.start()
+                this.form.get('./api/users/?email='+email)
+                .then(response => {
+                    if(response.data.status == true){
+                        var user = response.data.data.item[0];
+                        if(user.activated == 0){
+                        window.axios.defaults.headers.common['Authorization'] = '';
+                        this.$root.alert('error','error','Account deactivated')
+                      }
+                      else{
+                        this.$session.start()
+                        this.$session.set('user', response.data.data.item[0])
+                        this.$root.alert('success','success','logged in')
+                       //Fire.$emit('user_login_confirmed',response.data.data.item[0]) 
+                        this.$router.push(this.path) 
+                        
+                      }
+                    }
+                    else{
+                      this.$Progress.fail()
+                      this.$root.alert('error','error','An unexpected error occured, Try again Later')
+                    }
+                })
+                .catch( error => {
+                    if(error.response){
+                        this.$Progress.fail()
+                        var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message
+                        this.$root.alert('error','error',message)
+                        var error = error.response.data.error;
+                        console.log(error);
+                    }
+                    else{
+                        console.log(error);
+                    }
+                }); 
+         },
 
         }
     }

@@ -198,7 +198,7 @@
   export default {
     data() {
       return{
-        user: this.$root.user,
+        //user: this.$root.user,
 
       }
     },
@@ -210,10 +210,18 @@
       }
     },
     created(){
-      Fire.$on('user_login_confirmed', (user)=>{this.user = user})
-      
-      
-      
+     // Fire.$on('user_login_confirmed', (user)=>{this.user = user})
+    },
+    computed : {
+      user(){
+        if (this.$session.get('user')) {
+              return this.$session.get('user');
+          }
+          else{
+            window.axios.defaults.headers.common['Authorization'] = '';
+            this.$router.push('/login')
+          }
+      }
     }
   }
 </script>
