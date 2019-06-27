@@ -27,7 +27,7 @@ class TransactionResource extends JsonResource
             'due' => $this->due,
             'updated_by' => $this->updated_by,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
-            'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::createFromTimeStamp(strtotime($this->updated_at))->diffForHumans(),
             'date' => Carbon::createFromTimeStamp(strtotime($this->created_at))->diffForHumans(),
 
         ];

@@ -67,8 +67,9 @@
                                 </span>
                             </td>
                             <td>
-                                <div style="width: 110px;">
+                                <div style="width: 200px;">
                                     <button @click="loadView(product,index+start)" type="button" title="view more" class="  m-1 btn btn-outline-info"><i class="fas fa-street-view"></i></button>
+                                    <button  @click="loadEdit(product,index)" type="button" title="edit this product price" class="btn btn-outline-primary small m-1"  data-toggle="modal" data-target="#editProductModal" ><i class="fas fa-pen"></i></button>
                                     <button @click="deleteData(product.id,index+start)" type="button" title="delete this product" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></button>
                                 </div>
                             </td>
@@ -114,7 +115,7 @@
             </div>
         </div>
 
-        <!-- <div class="modal fade" id="editModal"><edit-product-component></edit-product-component></div> -->
+        <div class="modal fade" id="editProductModal"><edit-product-component></edit-product-component></div>
 
     </div>
 </template>

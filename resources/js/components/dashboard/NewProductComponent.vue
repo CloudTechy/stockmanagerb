@@ -37,7 +37,7 @@
             </div>
           </li>
             <li v-if = "loading == false && filteredProducts.length == 0">
-                <h4 class="text-center">Product Not Found</h4>
+              <h4  class="text-center m-1 p-2 border border-info small text-success">Product Not Found</h4>
             </li>
         </ul>
       </div>

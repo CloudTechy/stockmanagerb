@@ -59,7 +59,7 @@
                                                     <input  type=number v-model="form.purchaseDetails[0].price" required =""  class="form-control" ref="price" id="price" placeholder="Enter purchase price">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="price">sale_price</label>
+                                                    <label for="price">Sale Price</label>
                                                     <input  type=number v-model="form.purchaseDetails[0].sale_price" required =""  class="form-control" ref="sale_price" id="sale_price" placeholder="Enter Selling price">
                                                 </div>
                                                 <!-- <div class="form-group">

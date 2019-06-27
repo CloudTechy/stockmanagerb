@@ -141,8 +141,7 @@
                 .catch( error => {
                     this.$Progress.fail()
                     if(error.response){
-                        var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message
-                        this.$root.alert('error','error',message)
+                        this.$root.alert('error','error',error.response.data.message)
                         var error = error.response.data.error;
                         this.error = error
                         console.log(error);
@@ -185,13 +184,13 @@
                 .catch( error => {
                     if(error.response){
                         this.$Progress.fail()
-                        var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message
-                        this.$root.alert('error','error',message)
+                        this.$root.alert('error','error',error.response.data.message)
                         var error = error.response.data.error;
                         console.log(error);
                     }
                     else{
                         console.log(error);
+                        this.$root.alert('error','error','Server is not running');
                     }
                 }); 
          },

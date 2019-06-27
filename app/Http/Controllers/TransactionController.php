@@ -26,7 +26,7 @@ class TransactionController extends Controller
 
             $pageSize = request()->query('pageSize', 10000000000000000);
             $transactions = Transaction::filter(request()->all())
-                ->latest()
+                ->orderBy("updated_at", "created_at")
                 ->paginate($pageSize);
 
             $total = $transactions->total();

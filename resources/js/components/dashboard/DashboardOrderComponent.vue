@@ -60,9 +60,9 @@
                                     <td>{{ order.date }}</td>
                                 </tr>
                                  <tr v-if = "loading == false && pageLoader(current_page).length == 0">
-                                    <td colspan="4">
-                                        <h4 class="text-center">Order Not Found</h4>
-                                    </td>
+                                    <td colspan="5">
+                                        <h4  class="text-center m-1 p-2 border border-info small text-success">order Not Found</h4>
+                                      </td>
                                 </tr>
                             </tbody>
                             <tfoot class="text-center">

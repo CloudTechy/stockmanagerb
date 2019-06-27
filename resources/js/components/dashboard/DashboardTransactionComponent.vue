@@ -41,7 +41,8 @@
                                             <th>Invoice</th>
                                             <th>Amount <br> (<span style="text-decoration: line-through">N</span>)</th>
                                             <th>Payment <br> (<span style="text-decoration: line-through">N</span>)</th>
-                                            <th>Date</th>
+                                            <th>created</th>
+                                            <th>updated</th>
                                             <th>Status</th>
                                         </tr>
                                 </thead>
@@ -51,6 +52,7 @@
                                         <td>{{numeral(transaction.amount) }}</td>
                                         <td>{{numeral(transaction.payment) }}</td>
                                         <td>{{ transaction.date }}</td>
+                                        <td>{{ transaction.updated_at }}</td>
                                         <td class="p-sm-1 text-center" v-if = "transaction.status == 'paid'">
                                            <span class="badge badge-success">{{ transaction.status }}</span>
                                         </td>
@@ -75,9 +77,9 @@
                                         
                                     </tr>
                                     <tr v-if = "loading == false && pageLoader(current_page).length == 0">
-                                        <td colspan="5">
-                                            <h4 class="text-center">Invoice Not Found</h4>
-                                        </td>
+                                        <td colspan="6">
+                                            <h4  class="text-center m-1 p-2 border border-info small text-success">Invoice Not Found</h4>
+                                          </td>
                                     </tr>
                                  
                                 </tbody>
