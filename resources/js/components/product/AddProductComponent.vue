@@ -59,9 +59,13 @@
                                                     <input  type=number v-model="form.purchaseDetails[0].price" required =""  class="form-control" ref="price" id="price" placeholder="Enter purchase price">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="percent_sale">Percent Sale</label>
-                                                    <input  type=number v-model="form.purchaseDetails[0].percent_sale" required =""  class="form-control" ref="percent_sale" id="percent_sale" placeholder="Enter percent sale, e.g: 0.5,1,2,4,90,45">
+                                                    <label for="price">sale_price</label>
+                                                    <input  type=number v-model="form.purchaseDetails[0].sale_price" required =""  class="form-control" ref="sale_price" id="sale_price" placeholder="Enter Selling price">
                                                 </div>
+                                                <!-- <div class="form-group">
+                                                    <label for="percent_sale">Percent Sale</label>
+                                                    <input  type=number v-model="form.purchaseDetails[0].percent_sale"  class="form-control" ref="percent_sale" id="percent_sale" placeholder="Enter percent sale, e.g: 0.5,1,2,4,90,45">
+                                                </div> -->
                                             </fieldset>
                                         </div>
                                         <div class="col-md-6 ml-auto"  >
@@ -134,7 +138,7 @@
                         size : '',
                         price:'',
                         quantity: '',
-                        percent_sale: '',
+                        sale_price: '',
                         purchase_id : '',
                     }],
                 }),

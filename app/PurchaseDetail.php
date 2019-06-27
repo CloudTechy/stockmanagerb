@@ -27,7 +27,7 @@ class PurchaseDetail extends Model
     {
 
         try {
-            $fields = ['purchase_id', 'product', 'category', 'brand', 'quantity', 'percent_sale', 'price', 'pku', 'size'];
+            $fields = ['purchase_id', 'product', 'category', 'brand', 'quantity', 'percent_sale', 'sale_price', 'price', 'pku', 'size'];
 
             return $query->where(
                 function ($query) use ($filter, $fields) {

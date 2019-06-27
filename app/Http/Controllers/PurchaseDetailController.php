@@ -93,7 +93,7 @@ class PurchaseDetailController extends Controller
                         $quantity = $prdAttribute->first()->available_stock + $validated['quantity'];
                         $purchasedetail = PurchaseDetail::create($validated);
 
-                        if ($prdAttribute->update(['available_stock' => $quantity, 'purchase_price' => $validated['price'], 'percent_sale' => $validated['percent_sale'], 'user_id' => auth()->id()])) {
+                        if ($prdAttribute->update(['available_stock' => $quantity, 'purchase_price' => $validated['price'], 'sale_price' => $validated['sale_price'], 'user_id' => auth()->id()])) {
                             // return the product attribute and call the invoice method
 
                             array_push($purchasedetails, $purchasedetail);
@@ -109,6 +109,7 @@ class PurchaseDetailController extends Controller
                         $newPurchaseDetail['available_stock'] = $validated['quantity'];
                         $newPurchaseDetail['user_id'] = auth()->id();
                         $newPurchaseDetail['purchase_price'] = $validated['price'];
+                        $newPurchaseDetail['sale_price'] = $validated['sale_price'];
                         $purchasedetail = PurchaseDetail::create($validated);
                         $productAttribute = AttributeProduct::create($newPurchaseDetail);
                         array_push($purchasedetails, $purchasedetail);
@@ -133,6 +134,7 @@ class PurchaseDetailController extends Controller
                     $newPurchaseDetail['available_stock'] = $validated['quantity'];
                     $newPurchaseDetail['user_id'] = auth()->id();
                     $newPurchaseDetail['purchase_price'] = $validated['price'];
+                    $newPurchaseDetail['sale_price'] = $validated['sale_price'];
 
                     $purchasedetail = PurchaseDetail::create($validated);
                     $productAttribute = AttributeProduct::create($newPurchaseDetail);
@@ -210,7 +212,7 @@ class PurchaseDetailController extends Controller
 
             'pku' => 'string|exists:units,name',
             'price' => 'numeric',
-            'percent_sale' => 'numeric',
+            'sale_price' => 'numeric',
             'quantity' => 'numeric',
 
         ]);

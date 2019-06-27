@@ -21,6 +21,7 @@ class CreatePurchaseDetailsTable extends Migration
             $table->integer('quantity')->default(0);
             $table->bigInteger('price')->default(0);
             $table->integer('percent_sale')->default(0);
+            $table->bigInteger('sale_price')->default(0);
             $table->string('pku')->index();
             $table->string('category')->index();
             $table->string('size')->index();

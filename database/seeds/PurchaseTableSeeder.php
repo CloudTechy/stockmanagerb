@@ -30,7 +30,7 @@ class PurchaseTableSeeder extends Seeder
 
                         $attribute_id = Attribute::where('type', $purchaseDetail->brand)->first()->id;
 
-                        factory(AttributeProduct::class, 1)->create(['product_id' => $product->id, 'attribute_id' => $attribute_id, 'purchase_price' => $purchaseDetail->price, 'sale_price' => $purchaseDetail->price + 1000, 'percent_sale' => $purchaseDetail->percent_sale, "available_stock" => $purchaseDetail->quantity, 'size' => $purchaseDetail->size]);
+                        factory(AttributeProduct::class, 1)->create(['product_id' => $product->id, 'attribute_id' => $attribute_id, 'purchase_price' => $purchaseDetail->price, 'sale_price' => $purchaseDetail->sale_price, 'percent_sale' => $purchaseDetail->percent_sale, "available_stock" => $purchaseDetail->quantity, 'size' => $purchaseDetail->size]);
                     });
 
                 });
