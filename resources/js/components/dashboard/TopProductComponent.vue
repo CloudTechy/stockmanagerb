@@ -39,10 +39,10 @@
               </td>
             </tr>
             <tr v-if = "loading == false && filteredProducts == 0">
-                  <td colspan="3">
-                      <h4 class="text-center">Product Not Found</h4>
-                  </td>
-              </tr>
+              <td colspan="3">
+                <h4  class="text-center m-1 p-2 border border-info small text-success">Product Not Found</h4>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

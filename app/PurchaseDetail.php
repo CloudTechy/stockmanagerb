@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PurchaseDetail extends Model
 {
-    protected $fillable = ['purchase_id', 'category', 'product', 'brand', 'quantity', 'price', 'percent_sale', 'pku', 'size'];
+    protected $fillable = ['purchase_id', 'category', 'product', 'brand', 'sale_price', 'quantity', 'price', 'percent_sale', 'pku', 'size'];
     protected $table = "purchase_details";
     protected $appends = array('amount');
 

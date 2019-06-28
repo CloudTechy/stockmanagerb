@@ -16,23 +16,39 @@
                                         <div class="text-center"><h3 class=" badge badge-secondary font-weight-bold ">STEP 1</h3></div>
                                         <fieldset class="border border-warning p-2">
                                             <legend  class="w-auto small font-weight-bold border bg-warning">Supplier Info</legend>
-                                            <div class="form-group">
-                                                <label for="name ">Supplier ID</label>
+                                            <div class="form-group row">
+                                                <label for="name" class="col-sm-6 col-form-label">Supplier ID</label>
+                                                <div class="col-sm-6">
                                                     <input id= "supplier_id" ref="supplier_id" name = "supplier_id" list = "suppliers" class="form-control" type="text" v-model = "supplierID" required="" >
                                                     <datalist id="suppliers">
                                                         <option  v-for = "supplier in suppliers" :value="supplier.id"></option>
                                                     </datalist>
+                                                </div>
                                             </div>
-                                            <div v-if= "supplier_details != ''" >
-                                                <h2 class="small font-weight-bold">Details</h2>
-                                                <div class="form-group">
-                                                    <label for="number">Name</label>
-                                                    <input  type=text v-model="supplier_details.contact_person" disabled =""  class="form-control" ref="name" placeholder="name">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="number">Number </label>
-                                                    <input  type="text" v-model="supplier_details.phone" disabled ="" class="form-control" ref="number" placeholder="number">
-                                                </div>
+                                            <div v-if= "supplier_details" >
+                                                <h2 class="small p-2 text-center bg-warning font-weight-bold">Details</h2>
+                                                <table class="table table-valign-middle">
+                                                    <tbody class="text-center">
+                                                        <tr>
+                                                            <td class="text-left font-weight-bold">Names</td>
+                                                            <td>
+                                                               {{ supplier_details.contact_person }}
+                                                            </td>
+                                                        </tr>
+                                                         <tr>
+                                                            <td class="text-left font-weight-bold">Phone Number</td>
+                                                            <td>
+                                                               {{ supplier_details.phone }}
+                                                            </td>
+                                                        </tr>
+                                                        <tr v-if = "supplier_details.address">
+                                                            <td class="text-left font-weight-bold">Address:  </td>
+                                                            <td>
+                                                               {{ supplier_details.address }}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                                 <div class="text-center">
                                                     <button @click.prevent = "nextStep()" type="button" ref = "nextStep" class="btn btn-warning font-weight-bold">next</button>
                                                 </div>
@@ -62,10 +78,6 @@
                                                     <label for="price">Sale Price</label>
                                                     <input  type=number v-model="form.purchaseDetails[0].sale_price" required =""  class="form-control" ref="sale_price" id="sale_price" placeholder="Enter Selling price">
                                                 </div>
-                                                <!-- <div class="form-group">
-                                                    <label for="percent_sale">Percent Sale</label>
-                                                    <input  type=number v-model="form.purchaseDetails[0].percent_sale"  class="form-control" ref="percent_sale" id="percent_sale" placeholder="Enter percent sale, e.g: 0.5,1,2,4,90,45">
-                                                </div> -->
                                             </fieldset>
                                         </div>
                                         <div class="col-md-6 ml-auto"  >
@@ -157,11 +169,19 @@
             }
         },
         watch: {
+            // supplierID(){
+            //     this.form.get('./api/suppliers/'+ this.supplierID)
+            //     .then(response => {
+            //         this.supplier_details = response.data.data
+            //     })
+            // },
             supplierID(){
-                this.form.get('./api/suppliers/'+ this.supplierID)
-                .then(response => {
-                    this.supplier_details = response.data.data
-                })
+                this.loadSupplierDetails();
+            },
+            suppliers(){
+                if (this.supplierID) {
+                    this.loadSupplierDetails();
+                }
             }
 
         },
@@ -183,10 +203,6 @@
                 this.supplierStatus = true;
                 this.form.supplier_id = this.supplierID;
                 this.getPurchase(this.supplierID);
-                // this.loadBrands();
-                // this.loadUnits();
-                // this.loadSizes();
-                // this.loadCategories();
             },
             getPurchase(id){
                  this.form.post('./api/purchases')
@@ -227,9 +243,12 @@
                 .then(response => {
                     if(response.data.status == true){
                         Fire.$emit('product_created', response.data.data)
-                        this.form.reset()
+                        this.form.purchaseDetails[0].quantity = ""
+                        this.form.purchaseDetails[0].sale_price = ""
+                        this.form.purchaseDetails[0].price=""
+                        this.form.purchaseDetails[0].size=""
                         this.$Progress.finish()
-                        this.$root.alert('success','success','product added')
+                        this.$root.alert('success','success','product added, add more?')
                     }
                     else{
                         this.$Progress.fail()
@@ -258,10 +277,31 @@
                     } 
                 })
                 .catch( error => {
-                    var error = error.response.message;
-                    console.log(error);
+                    var error = error.response.message
+                    console.log(error)
                 })
 
+            },
+            loadSupplierDetails(){
+                var data = []
+                if(this.supplierID){
+                  data =  this.suppliers.filter((item)=>{
+                    var keys = Object.values(item)
+                    var boolean = false
+                    if(item == undefined){
+                        return false
+                    }
+                    var bool = keys.forEach((key) => {
+                      if(key != null && key == this.supplierID) {
+                        boolean = true
+                      }
+                    }) 
+                     return boolean
+                })
+                }else{
+                    data = ""
+                }
+                this.supplier_details = data[0]
             }
         }
     }

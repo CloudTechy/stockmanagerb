@@ -28,7 +28,7 @@
                                                     </datalist>
                                                 </div>
                                             </div>
-                                            <div v-if= "customer_details != ''" >
+                                            <div v-if= "customer_details" >
                                                 <h2 class="small p-2 text-center bg-warning font-weight-bold">Details</h2>
                                                 <table class="table table-valign-middle">
                                                   <tbody class="text-center">
