@@ -259,6 +259,7 @@
             add(){
 
                 this.$Progress.start();
+                this.form.purchaseDetails[0].product = this.form.purchaseDetails[0].product.toLowerCase();
                 this.form.post('./api/purchasedetails')
                 .then(response => {
                     if(response.data.status == true){

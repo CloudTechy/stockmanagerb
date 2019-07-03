@@ -35,7 +35,7 @@
                             <th>Price</th>
                             <th>Stock</th>
                             <th>Added by</th>
-                            <th>Created</th>
+                            <th>Updated</th>
                             <th>Status</th>
                             <th class="text-center">Action</th>
 
@@ -56,7 +56,7 @@
                                 {{  $root.numeral(product.price) }}
                             </td>
                             <td class="text-capitalize">
-                                <span v-bind:class="{badge:true, 'badge-warning':product.stock < 50, 'badge-danger':product.stock <= 10,  'badge-success' : product.stock > 50 }">{{  product.stock }}
+                                <span v-bind:class="{badge:true, 'badge-warning':product.stock < 50, 'badge-danger':product.stock <= 10,  'badge-success' : product.stock >= 50 }">{{  product.stock }}
                                 </span>
                             </td>
                             <td class="text-capitalize">{{  product.added_by }}</td>

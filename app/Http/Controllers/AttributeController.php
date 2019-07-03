@@ -67,8 +67,6 @@ class AttributeController extends Controller
         {
 
             $attribute = Attribute::create($validated);
-            //ProcessBrand::dispatch()->onQueue('database');
-            // ProcessBrand::dispatch()->delay(now()->addMinutes(10));
             ProcessBrand::dispatch();
         } catch (Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);

@@ -120,6 +120,7 @@ class Helper
                 $invoice['order_id'] = $orderPurchaseId;
                 $invoice['user_id'] = $order->user_id;
                 $invoice['amount'] = $order->amount;
+                $invoice['cost'] = $order->cost;
 
                 $invoice_order = Invoice::where('order_id', $orderPurchaseId);
                 if ($invoice_order->count() != 0) {
@@ -143,6 +144,7 @@ class Helper
                 $invoice['purchase_id'] = $orderPurchaseId;
                 $invoice['user_id'] = $purchase->user_id;
                 $invoice['amount'] = $purchase->amount;
+                $invoice['cost'] = $purchase->cost;
 
                 $invoice_purchase = Invoice::where('purchase_id', $orderPurchaseId);
                 if ($invoice_purchase->count() != 0) {
