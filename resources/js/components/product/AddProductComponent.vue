@@ -210,6 +210,7 @@
             this.supplierStatus = false;
             this.supplierID = '';
             this.supplier_details = '';
+            Fire.$emit('product_created',[])
             this.$refs.closeButton.click();
         },
         methods: {

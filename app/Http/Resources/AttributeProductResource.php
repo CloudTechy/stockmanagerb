@@ -37,7 +37,7 @@ class AttributeProductResource extends JsonResource
             'discount_end' => $this->product->discount_end,
             'stock' => $this->available_stock,
             'discontinued' => $this->product->discontinued,
-            "added_by" => $this->user->first_name . ' ' . $this->user->last_name,
+            "added_by" => empty($this->updated_by) ? $this->user->first_name . ' ' . $this->user->last_name : $this->updated_by,
             "updated_by" => $this->updated_by,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'date' => Carbon::createFromTimeStamp(strtotime($this->updated_at))->diffForHumans(),

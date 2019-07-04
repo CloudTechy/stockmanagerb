@@ -98,7 +98,9 @@
     
     export default {
         mounted() {
-            
+            if(this.$cookies.get('units')){
+                this.units = JSON.parse(this.$cookies.get('units'))
+            }
         },
 
         data() { 
@@ -127,9 +129,11 @@
             
         },
         created(){
+            if(!this.$cookies.get('units')){
+                this.loadUnits();
+            }
             Fire.$on('unit_created', (data)=> {
                 this.loadUnits();
-
             })
             Fire.$on('unit_deleted', (data)=> {
                 this.loadUnits();
@@ -137,7 +141,6 @@
             Fire.$on('unit_edited', (data)=> {
                 this.loadUnits();
             })
-            this.loadUnits();
             Echo.channel('unit')
             .listen('UpdateUnit', (e) => {
                 this.loadUnits();
@@ -178,6 +181,7 @@
                         this.$Progress.finish()
                         Fire.$emit('units_loaded', response.data.data)
                         this.units = response.data.data.item.length !=0 ? response.data.data.item : [];
+                        this.$cookies.set('units',JSON.stringify(this.units))
                     }
                     else{
                         this.$Progress.fail()

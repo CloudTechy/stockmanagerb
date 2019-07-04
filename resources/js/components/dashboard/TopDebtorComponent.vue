@@ -28,7 +28,7 @@
                     <td>{{numeral(debtor.owing)}}</td>
                     <td>
                     <div class="progress progress-xs progress-striped ">
-                        <div v-bind:class="{'progress-bar' : true, 'bg-danger': getPercent(debtor.owing) >= 70,'bg-warning': getPercent(debtor.owing) >= 30, 'bg-success': getPercent(debtor.owing) > 0} " v-bind:style="{width: getPercent(debtor.owing) + '%'}"></div>
+                        <div v-bind:class="{'progress-bar' : true, 'bg-danger': getPercent(debtor.owing) >= 70,'bg-warning': getPercent(debtor.owing) >= 30, 'bg-success': getPercent(debtor.owing) >= 0} " v-bind:style="{width: getPercent(debtor.owing) + '%'}"></div>
                       </div>
                     </td>
                     <td class="text-center"><span v-bind:class="{badge:true,'bg-danger': getPercent(debtor.owing) >= 70,'bg-warning': getPercent(debtor.owing) >= 30, 'bg-success': getPercent(debtor.owing) >= 0}">{{ getPercent(debtor.owing) }}%</span>
@@ -57,20 +57,24 @@
    
     export default {
         mounted() {
-            this.loadDebtor();
-            },
-         data() { 
-            var d = new Date();
-            return {
-            month : d.getMonth() + 1,
-            year : d.getFullYear(),
-            debtors : [],
-            loading : true,
-            search : '',
-            error : '',
-            totalDebtors: 0,
-            form : new Form()
-            }
+          if(localStorage.debtorsStat){
+            this.debtors =  JSON.parse(localStorage.debtorsStat)
+            this.loading = false;
+          }
+          this.loadDebtor();
+        },
+        data() { 
+          var d = new Date();
+          return {
+          month : d.getMonth() + 1,
+          year : d.getFullYear(),
+          debtors : [],
+          loading : true,
+          search : '',
+          error : '',
+          totalDebtors: 0,
+          form : new Form()
+          }
         },
         computed: {
 
@@ -102,6 +106,7 @@
                 .then(response => {
                     if(response.data.status == true){
                         this.debtors = response.data.data.item.length !=0 ? response.data.data.item : [];
+                        localStorage.debtorsStat = JSON.stringify(this.debtors)
                         this.totalDebtors = response.data.data.item.length !=0 ? this.debtors.sum("owing") : 0;
                         this.loading = false;
                     }

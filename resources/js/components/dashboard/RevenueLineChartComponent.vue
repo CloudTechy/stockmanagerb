@@ -75,6 +75,16 @@
     const COLORS = [ '#42B8E0', '#33658A', '#F6AE2D', '#F26419', '#0E3A53' ]
     export default {
         mounted() {
+          if(localStorage.revenueStat){
+              this.revenueStat =  JSON.parse(localStorage.revenueStat)
+          }
+          if(localStorage.statistics){
+              this.statistics =  JSON.parse(localStorage.statistics)
+          }
+          if( this.revenueStat && this.statistics){
+              this.loading = false;
+              this.renderChart();
+          }
           this.loadStat();
           this.$Progress.start();
         },
@@ -119,6 +129,7 @@
                 .then( response => {
                     if(response.data.status == true){
                         this.statistics = response.data.data.item.length !=0 ? response.data.data.item : [];
+                        localStorage.statistics = JSON.stringify(this.statistics)
                         this.renderChart();
                     } 
                     this.loadRevenueStat(); 
@@ -133,6 +144,7 @@
                 .then( response => {
                     if(response.data.status == true){
                         this.revenueStat = response.data.data.item.length !=0 ? response.data.data.item[0] : [];
+                        localStorage.revenueStat = JSON.stringify(this.revenueStat)
                     } 
                 })
                 .catch( error => {

@@ -134,10 +134,11 @@
     
     export default {
         mounted() {
-            Fire.$emit('sidebar_min')
+            window.dispatchEvent(new Event('sidebar_min'))
+            if(localStorage.products){
+                this.products = JSON.parse(localStorage.products)
+            }
         },
-
-
         data() { 
             var d = new Date();
             return {
@@ -153,7 +154,6 @@
                 pages : 0,
                 form: new Form()
             }
-
         },
         created(){
             this.$Progress.start()
@@ -173,6 +173,10 @@
             });
             Echo.channel('purchase')
             .listen('UpdatePurchase', (e) => {
+                this.loadProducts();
+            });
+            Echo.channel('order')
+            .listen('UpdateOrder', (e) => {
                 this.loadProducts();
             });
         },
@@ -198,6 +202,7 @@
                         Fire.$emit('products_loaded', response.data.data)
                         window.dispatchEvent(new Event('sidebar_min'))
                         this.products = response.data.data.item.length !=0 ? response.data.data.item : [];
+                        localStorage.products = JSON.stringify(this.products)
                     }
                     else{
                         this.$Progress.fail()

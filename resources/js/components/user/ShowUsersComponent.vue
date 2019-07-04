@@ -103,10 +103,10 @@
     
     export default {
         mounted() {
-            
+            if(localStorage.users){
+                this.users = JSON.parse(localStorage.users)
+            }
         },
-
-
         data() { 
             var d = new Date();
             return {
@@ -124,19 +124,13 @@
             }
 
         },
-        watch : {
-            
-            filteredUsers: function(){
-                this.loading = false;
-            },
-           
-            
-        },
         created(){
             this.$Progress.start()
+            if(!localStorage.users){
+                this.loadUsers();
+            }
             Fire.$on('user_created', (data)=> {
                 this.loadUsers();
-
             })
             Fire.$on('user_deleted', (data)=> {
                 this.loadUsers();
@@ -152,19 +146,6 @@
         },
 
         computed: {
-            filteredUsers (){
-                var data = [];
-              if(this.search){
-              data =  this.users.filter((item)=>{
-                return item.name.toLowerCase().includes(this.search.toLowerCase());
-              })
-              }else{
-              data = this.users;
-              }
-              this.length = data.length;
-              this.pages =  Math.ceil(data.length / this.rowsPerPage);
-              return data;
-            },
             start(){
                 if (this.pages > 0  && this.current_page  >=  this.pages ) {
                     this.current_page = this.pages
@@ -185,6 +166,7 @@
                         this.$Progress.finish()
                         Fire.$emit('Users_loaded', response.data.data)
                         this.users = response.data.data.item.length !=0 ? response.data.data.item : [];
+                        localStorage.users = JSON.stringify(this.users)
                     }
                     else{
                         this.$Progress.fail()
@@ -221,7 +203,11 @@
                     this.$refs.next.classList.remove('disabled')
                 }
                 this.current_page = pageNumber;
-               return this.filteredUsers.slice(this.start,this.end);
+                this.loading = false;
+                var data = this.$root.myFilter(this.users,this.search)
+                this.length = data.length;
+                this.pages =  Math.ceil(data.length / this.rowsPerPage);
+                return data.slice(this.start,this.end);
             },
             pageLoaderB(amount){
                 if(this.current_page <= 1 && amount == -1){

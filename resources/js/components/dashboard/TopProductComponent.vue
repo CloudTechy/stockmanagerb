@@ -60,6 +60,10 @@
     
     export default {
         mounted() {
+          if(localStorage.products){
+                this.products = JSON.parse(localStorage.products)
+                this.loading = false
+            }
           this.loadProductDetails();
             },
          data() { 

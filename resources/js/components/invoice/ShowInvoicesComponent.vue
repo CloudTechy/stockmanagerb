@@ -113,10 +113,10 @@
     
     export default {
         mounted() {
-            
+            if(localStorage.invoices){
+                this.invoices = JSON.parse(localStorage.invoices)
+            }
         },
-
-
         data() { 
             var d = new Date();
             return {
@@ -132,7 +132,6 @@
                 pages : 0,
                 form: new Form()
             }
-
         },
         watch : {
         },
@@ -172,6 +171,7 @@
                         this.$Progress.finish()
                         Fire.$emit('invoices_loaded', response.data.data)
                         this.invoices = response.data.data.item.length !=0 ? response.data.data.item : [];
+                        localStorage.invoices = JSON.stringify(this.invoices)
                     }
                     else{
                         this.$Progress.fail()

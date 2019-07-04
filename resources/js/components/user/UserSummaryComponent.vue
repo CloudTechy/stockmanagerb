@@ -61,7 +61,7 @@
 								        
 								        <ul class="products-list product-list-in-card pl-2 pr-2">
 
-								          <li v-if = "loading == false" v-for = "user in  filteredUsers.slice(0,5)" class="item">
+								          <li v-if = "loading == false" v-for = "user in  $root.myFilter(users,search).slice(0,5)" class="item">
 								            <div class="product-img">
 								              <img v-bind:src=" 'img/user.png'" alt="user Image" class="rounded-circle">
 								            </div>
@@ -79,7 +79,7 @@
 								             
 								            </div>
 								         </li>
-								            <li v-if = "loading == false && filteredUsers.length == 0">
+								            <li v-if = "loading == false &&  $root.myFilter(users,search) == 0">
 								                <h4 class="text-center">Users Not Found</h4>
 								            </li>
 								        </ul>
@@ -116,7 +116,7 @@
 								             
 								            </div>
 								          </li>
-								            <li v-if = "loading == false && filteredUsers.length == 0">
+								            <li v-if = "loading == false && admins.concat(super_admins).length == 0">
 								                <h4 class="text-center">You have no Admin yet</h4>
 								            </li>
 								        </ul>
@@ -145,8 +145,11 @@
 	
     export default {
         mounted() {
-
-            },
+        	if(localStorage.users){
+            	this.users = JSON.parse(localStorage.users)
+            	this.loading = false
+        	}
+         },
          data() { 
             var d = new Date();
             return {
@@ -163,9 +166,11 @@
             }
         },
         created(){
+        	if(!localStorage.users){
+                this.loadUsers();
+            }
             Fire.$on('user_created', (data)=> {
                 this.loadUsers();
-
             })
             Fire.$on('user_deleted', (data)=> {
                 this.loadUsers();
@@ -173,7 +178,6 @@
             Fire.$on('user_edited', (data)=> {
                 this.loadUsers();
             })
-            this.loadUsers();
             Echo.channel('user')
             .listen('UpdateUser', (e) => {
                 this.loadUsers();
@@ -186,21 +190,6 @@
             	this.regular = [];
             	this.users.forEach(this.countAdmin);
             }
-        },
-         computed: {
-
-            filteredUsers (){
-                var data = [];
-              if(this.search){
-              data =  this.users.filter((item)=>{
-                return item.names.toLowerCase().includes(this.search.toLowerCase());
-              })
-              }else{
-                data = this.users;
-              }
-              return data;
-            },
-
         },
         methods: {
             loadUsers(){

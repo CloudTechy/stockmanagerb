@@ -36,8 +36,8 @@
 							<h4 class="profile-username ">Not debtors</h4>
 						</div>
 						<div class="col-lg-3 col-sm-6 mb-3 text-center">
-							<div class="circle mb-lg-4"><div class="inner-circle border-danger"><p class="circle-text"><span class="" style="text-decoration: line-through">N</span>{{ owed }}</p></div></div>
-							<h4 class="profile-username ">Total Owed</h4>
+							<div class="circle mb-lg-4"><div class="inner-circle border-danger"><p class="circle-text"><span class="" style="text-decoration: line-through">N</span>{{ owing }}</p></div></div>
+							<h4 class="profile-username ">Total owing</h4>
 						</div>
 					</div>
 
@@ -67,7 +67,7 @@
 								        
 								        <ul class="products-list product-list-in-card pl-2 pr-2">
 
-								          <li v-if = "loading == false" v-for = "customer in  filteredCustomers.slice(0,5)" class="item">
+								          <li v-if = "loading == false" v-for = "customer in $root.myFilter(customers,search).slice(0,5)" class="item">
 								            <div class="product-img">
 								              <img v-bind:src=" 'img/user.png'" alt="customer Image" class="rounded-circle">
 								            </div>
@@ -128,9 +128,20 @@
 	
     export default {
         mounted() {
+          if(localStorage.customers){
+              this.customers = JSON.parse(localStorage.customers)
+              this.customers.forEach(this.countDebtors); 
+              if(localStorage.owing){
+                this.owing = localStorage.owing
+              }
+              else{
+                this.loadOwing()
+              }
 
-            },
-         data() { 
+              this.loading = false;
+            }
+        },
+        data() { 
             var d = new Date();
             return {
             month : d.getMonth() + 1,
@@ -141,16 +152,16 @@
             error : '',
             search : '',
             form: new Form(),
-            owed : '',
+            owing : '',
             }
         },
         beforeDestroy() {
             window.dispatchEvent(new Event('close_sidebar_min'))
         },
         created(){
+            this.loadCustomers();
             Fire.$on('customer_created', (data)=> {
                 this.loadCustomers();
-
             })
             Fire.$on('customer_deleted', (data)=> {
                 this.loadCustomers();
@@ -162,9 +173,19 @@
                 this.search = data.name;
                 this.$refs.search.focus()
             })
-            this.loadCustomers();
+            Fire.$on('transaction_created', (data)=> {
+                this.loadCustomers();
+            })
             Echo.channel('customer')
             .listen('UpdateCustomer', (e) => {
+                this.loadCustomers();
+            });
+            Echo.channel('transaction')
+            .listen('UpdateTransaction', (e) => {
+                this.loadCustomers();
+            });
+            Echo.channel('order')
+            .listen('UpdateOrder', (e) => {
                 this.loadCustomers();
             });
         },
@@ -190,7 +211,9 @@
               	if(response.data.status == true){
               		this.loading = false;
                   	this.customers = response.data.data.item;
+                    localStorage.customers = JSON.stringify(this.customers)
                     window.dispatchEvent(new Event('sidebar_min'))
+                    this.debtors = [];
                   	response.data.data.item.forEach(this.countDebtors);	
               	}
               	else{
@@ -215,7 +238,8 @@
           loadOwing(){
   		    	this.form.get('./api/statistics/customers?owing')
   			  	.then(response  => {
-  				    this.owed = numeral(response.data.data.item[0].owing).format('0,0');
+  				    this.owing = numeral(response.data.data.item[0].owing).format('0,0');
+              localStorage.owing = this.owing
   			    })
   			    .catch( error => {
   			     this.error = error.response.data.error;
@@ -226,9 +250,3 @@
     }
 
 </script>
-
-<style  type="text/css">
-	
-	
-   
-</style>

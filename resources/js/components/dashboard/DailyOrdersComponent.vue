@@ -11,6 +11,10 @@
 <script>
     export default {
         mounted() {
+            if(localStorage.ordersStat){
+                this.orders =  JSON.parse(localStorage.ordersStat)
+                this.loading = false;
+              }
             this.loadOrders();
             },
          data() { 
@@ -38,6 +42,7 @@
                     if(response.data.status == true){
                         this.loading = false;
                         this.orders = response.data.data.item.length !=0 ? response.data.data.item : [{order:0}];
+                        localStorage.ordersStat = JSON.stringify(this.orders)
                     } 
                 })
                 .catch( error => {

@@ -113,11 +113,11 @@
     
     export default {
         mounted() {
-            
+            if(localStorage.suppliers){
+                this.suppliers = JSON.parse(localStorage.suppliers)
+            }
         },
-
-
-        data() { 
+         data() { 
             var d = new Date();
             return {
                 month : d.getMonth() + 1,
@@ -132,21 +132,14 @@
                 pages : 0,
                 form: new Form()
             }
-
         },
         watch : {
-            
-            filteredSuppliers: function(){
-                this.loading = false;
-            },
-           
-            
         },
         created(){
             this.$Progress.start()
+            this.loadSuppliers();
             Fire.$on('supplier_created', (data)=> {
                 this.loadSuppliers();
-
             })
             Fire.$on('supplier_deleted', (data)=> {
                 this.loadSuppliers();
@@ -154,23 +147,27 @@
             Fire.$on('supplier_edited', (data)=> {
                 this.loadSuppliers();
             })
-            this.loadSuppliers();
+            Fire.$on('transaction_created', (data)=> {
+                this.loadSuppliers();
+            })
+            Fire.$on('product_created', (data)=> {
+                this.loadSuppliers();
+            })
+            Echo.channel('product')
+            .listen('UpdateProduct', (e) => {
+                this.loadSuppliers();
+            });
+            Echo.channel('supplier')
+            .listen('UpdateSupplier', (e) => {
+                this.loadSuppliers();
+            });
+            Echo.channel('transaction')
+            .listen('UpdateTransaction', (e) => {
+                this.loadSuppliers();
+            });
         },
 
         computed: {
-            filteredSuppliers (){
-                var data = [];
-              if(this.search){
-              data =  this.suppliers.filter((item)=>{
-                return item.name.toLowerCase().includes(this.search.toLowerCase());
-              })
-              }else{
-              data = this.suppliers;
-              }
-              this.length = data.length;
-              this.pages =  Math.ceil(data.length / this.rowsPerPage);
-              return data;
-            },
             start(){
                 if (this.pages > 0  && this.current_page  >=  this.pages ) {
                     this.current_page = this.pages
@@ -191,6 +188,7 @@
                         this.$Progress.finish()
                         Fire.$emit('suppliers_loaded', response.data.data)
                         this.suppliers = response.data.data.item.length !=0 ? response.data.data.item : [];
+                        localStorage.suppliers = JSON.stringify(this.suppliers)
                     }
                     else{
                         this.$Progress.fail()
@@ -227,7 +225,11 @@
                     this.$refs.next.classList.remove('disabled')
                 }
                 this.current_page = pageNumber;
-               return this.filteredSuppliers.slice(this.start,this.end);
+                this.loading = false;
+                var data = this.$root.myFilter(this.suppliers,this.search)
+                this.length = data.length;
+                this.pages =  Math.ceil(data.length / this.rowsPerPage);
+                return data.slice(this.start,this.end);
             },
             pageLoaderB(amount){
                 if(this.current_page <= 1 && amount == -1){

@@ -32,6 +32,7 @@
         "numeral": "^2.0.6",
         "pusher-js": "^4.4.0",
         "vform": "^1.0.0",
+        "vue-cookies": "^1.5.13",
         "vue-meta": "^1.6.0",
         "vue-morris": "^1.0.1",
         "vue-printer": "0.0.4",

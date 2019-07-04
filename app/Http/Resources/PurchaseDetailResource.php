@@ -35,6 +35,7 @@ class PurchaseDetailResource extends JsonResource
             'percent_sale' => $this->percent_sale,
             'amount' => $this->amount,
             'status' => empty($this->purchase->invoice->transaction) ? null : $this->purchase->invoice->transaction->status,
+            'payment' => empty($this->purchase->invoice->transaction) ? 0 : $this->purchase->invoice->transaction->payment,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
             'date' => Carbon::createFromTimeStamp(strtotime($this->created_at))->diffForHumans(),

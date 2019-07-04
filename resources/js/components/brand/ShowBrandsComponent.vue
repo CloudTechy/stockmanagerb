@@ -100,7 +100,9 @@
     
     export default {
         mounted() {
-            
+            if(this.$cookies.get('brands')){
+                this.brands = JSON.parse(this.$cookies.get('brands'))
+            }
         },
 
         data() { 
@@ -129,9 +131,11 @@
             
         },
         created(){
+            if(!this.$cookies.get('brands')){
+                this.loadBrands();
+            }
             Fire.$on('brand_created', (data)=> {
                 this.loadBrands();
-
             })
             Fire.$on('brand_deleted', (data)=> {
                 this.loadBrands();
@@ -139,8 +143,6 @@
             Fire.$on('brand_edited', (data)=> {
                 this.loadBrands();
             })
-            this.loadBrands();
-
             Echo.channel('brand')
             .listen('UpdateBrand', (e) => {
                 this.loadBrands();
@@ -182,6 +184,7 @@
                         this.$Progress.finish()
                         Fire.$emit('brands_loaded', response.data.data)
                         this.brands = response.data.data.item.length !=0 ? response.data.data.item : [];
+                        this.$cookies.set('brands',JSON.stringify(this.brands))
                     }
                     else{
                         this.$Progress.fail()

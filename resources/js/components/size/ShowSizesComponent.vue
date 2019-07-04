@@ -96,7 +96,9 @@
     
     export default {
         mounted() {
-            
+            if(this.$cookies.get('sizes')){
+                this.sizes = JSON.parse(this.$cookies.get('sizes'))
+            }
         },
 
         data() { 
@@ -125,9 +127,11 @@
             
         },
         created(){
+            if(!this.$cookies.get('sizes')){
+                this.loadSizes();
+            }
             Fire.$on('size_created', (data)=> {
                 this.loadSizes();
-
             })
             Fire.$on('size_deleted', (data)=> {
                 this.loadSizes();
@@ -135,7 +139,6 @@
             Fire.$on('size_edited', (data)=> {
                 this.loadSizes();
             })
-            this.loadSizes();
             Echo.channel('size')
             .listen('UpdateSize', (e) => {
                 this.loadSizes();
@@ -176,6 +179,7 @@
                         this.$Progress.finish()
                         Fire.$emit('sizes_loaded', response.data.data)
                         this.sizes = response.data.data.item.length !=0 ? response.data.data.item : [];
+                        this.$cookies.set('sizes',JSON.stringify(this.sizes))
                     }
                     else{
                         this.$Progress.fail()

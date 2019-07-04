@@ -256,17 +256,6 @@
                     this.invoice_id =  response.data.data.invoice_id
                     this.loadTransactionId()
                 })
-                // this.form.get('./api/invoices/'+this.invoice_id)
-                // .then(response => {
-                //     this.transaction_id =  response.data.data.transaction_id
-                //     console.log(response.data.data);
-                // })
-                // this.form.get('./api/transactions/'+this.transaction_id)
-                // .then(response => {
-                //    var  transaction =  response.data.data
-                //    console.log('transctiont',transaction);
-                //     //this.$root.addTransactionComponent(transaction);
-                // })
             },
             loadTransactionId(){
             	this.form.get('./api/invoices/'+this.invoice_id)

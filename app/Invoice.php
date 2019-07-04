@@ -10,7 +10,7 @@ class Invoice extends Model
 {
     use HasUUID;
     protected $uuidFieldName = 'id';
-    protected $fillable = ['type', 'purchase_id', 'balance', 'order_id', 'user_id', 'amount'];
+    protected $fillable = ['type', 'purchase_id', 'balance', 'order_id', 'user_id', 'cost', 'amount'];
     public $incrementing = false;
     protected $appends = array('status');
 
@@ -54,7 +54,7 @@ class Invoice extends Model
     {
 
         try {
-            $fields = ['type', 'purchase_id', 'order_id', 'user_id', 'amount'];
+            $fields = ['type', 'purchase_id', 'order_id', 'cost', 'user_id', 'amount'];
 
             return $query->where(
                 function ($query) use ($filter, $fields) {

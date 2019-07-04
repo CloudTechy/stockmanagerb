@@ -67,7 +67,7 @@
 								        
 								        <ul class="products-list product-list-in-card pl-2 pr-2">
 
-								          <li ref = 'supplier' v-if = "loading == false" v-for = "supplier in  filteredSuppliers.slice(0,5)" class="item">
+								          <li ref = 'supplier' v-if = "loading == false" v-for = "supplier in  $root.myFilter(suppliers,search).slice(0,5)" class="item">
 								            <div class="product-img">
 								              <img v-bind:src=" 'img/user.png'" alt="supplier Image" class="rounded-circle">
 								            </div>
@@ -134,8 +134,20 @@
 	
     export default {
         mounted() {
-            },
-         data() { 
+          if(localStorage.suppliers){
+            this.suppliers = JSON.parse(localStorage.suppliers)
+            this.suppliers.forEach(this.countDebts); 
+            if(localStorage.owed){
+              this.owed = localStorage.owed
+            }
+            else{
+              this.loadOwed()
+            }
+
+            this.loading = false;
+          }
+        },
+        data() { 
             var d = new Date();
             return {
             month : d.getMonth() + 1,
@@ -150,30 +162,42 @@
             }
         },
         created(){
-            Fire.$on('supplier_created', (data)=> {
-                this.loadSuppliers();
-
-            })
-            Fire.$on('supplier_deleted', (data)=> {
-                this.loadSuppliers();
-            })
-            Fire.$on('supplier_edited', (data)=> {
-                this.loadSuppliers();
-            })
-            Fire.$on('view', (data)=> {
-                this.search = data.name;
-                this.$refs.search.focus()
-            })
-            this.loadSuppliers();
-            Echo.channel('supplier')
-            .listen('UpdateSupplier', (e) => {
-                this.loadSuppliers();
-            });
+          this.loadSuppliers();
+          Fire.$on('supplier_created', (data)=> {
+              this.loadSuppliers();
+          })
+          Fire.$on('supplier_deleted', (data)=> {
+              this.loadSuppliers();
+          })
+          Fire.$on('transaction_created', (data)=> {
+              this.loadSuppliers();
+          })
+          Fire.$on('transaction_created', (data)=> {
+              this.loadSuppliers();
+          })
+          Fire.$on('product_created', (data)=> {
+              this.loadSuppliers();
+          })
+          Fire.$on('view', (data)=> {
+              this.search = data.name;
+              this.$refs.search.focus()
+          })
+          Echo.channel('supplier')
+          .listen('UpdateSupplier', (e) => {
+              this.loadSuppliers();
+          });
+          Echo.channel('transaction')
+          .listen('UpdateTransaction', (e) => {
+              this.loadSuppliers();
+          });
+          Echo.channel('product')
+          .listen('UpdateProduct', (e) => {
+              this.loadSuppliers();
+          });
         },
         watch : {
         },
-         computed: {
-
+        computed: {
             filteredSuppliers (){
                 var data = [];
               if(this.search){
@@ -193,6 +217,8 @@
                 	if(response.data.status == true){
                 		this.loading = false;
                     	this.suppliers = response.data.data.item;
+                      localStorage.suppliers = JSON.stringify(this.suppliers)
+                      this.creditors = [];
                     	response.data.data.item.forEach(this.countDebts);
                       window.dispatchEvent(new Event('sidebar_min'))	
                 	}
@@ -221,6 +247,7 @@
     		    	this.form.get('./api/statistics/suppliers?owed')
     			  	.then(response  => {
     				  this.owed = numeral(response.data.data.item[0].owed).format('0,0');
+              localStorage.owed = this.owed
 			    })
 			    .catch( error => {
 			     this.error = error.response.data.error;

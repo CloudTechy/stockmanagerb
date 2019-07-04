@@ -66,6 +66,11 @@
   
     export default {
         mounted() {
+          if(localStorage.transactions){
+            this.transactions = JSON.parse(localStorage.transactions)
+            this.transactions.forEach(this.count); 
+            this.loading = false;
+          }
             },
          data() { 
             var d = new Date();
@@ -80,7 +85,6 @@
               error : '',
               search : '',
               form: new Form(),
-              owed : '',
             }
         },
         beforeDestroy() {
@@ -114,7 +118,10 @@
                   if(response.data.status == true){
                     this.loading = false;
                       this.transactions = response.data.data.item;
+                      this.order_type = []
+                      this.purchase_type = []
                       response.data.data.item.forEach(this.count);
+                      localStorage.transactions = JSON.stringify(this.transactions)
                   }
                   else{
                     console.log("load transaction did not return positive response");
@@ -127,10 +134,10 @@
                 }); 
             },
             count(transaction){
-              if (transaction.type == 'order') {
+              if (transaction.type == 'purchase') {
                 this.purchase_type.push(transaction);
               }
-              else if (transaction.type == 'purchase') {
+              else if (transaction.type == 'order') {
                 this.order_type.push(transaction);
               }
             },

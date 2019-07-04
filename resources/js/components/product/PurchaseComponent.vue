@@ -100,27 +100,28 @@
   
     export default {
         mounted() {
-          
-            },
-         data() { 
-            var d = new Date();
-            return {
-              month : d.getMonth() + 1,
-              year : d.getFullYear(),
-              products : [],
-              productStat: {},
-              pending: [],
-              not_paid: [],
-              paid: [],
-              order_type : [],
-              purchase_type:[],
-              loading : true,
-              error : '',
-              search : '',
-              form: new Form(),
-              owed : '',
-              title : 'RECENTLY ADDED',
-            }
+          if(localStorage.products){
+            this.products = JSON.parse(localStorage.products)
+            this.loading = false
+          }
+          if(localStorage.productStat){
+            this.loading = false;
+            this.productStat = localStorage.productStat
+          }
+        },
+        data() { 
+          var d = new Date();
+          return {
+            month : d.getMonth() + 1,
+            year : d.getFullYear(),
+            products : [],
+            productStat: {},
+            loading : true,
+            error : '',
+            search : '',
+            form: new Form(),
+            title : 'RECENTLY ADDED',
+          }
         },
         beforeDestroy() {
             window.dispatchEvent(new Event('close_sidebar_min'))
@@ -165,6 +166,7 @@
                   if(response.data.status == true){
                     this.loading = false;
                       this.products = response.data.data.item;
+                      localStorage.products = JSON.stringify(this.products)
                   }
                   else{
                     console.log("load supplier did not return positive response");
@@ -182,6 +184,7 @@
                   if(response.data.status == true){
                     this.loading = false;
                     this.productStat = response.data.data.item[0];
+                    localStorage.productStat = this.productStat
                   }
                   else{
                     console.log(response.data);

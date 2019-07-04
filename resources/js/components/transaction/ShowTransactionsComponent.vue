@@ -104,10 +104,10 @@
     
     export default {
         mounted() {
-            
+            if(localStorage.transactions){
+                this.transactions = JSON.parse(localStorage.transactions)
+            }
         },
-
-
         data() { 
             var d = new Date();
             return {
@@ -123,7 +123,6 @@
                 pages : 0,
                 form: new Form(),
             }
-
         },
         watch : {
         },
@@ -163,6 +162,7 @@
                         this.$Progress.finish()
                         Fire.$emit('transactions_loaded', response.data.data)
                         this.transactions = response.data.data.item.length !=0 ? response.data.data.item : [];
+                        localStorage.transactions = JSON.stringify(this.transactions)
                     }
                     else{
                         this.$Progress.fail()

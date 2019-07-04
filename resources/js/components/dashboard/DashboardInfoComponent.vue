@@ -55,7 +55,22 @@
 <script>
   export default {
     mounted(){
-      
+      if(localStorage.orderDetailsStat){
+        this.orderDetails =  JSON.parse(localStorage.orderDetailsStat)
+        this.loading = false;
+      }
+      if(localStorage.ordersInfoStat){
+        this.orders =  JSON.parse(localStorage.ordersInfoStat)
+        this.loading = false;
+      }
+      if(localStorage.stockStat){
+        this.stock =  JSON.parse(localStorage.stockStat)
+        this.loading = false;
+      }
+      if(localStorage.owedStat){
+        this.owed =  JSON.parse(localStorage.owedStat)
+        this.loading = false;
+      }
     },
     watch : {
        	orderDetails : function(){
@@ -107,6 +122,7 @@
 	    	this.form.get('./api/statistics/transactions?order_revenue&month='+this.month+'&year='+this.year)
 		  .then(response  => {
         this.orderDetails = response.data.data.item.length !=0 ? response.data.data.item[0] :'';
+        localStorage.orderDetailsStat = JSON.stringify(this.orderDetails)
 		    })
 		    .catch( error => {
 		      this.error = error.response.data.error;
@@ -116,6 +132,7 @@
 	    	this.form.get('./api/statistics/products?total')
 		  .then(response  => {
 		    	this.stock = response.data.data.item[0];
+          localStorage.stockStat = JSON.stringify(this.stock)
 		    })
 		    .catch( error => {
 		      this.error = error.response.data.error;
@@ -125,6 +142,7 @@
 	    	this.form.get('./api/statistics/transactions?type=order&month='+this.month+'&year='+this.year)
 		  .then(response  => {
          this.orders = response.data.data.item.length !=0 ? response.data.data.item[0] :{count:0};
+         localStorage.ordersInfoStat = JSON.stringify(this.orders)
 		    })
 		    .catch( error => {
 		      this.error = error.response.data.error;
@@ -134,6 +152,7 @@
 	    	this.form.get('./api/statistics/customers?owing&month='+this.month+'&year='+this.year)
 		  	.then(response  => {
     			this.owed = numeral(response.data.data.item.length > 0 ? response.data.data.item[0].owing : 0).format('0,0.00');
+          localStorage.owedStat = JSON.stringify(this.owed)
           this.$Progress.finish();
 		    })
 		    .catch( error => {

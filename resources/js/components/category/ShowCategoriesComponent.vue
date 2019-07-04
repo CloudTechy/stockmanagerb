@@ -97,7 +97,9 @@
     
     export default {
         mounted() {
-            
+            if(this.$cookies.get('categories')){
+                this.categories = JSON.parse(this.$cookies.get('categories'))
+            }
         },
 
         data() { 
@@ -126,9 +128,11 @@
             
         },
         created(){
+            if(!this.$cookies.get('categories')){
+                this.loadCategories();
+            }
             Fire.$on('category_created', (data)=> {
                 this.loadCategories();
-
             })
             Fire.$on('category_deleted', (data)=> {
                 this.loadCategories();
@@ -136,7 +140,6 @@
             Fire.$on('category_edited', (data)=> {
                 this.loadCategories();
             })
-            this.loadCategories();
             Echo.channel('category')
             .listen('UpdateCategory', (e) => {
                 this.loadCategories();
@@ -177,6 +180,7 @@
                         this.$Progress.finish()
                         Fire.$emit('categories_loaded', response.data.data)
                         this.categories = response.data.data.item.length !=0 ? response.data.data.item : [];
+                        this.$cookies.set('categories',JSON.stringify(this.categories))
                     }
                     else{
                         this.$Progress.fail()

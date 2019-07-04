@@ -122,6 +122,8 @@ class Helper
                 $invoice['amount'] = $order->amount;
                 $invoice['cost'] = $order->cost;
 
+                // dd($order->cost);
+
                 $invoice_order = Invoice::where('order_id', $orderPurchaseId);
                 if ($invoice_order->count() != 0) {
 
@@ -144,14 +146,14 @@ class Helper
                 $invoice['purchase_id'] = $orderPurchaseId;
                 $invoice['user_id'] = $purchase->user_id;
                 $invoice['amount'] = $purchase->amount;
-                $invoice['cost'] = $purchase->cost;
+                $invoice['cost'] = $purchase->amount;
 
                 $invoice_purchase = Invoice::where('purchase_id', $orderPurchaseId);
                 if ($invoice_purchase->count() != 0) {
-
                     $invoice_purchase->first()->update($invoice);
                 } else {
                     Invoice::create($invoice);
+
                 }
                 $invoice_created = Invoice::find($invoice_purchase->first()->id);
 

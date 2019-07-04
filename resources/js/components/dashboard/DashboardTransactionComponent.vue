@@ -87,7 +87,7 @@
                                 <tr>
                                     <th>Invoice</th>
                                     <th>Amount</th><th>Payment</th>
-                                    <th>Date</th><th>Status</th>
+                                    <th>Date</th><th>Updated</th<th>Status</th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -143,6 +143,10 @@
   
     export default {
         mounted() {
+            if(localStorage.transactions){
+                this.transactions =  JSON.parse(localStorage.transactions)
+                this.loading = false;
+            }
             this.loadTransactions();
             },
         data() { 
@@ -208,6 +212,7 @@
                 .then( response => {
                     if(response.data.status == true){
                         this.transactions = response.data.data.item.length !=0 ? response.data.data.item : [];
+                        localStorage.transactions = JSON.stringify(this.transactions)
                     }
                 })
                 .catch( error =>  {

@@ -42,6 +42,7 @@
                                         <th>Quantity</th>
                                         <th>Price</th>
                                         <th>Amount</th>
+                                        <th>Paid</th>
                                         <th>Status</th>
                                         <th>Date</th>
                                         <th>User</th>
@@ -54,6 +55,7 @@
                                         <td class="text-capitalize">{{  purchasedetail.quantity }}</td>
                                         <td class="text-capitalize"><span style="text-decoration: line-through">N</span>{{ $root.numeral( purchasedetail.price)  }}</td>
                                         <td class="text-capitalize"><span style="text-decoration: line-through">N</span>{{ $root.numeral( purchasedetail.amount)  }}</td>
+                                        <td class="text-capitalize"><span style="text-decoration: line-through">N</span>{{ $root.numeral( purchasedetail.payment)  }}</td>
                                         <td class="text-center">
                                             <span v-bind:class="{badge:true, 'badge-danger':purchasedetail.status == 'not-paid',  'badge-success' : purchasedetail.status == 'paid', 'badge-warning':purchasedetail.status == 'pending' }">
                                                 {{ purchasedetail.status }}
@@ -120,10 +122,11 @@
     
     export default {
         mounted() {
-            
+            if(localStorage.purchasedetails){
+                this.purchasedetails =  JSON.parse(localStorage.purchasedetails)
+                this.loading = false;
+            }
         },
-
-
         data() { 
             var d = new Date();
             return {
@@ -167,6 +170,7 @@
                 .then( response => {
                     if(response.data.status == true){
                         this.purchasedetails = response.data.data.item.length !=0 ? response.data.data.item : [];
+                        localStorage.purchasedetails = JSON.stringify(this.purchasedetails)
                     }
                     else{
                         console.log(response.data);

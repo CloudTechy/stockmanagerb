@@ -93,17 +93,12 @@ class PurchaseDetailController extends Controller
                         //create new purchase detail and update product attribute here
                         $quantity = $prdAttribute->first()->available_stock + $validated['quantity'];
                         $purchasedetail = PurchaseDetail::create($validated);
-
-                        if ($prdAttribute->update(['available_stock' => $quantity, 'purchase_price' => $validated['price'], 'sale_price' => $validated['sale_price'], 'user_id' => auth()->id()])) {
-                            // return the product attribute and call the invoice method
-
+                        $user = auth()->user()->first_name . ' ' . auth()->user()->last_name;
+                        if ($prdAttribute->update(['available_stock' => $quantity, 'purchase_price' => $validated['price'], 'sale_price' => $validated['sale_price'], 'updated_by' => $user])) {
                             array_push($purchasedetails, $purchasedetail);
-                            //return Helper::validRequest(new PurchaseDetailResource($purchasedetail), 'PurchaseDetail was sent successfully', 200);
                         }
 
                     } else {
-                        //Product attribute not found create one here
-
                         $newPurchaseDetail = $validated;
                         $newPurchaseDetail['product_id'] = $product_id;
                         $newPurchaseDetail['attribute_id'] = $attribute_id;

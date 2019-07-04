@@ -66,8 +66,8 @@
                             </td>
                             
                         </tr>
-                         <tr v-if = "loading == false && pageLoader(current_page).length == 0">
-                            <td colspan="7">
+                         <tr v-if = "loading == false && $root.myFilter(customers,search).length == 0">
+                            <td colspan="8">
                                 <h4 class="text-center small text-secondary">Customer Not Found</h4>
                             </td>
                         </tr>
@@ -115,10 +115,10 @@
     
     export default {
         mounted() {
-            
+            if(localStorage.customers){
+                this.customers = JSON.parse(localStorage.customers)
+            }
         },
-
-
         data() { 
             var d = new Date();
             return {
@@ -137,18 +137,12 @@
 
         },
         watch : {
-            
-            filteredCustomers: function(){
-                this.loading = false;
-            },
-           
-            
         },
         created(){
             this.$Progress.start()
+            this.loadCustomers();
             Fire.$on('customer_created', (data)=> {
                 this.loadCustomers();
-
             })
             Fire.$on('customer_deleted', (data)=> {
                 this.loadCustomers();
@@ -156,24 +150,24 @@
             Fire.$on('customer_edited', (data)=> {
                 this.loadCustomers();
             })
-            this.loadCustomers();
+            Fire.$on('transaction_created', (data)=> {
+                this.loadCustomers();
+            })
+            Echo.channel('customer')
+            .listen('UpdateCustomer', (e) => {
+                this.loadCustomers();
+            });
+            Echo.channel('transaction')
+            .listen('UpdateTransaction', (e) => {
+                this.loadCustomers();
+            });
+            Echo.channel('order')
+            .listen('UpdateOrder', (e) => {
+                this.loadCustomers();
+            });
         },
 
         computed: {
-            filteredCustomers (){
-                var data = [];
-              if(this.search){
-              data =  this.customers.filter((item)=>{
-
-                return item.name.toLowerCase().includes(this.search.toLowerCase()) || item.number.toLowerCase().includes(this.search.toLowerCase());
-              })
-              }else{
-              data = this.customers;
-              }
-              this.length = data.length;
-              this.pages =  Math.ceil(data.length / this.rowsPerPage);
-              return data;
-            },
             start(){
                 if (this.pages > 0  && this.current_page  >=  this.pages ) {
                     this.current_page = this.pages
@@ -194,6 +188,7 @@
                         this.$Progress.finish()
                         Fire.$emit('customer_loaded', response.data.data)
                         this.customers = response.data.data.item.length !=0 ? response.data.data.item : [];
+                        localStorage.customers = JSON.stringify(this.customers)
                     }
                     else{
                         this.$Progress.fail()
@@ -202,9 +197,15 @@
                 })
                 .catch(error=> {
                     this.$Progress.fail()
-                    var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message
-                    this.$root.alert('error','error',message)
-                    console.log(error.response.data.error)
+                    if(error.response){
+                        var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message
+                        this.$root.alert('error','error',message)
+                         console.log(error.response.data.error)
+                    }
+                    else{
+                        console.log(error);
+                    }
+                   
                 }); 
             },
             classObject (value) {
@@ -230,7 +231,11 @@
                     this.$refs.next.classList.remove('disabled')
                 }
                 this.current_page = pageNumber;
-               return this.filteredCustomers.slice(this.start,this.end);
+                this.loading = false;
+                var data = this.$root.myFilter(this.customers,this.search)
+                this.length = data.length;
+                this.pages =  Math.ceil(data.length / this.rowsPerPage);
+                return data.slice(this.start,this.end);
             },
             pageLoaderB(amount){
                 if(this.current_page <= 1 && amount == -1){

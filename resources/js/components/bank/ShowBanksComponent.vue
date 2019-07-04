@@ -92,7 +92,9 @@
     
     export default {
         mounted() {
-            
+            if(this.$cookies.get('banks')){
+                this.banks = JSON.parse(this.$cookies.get('banks'))
+            }
         },
 
         data() { 
@@ -121,9 +123,11 @@
             
         },
         created(){
+            if(!this.$cookies.get('banks')){
+                this.loadBanks();
+            }
             Fire.$on('bank_created', (data)=> {
                 this.loadBanks();
-
             })
             Fire.$on('bank_deleted', (data)=> {
                 this.loadBanks();
@@ -131,7 +135,7 @@
             Fire.$on('bank_edited', (data)=> {
                 this.loadBanks();
             })
-            this.loadBanks();
+            
             Echo.channel('bank')
             .listen('UpdateBank', (e) => {
                 this.loadBanks();
@@ -173,6 +177,7 @@
                         this.$Progress.finish()
                         Fire.$emit('Banks_loaded', response.data.data)
                         this.banks = response.data.data.item.length !=0 ? response.data.data.item : [];
+                        this.$cookies.set('banks',JSON.stringify(this.banks))
                     }
                     else{
                         this.$Progress.fail()

@@ -127,8 +127,13 @@
 	
     export default {
         mounted() {
-            },
-         data() { 
+          if(localStorage.invoices){
+            this.invoices = JSON.parse(localStorage.invoices)
+            this.invoices.forEach(this.count); 
+            this.loading = false;
+          }
+        },
+        data() { 
             var d = new Date();
             return {
               month : d.getMonth() + 1,
@@ -143,7 +148,6 @@
               error : '',
               search : '',
               form: new Form(),
-              owed : '',
               title : 'RECENTLY ADDED',
             }
         },
@@ -179,7 +183,13 @@
                 	if(response.data.status == true){
                 		this.loading = false;
                     	this.invoices = response.data.data.item;
+                      this.paid = []
+                      this.pending = []
+                      this.not_paid = []
+                      this.order_type = []
+                      this.purchase_type = []
                     	response.data.data.item.forEach(this.count);
+                      localStorage.invoices = JSON.stringify(this.invoices)
                 	}
                 	else{
                 		console.log("load supplier did not return positive response");

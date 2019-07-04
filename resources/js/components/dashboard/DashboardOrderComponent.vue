@@ -43,6 +43,7 @@
                                     <th>Quantity</th>
                                     <th>Price</th>
                                     <th>Amount</th>
+                                    <th>Paid</th>
                                     <th>Status</th>
                                     <th>Date</th>
                                     <th>User</th>
@@ -55,6 +56,7 @@
                                     <td>{{ order.quantity }}</td>
                                     <td><span style="text-decoration: line-through">N</span>{{ $root.numeral(order.price) }}</td>
                                     <td><span style="text-decoration: line-through">N</span>{{ $root.numeral(order.amount) }}</td>
+                                    <td><span style="text-decoration: line-through">N</span>{{ $root.numeral(order.payment) }}</td>
                                     <td class="text-center">
                                         <span v-bind:class="{badge:true, 'badge-danger':order.status == 'not-paid',  'badge-success' : order.status == 'paid', 'badge-warning':order.status == 'pending' }">
                                             {{ order.status }}
@@ -128,6 +130,10 @@
     
     export default {
         mounted() {
+            if(localStorage.orderDetails){
+                this.orders =  JSON.parse(localStorage.orderDetails)
+                this.loading = false;
+            }
             this.loadOrders();
             },
         data() { 
@@ -145,7 +151,6 @@
                 pages : 0,
                 form : new Form,
             }
-
         },
         created(){
             Fire.$on('order_created', data => {
@@ -180,6 +185,7 @@
                 .then( response => {
                     if(response.data.status == true){
                         this.orders = response.data.data.item.length !=0 ? response.data.data.item : [];
+                        localStorage.orderDetails = JSON.stringify(this.orders)
                     }
                 })
                 .catch( error => {
