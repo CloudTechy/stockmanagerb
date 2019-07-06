@@ -43,7 +43,7 @@
         <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-money-check"></i></span>
         <div class="info-box-content">
           <span class="info-box-number"> N{{owed}} </span>
-          <span class="info-box-text">Owed This month</span>
+          <span class="info-box-text">Owed</span>
         </div>
       </div>
     </div>
@@ -76,6 +76,7 @@
        	orderDetails : function(){
           if(this.orderDetails){
        		 this.percentProfit = Math.round(this.orderDetails.profit/ this.orderDetails.cost * 100);
+           console.log('test');
           }
        	}
      },
@@ -149,9 +150,10 @@
 		    }); 
 	    },
 	    loadOwing(){
-	    	this.form.get('./api/statistics/customers?owing&month='+this.month+'&year='+this.year)
+	    	this.form.get('./api/statistics/customers?owing')
 		  	.then(response  => {
     			this.owed = numeral(response.data.data.item.length > 0 ? response.data.data.item[0].owing : 0).format('0,0.00');
+          console.log('owing', response.data.data.item[0].owing);
           localStorage.owedStat = JSON.stringify(this.owed)
           this.$Progress.finish();
 		    })

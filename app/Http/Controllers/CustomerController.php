@@ -120,6 +120,9 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
+        if (!Helper::userIsSuperAdmin()) {
+            return Helper::inValidRequest('User not Unauthorized or not Activated.', 'Unauthorized Access!', 400);
+        }
 
         $request->except('user_id');
         $user = auth()->user()->first_name . ' ' . auth()->user()->last_name;

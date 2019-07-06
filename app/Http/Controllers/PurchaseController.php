@@ -60,7 +60,7 @@ class PurchaseController extends Controller
      */
     public function store(ValidatePurchaseRequest $request)
     {
-        if (!auth()->user()->activated || !auth()->user()->isAdmin) {
+        if (!auth()->user()->activated) {
 
             return Helper::inValidRequest('User not activated', 'Unauthorized Access!', 400);
         }

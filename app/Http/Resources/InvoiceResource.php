@@ -30,7 +30,7 @@ class InvoiceResource extends JsonResource
 
             foreach ($order_details as $key => $value) {
 
-                $order_detail['product'] = $value->product . ' |' . $value->brand . ' |' . $value->size . ' |' . $value->pku;
+                $order_detail['product'] = $value->pku . ' |' . $value->product . ' |' . $value->size . ' |' . $value->brand;
                 $order_detail['quantity'] = $value->quantity;
                 $order_detail['price'] = $value->price;
                 $order_detail['discount'] = $value->discount;
@@ -50,7 +50,7 @@ class InvoiceResource extends JsonResource
             $purchase_details = PurchaseDetailResource::collection($details);
 
             foreach ($purchase_details as $key => $value) {
-                $purchase_detail['product'] = $value->product . ' | ' . $value->brand . ' | ' . $value->size . ' | ' . $value->pku;
+                $purchase_detail['product'] = $value->pku . ' |' . $value->product . ' |' . $value->size . ' |' . $value->brand; 
                 $purchase_detail['quantity'] = $value->quantity;
                 $purchase_detail['price'] = $value->price;
                 $purchase_detail['amount'] = $value->amount;

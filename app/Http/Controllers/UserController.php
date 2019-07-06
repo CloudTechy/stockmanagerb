@@ -136,6 +136,10 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        if (!auth()->user()->activated || !auth()->user()->isSuperAdmin) {
+            return Helper::inValidRequest('User not Unauthorized or not Activated.', 'Unauthorized Access!', 400);
+        }
+
         $request->except('username', 'email', 'number', 'password');
 
         $validated = $request->validate([

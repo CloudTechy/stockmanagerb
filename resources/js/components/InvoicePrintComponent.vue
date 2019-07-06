@@ -20,7 +20,7 @@
           {{ invoice.type == 'order' ? 'From ' : 'To '  }}
           <address>
             <strong>Big Star IND CO LTD</strong><br>
-            Zone 15 NO 76, New Motorcycle Spare Parts Nnewi<br>
+            Zone 15 No 76, New Motorcycle Spare Parts Nnewi<br>
             Staff: {{ user.names }}<br>
             Phone: {{ user.number }}<br>
             Email: {{ user.email }} 
@@ -93,6 +93,14 @@
               </tr>
             </tbody>
           </table>
+        </div>
+        <div class = "border border-secondary text-center card-footer col-12 small">
+          <h6>
+            Thank you for choosing Big Star
+          </h6>
+          <p>
+            No return of goods after payment.
+          </p>
         </div>
       </div>
     </section>

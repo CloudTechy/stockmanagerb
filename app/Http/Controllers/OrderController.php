@@ -61,7 +61,7 @@ class OrderController extends Controller
     public function store(ValidateOrderRequest $request)
     {
 
-        if (!auth()->user()->activated || !auth()->user()->isAdmin) {
+        if (!auth()->user()->activated) {
 
             return Helper::inValidRequest('User not activated', 'Unauthorized Access!', 400);
         }
