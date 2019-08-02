@@ -6,7 +6,10 @@ use App\AttributeProduct;
 use App\Helper;
 use App\Http\Requests\ValidateProductRequest;
 use App\Http\Resources\ProductResource;
+<<<<<<< HEAD
 use App\Jobs\ProcessProduct;
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 use App\Product;
 use App\User;
 use Illuminate\Http\Request;
@@ -78,13 +81,21 @@ class ProductController extends Controller
             $validated['product_id'] = $product->id;
             AttributeProduct::create($validated);
             DB::commit();
+<<<<<<< HEAD
             ProcessProduct::dispatch();
             return Helper::validRequest(new ProductResource($product), 'Product was sent successfully', 200);
+=======
+
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         } catch (Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
 
+<<<<<<< HEAD
+=======
+        return Helper::validRequest(new ProductResource($product), 'Product was sent successfully', 200);
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
     }
 
     /**
@@ -148,7 +159,11 @@ class ProductController extends Controller
             $validated['updated_by'] = $user;
 
             $product = $product->update($validated);
+<<<<<<< HEAD
             ProcessProduct::dispatch();
+=======
+
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             return Helper::validRequest(["success" => $product], 'Product was updated successfully', 200);
 
         } catch (Exception $bug) {
@@ -173,7 +188,11 @@ class ProductController extends Controller
             $product = $product->delete();
 
             DB::commit();
+<<<<<<< HEAD
             ProcessProduct::dispatch();
+=======
+
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             return Helper::validRequest(["success" => $product], 'Product was deleted successfully', 200);
 
         } catch (Exception $bug) {
@@ -204,7 +223,10 @@ class ProductController extends Controller
         try {
 
             $product = $product->update($validated);
+<<<<<<< HEAD
             ProcessProduct::dispatch();
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return Helper::validRequest(["success" => $product], 'Product was updated successfully', 200);
 

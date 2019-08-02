@@ -113,10 +113,17 @@
     
     export default {
         mounted() {
+<<<<<<< HEAD
             if(localStorage.invoices){
                 this.invoices = JSON.parse(localStorage.invoices)
             }
         },
+=======
+            
+        },
+
+
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         data() { 
             var d = new Date();
             return {
@@ -132,6 +139,10 @@
                 pages : 0,
                 form: new Form()
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         watch : {
         },
@@ -171,11 +182,18 @@
                         this.$Progress.finish()
                         Fire.$emit('invoices_loaded', response.data.data)
                         this.invoices = response.data.data.item.length !=0 ? response.data.data.item : [];
+<<<<<<< HEAD
                         localStorage.invoices = JSON.stringify(this.invoices)
                     }
                     else{
                         this.$Progress.fail()
                         //this.$root.alert('error','error','An unexpected error occured, Try again Later')
+=======
+                    }
+                    else{
+                        this.$Progress.fail()
+                        this.$root.alert('error','error','An unexpected error occured, Try again Later')
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     }
                 })
                 .catch(error=> {

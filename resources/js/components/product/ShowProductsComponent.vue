@@ -35,7 +35,11 @@
                             <th>Price</th>
                             <th>Stock</th>
                             <th>Added by</th>
+<<<<<<< HEAD
                             <th>Updated</th>
+=======
+                            <th>Created</th>
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                             <th>Status</th>
                             <th class="text-center">Action</th>
 
@@ -56,7 +60,11 @@
                                 {{  $root.numeral(product.price) }}
                             </td>
                             <td class="text-capitalize">
+<<<<<<< HEAD
                                 <span v-bind:class="{badge:true, 'badge-warning':product.stock < 50, 'badge-danger':product.stock <= 10,  'badge-success' : product.stock >= 50 }">{{  product.stock }}
+=======
+                                <span v-bind:class="{badge:true, 'badge-warning':product.stock < 50, 'badge-danger':product.stock <= 10,  'badge-success' : product.stock > 50 }">{{  product.stock }}
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                                 </span>
                             </td>
                             <td class="text-capitalize">{{  product.added_by }}</td>
@@ -81,6 +89,7 @@
                                 </li>
                             </td>
                         </tr>
+<<<<<<< HEAD
                         <tr v-if = "pageLoader(current_page).length > 0">
                             <td colspan="6">
                                <span class="small font-weight-bold text-success"> {{ "Total stock for " + pageLoader(current_page).length + " product(s)" }}</span>
@@ -91,6 +100,8 @@
                                 </span>
                             </td>
                         </tr>
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     </tbody>
                 </table>
                 </div>
@@ -134,11 +145,18 @@
     
     export default {
         mounted() {
+<<<<<<< HEAD
             window.dispatchEvent(new Event('sidebar_min'))
             if(localStorage.products){
                 this.products = JSON.parse(localStorage.products)
             }
         },
+=======
+            Fire.$emit('sidebar_min')
+        },
+
+
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         data() { 
             var d = new Date();
             return {
@@ -154,6 +172,12 @@
                 pages : 0,
                 form: new Form()
             }
+<<<<<<< HEAD
+=======
+
+        },
+        watch : {
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         created(){
             this.$Progress.start()
@@ -167,6 +191,7 @@
                 this.loadProducts();
             })
             this.loadProducts();
+<<<<<<< HEAD
             Echo.channel('product')
             .listen('UpdateProduct', (e) => {
                 this.loadProducts();
@@ -179,6 +204,8 @@
             .listen('UpdateOrder', (e) => {
                 this.loadProducts();
             });
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
 
         computed: {
@@ -202,11 +229,18 @@
                         Fire.$emit('products_loaded', response.data.data)
                         window.dispatchEvent(new Event('sidebar_min'))
                         this.products = response.data.data.item.length !=0 ? response.data.data.item : [];
+<<<<<<< HEAD
                         localStorage.products = JSON.stringify(this.products)
                     }
                     else{
                         this.$Progress.fail()
                         this.$root.alert('error','error','An unexpected error occured, Try again Later') 
+=======
+                    }
+                    else{
+                        this.$Progress.fail()
+                        this.$root.alert('error','error','An unexpected error occured, Try again Later')
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                         console.log(response.data);
                     }
                 })

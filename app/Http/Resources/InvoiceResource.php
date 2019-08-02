@@ -30,7 +30,11 @@ class InvoiceResource extends JsonResource
 
             foreach ($order_details as $key => $value) {
 
+<<<<<<< HEAD
                 $order_detail['product'] = $value->pku . ' | ' . $value->product . ' | ' . $value->size . ' | ' . $value->brand;
+=======
+                $order_detail['product'] = $value->product . ' |' . $value->brand . ' |' . $value->size . ' |' . $value->pku;
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                 $order_detail['quantity'] = $value->quantity;
                 $order_detail['price'] = $value->price;
                 $order_detail['discount'] = $value->discount;
@@ -50,7 +54,11 @@ class InvoiceResource extends JsonResource
             $purchase_details = PurchaseDetailResource::collection($details);
 
             foreach ($purchase_details as $key => $value) {
+<<<<<<< HEAD
                 $purchase_detail['product'] = $value->pku . ' | ' . $value->product . ' | ' . $value->size . ' | ' . $value->brand;
+=======
+                $purchase_detail['product'] = $value->product . ' | ' . $value->brand . ' | ' . $value->size . ' | ' . $value->pku;
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                 $purchase_detail['quantity'] = $value->quantity;
                 $purchase_detail['price'] = $value->price;
                 $purchase_detail['amount'] = $value->amount;
@@ -61,6 +69,7 @@ class InvoiceResource extends JsonResource
             }
 
         }
+<<<<<<< HEAD
         return [
             'id' => $this->id,
             'type' => $type,
@@ -69,11 +78,25 @@ class InvoiceResource extends JsonResource
             'user_id' => $this->user_id,
             'name' => $name,
             'payment' => empty($this->transaction) ? 0 : $this->transaction->payment,
+=======
+
+        return [
+            'id' => $this->id,
+            'type' => $type,
+            $type_id => $this->$type_id,
+            'user_id' => $this->user_id,
+            'name' => $name,
+            'payment' => $this->transaction->payment,
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             'email' => $email,
             'due_date' => $due_date,
             'number' => $number,
             'user' => $this->user->first_name . ' ' . $this->user->last_name,
+<<<<<<< HEAD
             'transaction_id' => empty($this->transaction) ? null : $this->transaction->id,
+=======
+            'transaction_id' => $this->transaction->id,
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             'details' => $invoice,
             'total' => $this->$type->amount,
             'balance' => $this->balance,

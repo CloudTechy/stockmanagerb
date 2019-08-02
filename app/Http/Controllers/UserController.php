@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Helper;
 use App\Http\Resources\User as UserResource;
+<<<<<<< HEAD
 use App\Jobs\ProcessUser;
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 use App\User;
 use Illuminate\Http\Request;
 use \Exception;
@@ -88,7 +91,10 @@ class UserController extends Controller
             ]);
 
             $token = $user->createToken('stockManager')->accessToken;
+<<<<<<< HEAD
             ProcessUser::dispatch();
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return Helper::validRequest(['token' => $token], $message = 'User registration was successful', 200);
         } catch (Exception $bug) {
@@ -136,10 +142,13 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+<<<<<<< HEAD
         if (!auth()->user()->activated || !auth()->user()->isSuperAdmin) {
             return Helper::inValidRequest('User not Unauthorized or not Activated.', 'Unauthorized Access!', 400);
         }
 
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         $request->except('username', 'email', 'number', 'password');
 
         $validated = $request->validate([
@@ -153,7 +162,10 @@ class UserController extends Controller
         try {
 
             $user = $user->update($validated);
+<<<<<<< HEAD
             ProcessUser::dispatch();
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return Helper::validRequest(["success" => $user], 'Type was updated successfully', 200);
 
@@ -177,7 +189,10 @@ class UserController extends Controller
         try {
 
             $user = $user->update(['activated' => false]);
+<<<<<<< HEAD
             ProcessUser::dispatch();
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return Helper::validRequest(["success" => $user], 'user was deactivated successfully', 200);
 

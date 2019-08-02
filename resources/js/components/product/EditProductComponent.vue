@@ -23,6 +23,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="quantity">Quantity</label>
+<<<<<<< HEAD
                                                     <input disabled=""  type=number v-model="product.stock" required =""  class="form-control" ref="quantity" id="quantity" placeholder="Enter quantity">
                                                 </div>
                                                 <div class="form-group">
@@ -32,6 +33,17 @@
                                                 <div class="form-group">
                                                     <label for="price">Sale Price</label>
                                                     <input step="0.01" type=number v-model="form.sale_price" required =""  class="form-control" ref="sale_price" id="sale_price" placeholder="Enter Selling price">
+=======
+                                                    <input disabled=""  type=number v-model="product.quantity" required =""  class="form-control" ref="quantity" id="quantity" placeholder="Enter quantity">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label  for="price">Price</label>
+                                                    <input disabled = "" type=number v-model="product.price" required =""  class="form-control" ref="price" id="price" placeholder="Enter purchase price">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="price">Sale Price</label>
+                                                    <input  type=number v-model="form.sale_price" required =""  class="form-control" ref="sale_price" id="sale_price" placeholder="Enter Selling price">
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                                                 </div>
                                             </fieldset>
                                         </div>
@@ -91,8 +103,11 @@
             return {
                 form : new Form({
                     sale_price: '',
+<<<<<<< HEAD
                     purchase_price:'',
                     percent_sale:0,
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                 }),
                 error: '',
                 product : '',
@@ -107,7 +122,10 @@
             Fire.$on('edit_product', (data)=> {
             this.product=data
             this.form.sale_price = data.price
+<<<<<<< HEAD
             this.form.purchase_price = data.purchase_price
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
          })
         },
         beforeDestroy(){

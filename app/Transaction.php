@@ -10,7 +10,11 @@ class Transaction extends Model
 {
     use HasUUID;
     protected $uuidFieldName = 'id';
+<<<<<<< HEAD
     protected $fillable = ['invoice_id', 'user_id', 'updated_by', 'amount', 'cost', 'payment', 'status', 'due_date'];
+=======
+    protected $fillable = ['invoice_id', 'user_id', 'updated_by', 'amount', 'payment', 'status', 'due_date'];
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
     public $incrementing = false;
     protected $appends = array('due');
 
@@ -57,7 +61,11 @@ class Transaction extends Model
 
         try {
 
+<<<<<<< HEAD
             $fields = ['invoice_id', 'user_id', 'updated_by', 'amount', 'cost', 'payment', 'status', "due", 'dateBefore', "dateAfter"];
+=======
+            $fields = ['invoice_id', 'user_id', 'updated_by', 'amount', 'payment', 'status', "due", 'dateBefore', "dateAfter"];
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return $query->where(
                 function ($query) use ($filter, $fields) {

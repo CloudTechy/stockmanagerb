@@ -57,11 +57,17 @@ class ValidateOrderDetailRequest extends FormRequest
                     for ($i = 0; $i < count($value); $i++) {
                         array_push($ids, array_keys($value[$i]));
                     }
+<<<<<<< HEAD
                     $ids = array_unique($ids, SORT_REGULAR);
 
                     // query to check if array keys is not valid
                     $AttributeProducttWithinArrIDs = AttributeProduct::whereIn('id', $ids)->count();
 
+=======
+
+                    // query to check if array keys is not valid
+                    $AttributeProducttWithinArrIDs = AttributeProduct::whereIn('id', $ids)->count();
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     if ($AttributeProducttWithinArrIDs != count($ids)) {
                         return $fail($attribute . ' is invalid.');
                     }

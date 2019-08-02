@@ -61,7 +61,11 @@
 								        
 								        <ul class="products-list product-list-in-card pl-2 pr-2">
 
+<<<<<<< HEAD
 								          <li v-if = "loading == false" v-for = "user in  $root.myFilter(users,search).slice(0,5)" class="item">
+=======
+								          <li v-if = "loading == false" v-for = "user in  filteredUsers.slice(0,5)" class="item">
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 								            <div class="product-img">
 								              <img v-bind:src=" 'img/user.png'" alt="user Image" class="rounded-circle">
 								            </div>
@@ -79,7 +83,11 @@
 								             
 								            </div>
 								         </li>
+<<<<<<< HEAD
 								            <li v-if = "loading == false &&  $root.myFilter(users,search) == 0">
+=======
+								            <li v-if = "loading == false && filteredUsers.length == 0">
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 								                <h4 class="text-center">Users Not Found</h4>
 								            </li>
 								        </ul>
@@ -116,7 +124,11 @@
 								             
 								            </div>
 								          </li>
+<<<<<<< HEAD
 								            <li v-if = "loading == false && admins.concat(super_admins).length == 0">
+=======
+								            <li v-if = "loading == false && filteredUsers.length == 0">
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 								                <h4 class="text-center">You have no Admin yet</h4>
 								            </li>
 								        </ul>
@@ -145,11 +157,16 @@
 	
     export default {
         mounted() {
+<<<<<<< HEAD
         	if(localStorage.users){
             	this.users = JSON.parse(localStorage.users)
             	this.loading = false
         	}
          },
+=======
+
+            },
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
          data() { 
             var d = new Date();
             return {
@@ -166,11 +183,17 @@
             }
         },
         created(){
+<<<<<<< HEAD
         	if(!localStorage.users){
                 this.loadUsers();
             }
             Fire.$on('user_created', (data)=> {
                 this.loadUsers();
+=======
+            Fire.$on('user_created', (data)=> {
+                this.loadUsers();
+
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             })
             Fire.$on('user_deleted', (data)=> {
                 this.loadUsers();
@@ -178,10 +201,14 @@
             Fire.$on('user_edited', (data)=> {
                 this.loadUsers();
             })
+<<<<<<< HEAD
             Echo.channel('user')
             .listen('UpdateUser', (e) => {
                 this.loadUsers();
             });
+=======
+            this.loadUsers();
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         watch : {
             users : function () {
@@ -191,6 +218,24 @@
             	this.users.forEach(this.countAdmin);
             }
         },
+<<<<<<< HEAD
+=======
+         computed: {
+
+            filteredUsers (){
+                var data = [];
+              if(this.search){
+              data =  this.users.filter((item)=>{
+                return item.names.toLowerCase().includes(this.search.toLowerCase());
+              })
+              }else{
+                data = this.users;
+              }
+              return data;
+            },
+
+        },
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         methods: {
             loadUsers(){
                 this.form.get('./api/users')

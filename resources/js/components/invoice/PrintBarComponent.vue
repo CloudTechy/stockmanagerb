@@ -2,7 +2,10 @@
 	<div class="row ">
     	<div class="col-12">
 	      <a  ref = 'print' @click.prevent = 'print' target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
+<<<<<<< HEAD
 	      <a  ref = 'Posprint' @click.prevent = 'Posprint' target="_blank" class="btn btn-default"><i class="fa fa-print"></i> POS Print</a>
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 		</div>
   	</div>
 </template>
@@ -25,6 +28,7 @@
                 this.$router.push('/print_invoice')
                 console.log('printing');
 
+<<<<<<< HEAD
 			},
 			Posprint(){
 				var form = new Form();
@@ -58,6 +62,8 @@
 	                    
                 }); 
                 	
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 			}
 		},
 		
@@ -67,11 +73,14 @@
 				data_invoice : ''
 			};
 		},
+<<<<<<< HEAD
 		computed : {
 	      user(){
 	        return this.$session.get('user')
 	      }
 	    },
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 		watch : {
 			
 		}

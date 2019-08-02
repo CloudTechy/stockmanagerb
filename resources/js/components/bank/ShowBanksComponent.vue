@@ -92,9 +92,13 @@
     
     export default {
         mounted() {
+<<<<<<< HEAD
             if(this.$cookies.get('banks')){
                 this.banks = JSON.parse(this.$cookies.get('banks'))
             }
+=======
+            
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
 
         data() { 
@@ -123,11 +127,17 @@
             
         },
         created(){
+<<<<<<< HEAD
             if(!this.$cookies.get('banks')){
                 this.loadBanks();
             }
             Fire.$on('bank_created', (data)=> {
                 this.loadBanks();
+=======
+            Fire.$on('bank_created', (data)=> {
+                this.loadBanks();
+
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             })
             Fire.$on('bank_deleted', (data)=> {
                 this.loadBanks();
@@ -135,11 +145,15 @@
             Fire.$on('bank_edited', (data)=> {
                 this.loadBanks();
             })
+<<<<<<< HEAD
             
             Echo.channel('bank')
             .listen('UpdateBank', (e) => {
                 this.loadBanks();
             });
+=======
+            this.loadBanks();
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
 
         computed: {
@@ -177,7 +191,10 @@
                         this.$Progress.finish()
                         Fire.$emit('Banks_loaded', response.data.data)
                         this.banks = response.data.data.item.length !=0 ? response.data.data.item : [];
+<<<<<<< HEAD
                         this.$cookies.set('banks',JSON.stringify(this.banks))
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     }
                     else{
                         this.$Progress.fail()

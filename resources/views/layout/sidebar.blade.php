@@ -3,7 +3,11 @@
         <a href="index3.html" class="brand-link">
           <img src="{{ asset('img/medium.png') }}" alt="StockManager Logo" class="brand-image img-circle elevation-3"
                style="opacity: .8">
+<<<<<<< HEAD
           <span class="brand-text font-weight-light">Warehouse Manager</span>
+=======
+          <span class="brand-text font-weight-light">Stock Manager</span>
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         </a>
 
         <!-- Sidebar -->

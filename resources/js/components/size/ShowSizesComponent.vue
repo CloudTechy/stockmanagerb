@@ -96,9 +96,13 @@
     
     export default {
         mounted() {
+<<<<<<< HEAD
             if(this.$cookies.get('sizes')){
                 this.sizes = JSON.parse(this.$cookies.get('sizes'))
             }
+=======
+            
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
 
         data() { 
@@ -127,11 +131,17 @@
             
         },
         created(){
+<<<<<<< HEAD
             if(!this.$cookies.get('sizes')){
                 this.loadSizes();
             }
             Fire.$on('size_created', (data)=> {
                 this.loadSizes();
+=======
+            Fire.$on('size_created', (data)=> {
+                this.loadSizes();
+
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             })
             Fire.$on('size_deleted', (data)=> {
                 this.loadSizes();
@@ -139,10 +149,14 @@
             Fire.$on('size_edited', (data)=> {
                 this.loadSizes();
             })
+<<<<<<< HEAD
             Echo.channel('size')
             .listen('UpdateSize', (e) => {
                 this.loadSizes();
             });
+=======
+            this.loadSizes();
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
 
         computed: {
@@ -179,7 +193,10 @@
                         this.$Progress.finish()
                         Fire.$emit('sizes_loaded', response.data.data)
                         this.sizes = response.data.data.item.length !=0 ? response.data.data.item : [];
+<<<<<<< HEAD
                         this.$cookies.set('sizes',JSON.stringify(this.sizes))
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     }
                     else{
                         this.$Progress.fail()

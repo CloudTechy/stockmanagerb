@@ -21,9 +21,15 @@
           <address>
             <strong>Big Star IND CO LTD</strong><br>
             Zone 15 NO 76, New Motorcycle Spare Parts Nnewi<br>
+<<<<<<< HEAD
             Staff: {{ $root.user.names }}<br>
             Phone: {{ $root.user.number }}<br>
             Email: {{ $root.user.email }}
+=======
+            Staff: {{ user.names }}<br>
+            Phone: {{ user.number }}<br>
+            Email: {{ user.email }} 
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
           </address>
         </div>
         <!-- /.col -->
@@ -43,11 +49,16 @@
           <b>Payment Due:</b> {{ invoice.due_date }}<br>
           <b>Status:</b> {{ invoice.status }}<br>
         </div>
+<<<<<<< HEAD
         <!-- /.col -->
       </div>
       <!-- /.row -->
 
       <!-- Table row -->
+=======
+      </div>
+
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
       <div class="row">
         <div class="col-12 table-responsive">
           <table class="table table-striped table-valign-middle">
@@ -58,7 +69,10 @@
                 <th>Price</th>
                 <th>Discount</th>
                 <th>Subtotal</th>
+<<<<<<< HEAD
 
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
               </tr>
             </thead>
             <tbody>
@@ -73,7 +87,10 @@
           </table>
         </div>
       </div>
+<<<<<<< HEAD
       <!-- /.row -->
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
       <div class="row">
         <div style="width: 50vw" class="offset-6 col-6 card-body ">
@@ -122,6 +139,12 @@
 
         return mm + '/' + dd + '/' + yyyy;
       },
+<<<<<<< HEAD
+=======
+      user(){
+        return this.$session.get('user')
+      }
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
     },
     mounted(){
 

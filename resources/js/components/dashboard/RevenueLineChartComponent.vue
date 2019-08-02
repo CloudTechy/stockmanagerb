@@ -75,6 +75,7 @@
     const COLORS = [ '#42B8E0', '#33658A', '#F6AE2D', '#F26419', '#0E3A53' ]
     export default {
         mounted() {
+<<<<<<< HEAD
           if(localStorage.revenueStat){
               this.revenueStat =  JSON.parse(localStorage.revenueStat)
           }
@@ -85,6 +86,8 @@
               this.loading = false;
               this.renderChart();
           }
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
           this.loadStat();
           this.$Progress.start();
         },
@@ -118,10 +121,13 @@
           Fire.$on('product_created', data => {
             this.loadStat();
           })
+<<<<<<< HEAD
           Echo.channel('transaction')
             .listen('UpdateTransaction', (e) => {
                 this.loadStat();
             });
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         methods: {
             loadStat(){
@@ -129,7 +135,10 @@
                 .then( response => {
                     if(response.data.status == true){
                         this.statistics = response.data.data.item.length !=0 ? response.data.data.item : [];
+<<<<<<< HEAD
                         localStorage.statistics = JSON.stringify(this.statistics)
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                         this.renderChart();
                     } 
                     this.loadRevenueStat(); 
@@ -144,7 +153,10 @@
                 .then( response => {
                     if(response.data.status == true){
                         this.revenueStat = response.data.data.item.length !=0 ? response.data.data.item[0] : [];
+<<<<<<< HEAD
                         localStorage.revenueStat = JSON.stringify(this.revenueStat)
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     } 
                 })
                 .catch( error => {

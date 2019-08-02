@@ -10,13 +10,21 @@ class Invoice extends Model
 {
     use HasUUID;
     protected $uuidFieldName = 'id';
+<<<<<<< HEAD
     protected $fillable = ['type', 'purchase_id', 'balance', 'order_id', 'user_id', 'cost', 'amount'];
+=======
+    protected $fillable = ['type', 'purchase_id', 'balance', 'order_id', 'user_id', 'amount'];
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
     public $incrementing = false;
     protected $appends = array('status');
 
     public function getStatusAttribute()
     {
+<<<<<<< HEAD
         return empty(Transaction::where('invoice_id', $this->id)->first()->status) ? null : Transaction::where('invoice_id', $this->id)->first()->status;
+=======
+        return Transaction::where('invoice_id', $this->id)->first()->status;
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
     }
 
@@ -54,7 +62,11 @@ class Invoice extends Model
     {
 
         try {
+<<<<<<< HEAD
             $fields = ['type', 'purchase_id', 'order_id', 'cost', 'user_id', 'amount'];
+=======
+            $fields = ['type', 'purchase_id', 'order_id', 'user_id', 'amount'];
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return $query->where(
                 function ($query) use ($filter, $fields) {

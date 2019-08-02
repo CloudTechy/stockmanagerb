@@ -100,6 +100,7 @@
   
     export default {
         mounted() {
+<<<<<<< HEAD
           if(localStorage.products){
             this.products = JSON.parse(localStorage.products)
             this.loading = false
@@ -122,6 +123,29 @@
             form: new Form(),
             title : 'RECENTLY ADDED',
           }
+=======
+          
+            },
+         data() { 
+            var d = new Date();
+            return {
+              month : d.getMonth() + 1,
+              year : d.getFullYear(),
+              products : [],
+              productStat: {},
+              pending: [],
+              not_paid: [],
+              paid: [],
+              order_type : [],
+              purchase_type:[],
+              loading : true,
+              error : '',
+              search : '',
+              form: new Form(),
+              owed : '',
+              title : 'RECENTLY ADDED',
+            }
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         beforeDestroy() {
             window.dispatchEvent(new Event('close_sidebar_min'))
@@ -147,6 +171,7 @@
             })
             this.loadProducts();
             this.loadProductStat();
+<<<<<<< HEAD
             Echo.channel('product')
             .listen('UpdateProduct', (e) => {
                 this.loadProducts();
@@ -157,6 +182,8 @@
                 this.loadProducts();
                 this.loadProductStat();
             });
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         methods: {
             loadProducts(){
@@ -166,7 +193,10 @@
                   if(response.data.status == true){
                     this.loading = false;
                       this.products = response.data.data.item;
+<<<<<<< HEAD
                       localStorage.products = JSON.stringify(this.products)
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                   }
                   else{
                     console.log("load supplier did not return positive response");
@@ -184,7 +214,10 @@
                   if(response.data.status == true){
                     this.loading = false;
                     this.productStat = response.data.data.item[0];
+<<<<<<< HEAD
                     localStorage.productStat = this.productStat
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                   }
                   else{
                     console.log(response.data);

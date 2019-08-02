@@ -34,6 +34,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12" >
+<<<<<<< HEAD
                         <div  class="table-responsive-sm table-responsive ">
                             <table  class="table table-bordered table-small table-hover table-striped dataTable" >
                                 <thead class="text-center ">
@@ -45,13 +46,33 @@
                                             <th>Type</th>
                                             <th>Date</th>
                                             <th>User</th>
+=======
+                        <div class="table-responsive-sm">
+                            <table  class="table table-small table-bordered table-hover table-striped dataTable" >
+                                <thead class="text-center ">
+                                    <tr role="row" class="text-center">
+                                            <th>Invoice</th>
+                                            <th>Amount <br> (<span style="text-decoration: line-through">N</span>)</th>
+                                            <th>Payment <br> (<span style="text-decoration: line-through">N</span>)</th>
+                                            <th>created</th>
+                                            <th>updated</th>
+                                            <th>Status</th>
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                                         </tr>
                                 </thead>
                                 <tbody id="body">
                                     <tr v-for = " transaction in pageLoader(current_page) ">
+<<<<<<< HEAD
                                         <td>{{ transaction.owner }}</td>
                                         <td>{{numeral(transaction.amount) }}</td>
                                         <td>{{numeral(transaction.payment) }}</td>
+=======
+                                        <td>{{ transaction.invoice_id }}</td>
+                                        <td>{{numeral(transaction.amount) }}</td>
+                                        <td>{{numeral(transaction.payment) }}</td>
+                                        <td>{{ transaction.date }}</td>
+                                        <td>{{ transaction.updated_at }}</td>
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                                         <td class="p-sm-1 text-center" v-if = "transaction.status == 'paid'">
                                            <span class="badge badge-success">{{ transaction.status }}</span>
                                         </td>
@@ -62,7 +83,11 @@
                                                 <button  title="make transaction" class=" btn-link badge badge-secondary btn-secondary small m-1" data-toggle="" data-target=""  >
                                                       {{'pay?' }}
                                                 </button>
+<<<<<<< HEAD
                                             </div>
+=======
+                                            </div></span>
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                                         </td>
                                         <td class="p-sm-1 text-center" v-else = "transaction.status == 'not-paid'">
                                             <span class="badge badge-danger">{{ transaction.status }}
@@ -73,6 +98,7 @@
                                                 </button>
                                             </div>
                                         </td>
+<<<<<<< HEAD
                                         <td>{{ transaction.type }}</td>
                                         <td>{{ transaction.updated_at }}</td>
                                         <td>{{ transaction.user }}</td>
@@ -98,11 +124,26 @@
                                         </span>
                                     </td>
                                 </tr>
+=======
+                                        
+                                    </tr>
+                                    <tr v-if = "loading == false && pageLoader(current_page).length == 0">
+                                        <td colspan="6">
+                                            <h4  class="text-center m-1 p-2 border border-info small text-success">Invoice Not Found</h4>
+                                          </td>
+                                    </tr>
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                                  
                                 </tbody>
                                 <tfoot class="text-center">
                                 <tr>
+<<<<<<< HEAD
                                     <th>Owner</th><th>Amount</th><th>Payment</th><th>Status</th><th>Type</th><th>Date</th><th>User</th>
+=======
+                                    <th>Invoice</th>
+                                    <th>Amount</th><th>Payment</th>
+                                    <th>Date</th><th>Status</th>
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                                 </tr>
                                 </tfoot>
                             </table>
@@ -158,10 +199,13 @@
   
     export default {
         mounted() {
+<<<<<<< HEAD
             if(localStorage.transactions){
                 this.transactions =  JSON.parse(localStorage.transactions)
                 this.loading = false;
             }
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             this.loadTransactions();
             },
         data() { 
@@ -186,6 +230,7 @@
           Fire.$on('transaction_created', data => {
             this.loadTransactions();
           })
+<<<<<<< HEAD
           Echo.channel('transaction')
             .listen('UpdateTransaction', (e) => {
                 this.loadTransactions();
@@ -194,6 +239,28 @@
         watch : {
         },
         computed: {
+=======
+        },
+        watch : {
+            filteredTransactions: function(){
+                this.loading = false;
+            }
+        },
+        computed: {
+            filteredTransactions (){
+                var data = [];
+                if(this.search){
+                  data =  this.transactions.filter((item)=>{
+                    return item.invoice_id.toLowerCase().includes(this.search.toLowerCase());
+                  })
+                }else{
+                    data = this.transactions;
+                }
+                this.length = data.length;
+                this.pages =  Math.ceil(data.length / this.rowsPerPage);
+                return data;
+            },
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             start(){
                 if (this.pages > 0  && this.current_page  >=  this.pages ) {
                     this.current_page = this.pages
@@ -211,7 +278,10 @@
                 .then( response => {
                     if(response.data.status == true){
                         this.transactions = response.data.data.item.length !=0 ? response.data.data.item : [];
+<<<<<<< HEAD
                         localStorage.transactions = JSON.stringify(this.transactions)
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     }
                 })
                 .catch( error =>  {
@@ -241,11 +311,15 @@
                     this.$refs.next.classList.remove('disabled')
                 }
                 this.current_page = pageNumber;
+<<<<<<< HEAD
                 this.loading = false;
                 var data = this.$root.myFilter(this.transactions,this.search)
                 this.length = data.length;
                 this.pages =  Math.ceil(data.length / this.rowsPerPage);
                 return data.slice(this.start,this.end);
+=======
+               return this.filteredTransactions.slice(this.start,this.end);
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             },
             pageLoaderB(amount){
 

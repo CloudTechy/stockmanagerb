@@ -6,7 +6,10 @@ use App\Helper;
 use App\Http\Requests\ValidateInvoiceRequest;
 use App\Http\Resources\InvoiceResource;
 use App\Invoice;
+<<<<<<< HEAD
 use App\Jobs\ProcessInvoice;
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 use App\Order;
 use App\Purchase;
 use Illuminate\Http\Request;
@@ -123,7 +126,10 @@ class InvoiceController extends Controller
 
                 throw new Exception("Error Processing transaction request", 1);
             }
+<<<<<<< HEAD
             ProcessInvoice::dispatch();
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             DB::commit();
             return Helper::validRequest(new InvoiceResource($invoice_created), 'Invoice was sent successfully', 200);
 
@@ -195,7 +201,10 @@ class InvoiceController extends Controller
         try {
 
             $invoice = $invoice->delete();
+<<<<<<< HEAD
             ProcessInvoice::dispatch();
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             DB::commit();
 

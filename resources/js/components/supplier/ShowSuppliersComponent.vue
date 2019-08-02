@@ -34,7 +34,11 @@
                             <th>Contact Person</th>
                             <th>Owed</th>
                             <th>Created</th>
+<<<<<<< HEAD
                             <th class="text-center">Action</th> 
+=======
+                            <th class="text-center">Action</th>
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
                         </tr>
                     </thead>
@@ -113,11 +117,19 @@
     
     export default {
         mounted() {
+<<<<<<< HEAD
             if(localStorage.suppliers){
                 this.suppliers = JSON.parse(localStorage.suppliers)
             }
         },
          data() { 
+=======
+            
+        },
+
+
+        data() { 
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             var d = new Date();
             return {
                 month : d.getMonth() + 1,
@@ -132,6 +144,7 @@
                 pages : 0,
                 form: new Form()
             }
+<<<<<<< HEAD
         },
         watch : {
         },
@@ -140,6 +153,23 @@
             this.loadSuppliers();
             Fire.$on('supplier_created', (data)=> {
                 this.loadSuppliers();
+=======
+
+        },
+        watch : {
+            
+            filteredSuppliers: function(){
+                this.loading = false;
+            },
+           
+            
+        },
+        created(){
+            this.$Progress.start()
+            Fire.$on('supplier_created', (data)=> {
+                this.loadSuppliers();
+
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             })
             Fire.$on('supplier_deleted', (data)=> {
                 this.loadSuppliers();
@@ -147,6 +177,7 @@
             Fire.$on('supplier_edited', (data)=> {
                 this.loadSuppliers();
             })
+<<<<<<< HEAD
             Fire.$on('transaction_created', (data)=> {
                 this.loadSuppliers();
             })
@@ -168,6 +199,25 @@
         },
 
         computed: {
+=======
+            this.loadSuppliers();
+        },
+
+        computed: {
+            filteredSuppliers (){
+                var data = [];
+              if(this.search){
+              data =  this.suppliers.filter((item)=>{
+                return item.name.toLowerCase().includes(this.search.toLowerCase());
+              })
+              }else{
+              data = this.suppliers;
+              }
+              this.length = data.length;
+              this.pages =  Math.ceil(data.length / this.rowsPerPage);
+              return data;
+            },
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             start(){
                 if (this.pages > 0  && this.current_page  >=  this.pages ) {
                     this.current_page = this.pages
@@ -188,7 +238,10 @@
                         this.$Progress.finish()
                         Fire.$emit('suppliers_loaded', response.data.data)
                         this.suppliers = response.data.data.item.length !=0 ? response.data.data.item : [];
+<<<<<<< HEAD
                         localStorage.suppliers = JSON.stringify(this.suppliers)
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     }
                     else{
                         this.$Progress.fail()
@@ -225,11 +278,15 @@
                     this.$refs.next.classList.remove('disabled')
                 }
                 this.current_page = pageNumber;
+<<<<<<< HEAD
                 this.loading = false;
                 var data = this.$root.myFilter(this.suppliers,this.search)
                 this.length = data.length;
                 this.pages =  Math.ceil(data.length / this.rowsPerPage);
                 return data.slice(this.start,this.end);
+=======
+               return this.filteredSuppliers.slice(this.start,this.end);
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             },
             pageLoaderB(amount){
                 if(this.current_page <= 1 && amount == -1){

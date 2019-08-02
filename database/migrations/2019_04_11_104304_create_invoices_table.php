@@ -18,9 +18,15 @@ class CreateInvoicesTable extends Migration
             $table->string('type')->index();
             $table->integer('purchase_id')->unsigned()->index()->nullable();
             $table->string('order_id')->index()->nullable();
+<<<<<<< HEAD
             $table->decimal('cost', 60, 4)->default(0);
             $table->decimal('amount', 60, 4)->default(0);
             $table->decimal('balance', 60, 4)->default(0);
+=======
+            $table->bigInteger('cost')->default(0);
+            $table->bigInteger('amount')->default(0);
+            $table->bigInteger('balance')->default(0);
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             $table->integer('user_id')->unsigned()->index();
             $table->timestamps();
 

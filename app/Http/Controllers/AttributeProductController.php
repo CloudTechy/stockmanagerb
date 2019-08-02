@@ -6,7 +6,10 @@ use App\AttributeProduct;
 use App\Helper;
 use App\Http\Requests\ValidateAttributeProductRequest;
 use App\Http\Resources\AttributeProductResource;
+<<<<<<< HEAD
 use App\Jobs\ProcessProduct;
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 use Illuminate\Http\Request;
 use \DB;
 use \Exception;
@@ -75,7 +78,10 @@ class AttributeProductController extends Controller
             $attributeproduct = AttributeProduct::create($validated);
 
             DB::commit();
+<<<<<<< HEAD
             ProcessProduct::dispatch();
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
         } catch (Exception $bug) {
             DB::rollback();
@@ -143,7 +149,10 @@ class AttributeProductController extends Controller
         try {
             $validated['updated_by'] = $user;
             $attributeproduct = $attributeproduct->update($validated);
+<<<<<<< HEAD
             ProcessProduct::dispatch();
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             DB::commit();
 
@@ -169,7 +178,10 @@ class AttributeProductController extends Controller
         try {
 
             $attributeproduct = $attributeproduct->delete();
+<<<<<<< HEAD
             ProcessProduct::dispatch();
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             DB::commit();
 

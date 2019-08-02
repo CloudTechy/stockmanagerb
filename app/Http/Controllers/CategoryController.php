@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+<<<<<<< HEAD
 use App\Events\UpdateCategory;
 use App\Helper;
 use App\Http\Resources\CategoryResource;
 use App\Jobs\ProcessCategory;
+=======
+use App\Helper;
+use App\Http\Resources\CategoryResource;
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 use Illuminate\Http\Request;
 use \Exception;
 
@@ -69,7 +74,10 @@ class CategoryController extends Controller
         {
 
             $category = Category::create($validated);
+<<<<<<< HEAD
             ProcessCategory::dispatch();
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return Helper::validRequest(new CategoryResource($category), 'Category created successfully', 200);
         } catch (Exception $bug) {
@@ -128,7 +136,10 @@ class CategoryController extends Controller
         try {
 
             $category = $category->update($validated);
+<<<<<<< HEAD
             event(new UpdateCategory());
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return Helper::validRequest(["success" => $category], 'Category was updated successfully', 200);
 
@@ -149,7 +160,10 @@ class CategoryController extends Controller
         try {
 
             $category = $category->delete();
+<<<<<<< HEAD
             event(new UpdateCategory());
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return Helper::validRequest(["success" => $category], 'Category was deleted successfully', 200);
 

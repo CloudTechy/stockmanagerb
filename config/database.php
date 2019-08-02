@@ -11,7 +11,11 @@ return [
     | to use as your default connection for all database work. Of course
     | you may use many connections at once using the Database library.
     |
+<<<<<<< HEAD
      */
+=======
+    */
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
     'default' => env('DB_CONNECTION', 'mysql'),
 
@@ -29,7 +33,11 @@ return [
     | so make sure you have the driver for your particular database of
     | choice installed on your machine before you begin development.
     |
+<<<<<<< HEAD
      */
+=======
+    */
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
     'connections' => [
 
@@ -52,7 +60,11 @@ return [
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'prefix_indexes' => true,
+<<<<<<< HEAD
             'strict' => false,
+=======
+            'strict' => true,
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             'engine' => null,
         ],
 
@@ -93,7 +105,11 @@ return [
     | your application. Using this information, we can determine which of
     | the migrations on disk haven't actually been run in the database.
     |
+<<<<<<< HEAD
      */
+=======
+    */
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
     'migrations' => 'migrations',
 
@@ -106,7 +122,11 @@ return [
     | provides a richer body of commands than a typical key-value system
     | such as APC or Memcached. Laravel makes it easy to dig right in.
     |
+<<<<<<< HEAD
      */
+=======
+    */
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
     'redis' => [
 

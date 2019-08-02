@@ -10,14 +10,21 @@
     "require": {
         "php": "^7.1.3",
         "binarycabin/laravel-uuid": "^1.0",
+<<<<<<< HEAD
         "calcinai/php-imagick": "^0.1.2",
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         "fideloper/proxy": "^4.0",
         "gladcodes/keygen": "^1.1",
         "laravel/framework": "5.7.*",
         "laravel/passport": "^7.2",
+<<<<<<< HEAD
         "laravel/tinker": "^1.0",
         "mike42/escpos-php": "^2.1",
         "pusher/pusher-php-server": "^4.0"
+=======
+        "laravel/tinker": "^1.0"
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

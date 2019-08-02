@@ -22,7 +22,10 @@
                 <div class="col-lg-8">
                     <revenue-line-chart-component></revenue-line-chart-component>
                     <dashboard-order-component></dashboard-order-component>
+<<<<<<< HEAD
                     <dashboard-purchase-component></dashboard-purchase-component>
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     <dashboard-transaction-component></dashboard-transaction-component>
                 </div>
                 

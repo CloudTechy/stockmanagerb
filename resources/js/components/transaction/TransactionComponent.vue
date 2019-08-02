@@ -66,11 +66,14 @@
   
     export default {
         mounted() {
+<<<<<<< HEAD
           if(localStorage.transactions){
             this.transactions = JSON.parse(localStorage.transactions)
             this.transactions.forEach(this.count); 
             this.loading = false;
           }
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             },
          data() { 
             var d = new Date();
@@ -85,6 +88,10 @@
               error : '',
               search : '',
               form: new Form(),
+<<<<<<< HEAD
+=======
+              owed : '',
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             }
         },
         beforeDestroy() {
@@ -106,10 +113,13 @@
                 this.$refs.search.focus()
             })
             this.loadTransactions();
+<<<<<<< HEAD
             Echo.channel('transaction')
             .listen('UpdateTransaction', (e) => {
                 this.loadData();
             });
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         methods: {
             loadTransactions(){
@@ -118,10 +128,14 @@
                   if(response.data.status == true){
                     this.loading = false;
                       this.transactions = response.data.data.item;
+<<<<<<< HEAD
                       this.order_type = []
                       this.purchase_type = []
                       response.data.data.item.forEach(this.count);
                       localStorage.transactions = JSON.stringify(this.transactions)
+=======
+                      response.data.data.item.forEach(this.count);
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                   }
                   else{
                     console.log("load transaction did not return positive response");
@@ -134,10 +148,17 @@
                 }); 
             },
             count(transaction){
+<<<<<<< HEAD
               if (transaction.type == 'purchase') {
                 this.purchase_type.push(transaction);
               }
               else if (transaction.type == 'order') {
+=======
+              if (transaction.type == 'order') {
+                this.purchase_type.push(transaction);
+              }
+              else if (transaction.type == 'purchase') {
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                 this.order_type.push(transaction);
               }
             },

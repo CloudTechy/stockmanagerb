@@ -58,10 +58,13 @@
 <script>
     export default {
         mounted() {
+<<<<<<< HEAD
           if(localStorage.products){
                 this.products = JSON.parse(localStorage.products)
                 this.loading = false
             }
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
           this.loadProducts();
         },
         props: ['token'],
@@ -81,10 +84,13 @@
           Fire.$on('product_created', data => {
             this.loadProducts();
           })
+<<<<<<< HEAD
           Echo.channel('purchase')
             .listen('UpdatePurchase', (e) => {
               this.loadProducts();
             }); 
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
          computed: {
             filteredProducts (){

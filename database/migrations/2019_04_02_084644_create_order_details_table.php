@@ -20,8 +20,13 @@ class CreateOrderDetailsTable extends Migration
             $table->string('brand');
             $table->string('category');
             $table->integer('quantity');
+<<<<<<< HEAD
             $table->decimal('price', 60, 4)->default(0);
             $table->decimal('cost_price', 60, 4)->default(0);
+=======
+            $table->bigInteger('price');
+            $table->bigInteger('cost_price');
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             $table->integer('discount')->nullable();
             $table->string('pku');
             $table->string('size');

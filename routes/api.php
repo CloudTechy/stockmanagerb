@@ -42,7 +42,10 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('customers', 'CustomerController');
     Route::resource('sizes', 'SizeController');
     Route::post('/products/image/{product}', 'ProductController@image');
+<<<<<<< HEAD
     Route::get('/print/{invoice}/{user}', 'PrintController@prints');
+=======
+>>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
     // /*
     // |--------------------------------------------------------------------------
