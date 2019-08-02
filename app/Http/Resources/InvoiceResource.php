@@ -30,7 +30,7 @@ class InvoiceResource extends JsonResource
 
             foreach ($order_details as $key => $value) {
 
-                $order_detail['product'] = $value->pku . ' |' . $value->product . ' |' . $value->size . ' |' . $value->brand;
+                $order_detail['product'] = $value->pku . ' | ' . $value->product . ' | ' . $value->size . ' | ' . $value->brand;
                 $order_detail['quantity'] = $value->quantity;
                 $order_detail['price'] = $value->price;
                 $order_detail['discount'] = $value->discount;
@@ -50,7 +50,7 @@ class InvoiceResource extends JsonResource
             $purchase_details = PurchaseDetailResource::collection($details);
 
             foreach ($purchase_details as $key => $value) {
-                $purchase_detail['product'] = $value->pku . ' |' . $value->product . ' |' . $value->size . ' |' . $value->brand; 
+                $purchase_detail['product'] = $value->pku . ' | ' . $value->product . ' | ' . $value->size . ' | ' . $value->brand;
                 $purchase_detail['quantity'] = $value->quantity;
                 $purchase_detail['price'] = $value->price;
                 $purchase_detail['amount'] = $value->amount;
@@ -61,19 +61,19 @@ class InvoiceResource extends JsonResource
             }
 
         }
-
         return [
             'id' => $this->id,
             'type' => $type,
+            'tku' => $type . ' ' . $this->updated_at->format('Y-m-d H:i:s'),
             $type_id => $this->$type_id,
             'user_id' => $this->user_id,
             'name' => $name,
-            'payment' => $this->transaction->payment,
+            'payment' => empty($this->transaction) ? 0 : $this->transaction->payment,
             'email' => $email,
             'due_date' => $due_date,
             'number' => $number,
             'user' => $this->user->first_name . ' ' . $this->user->last_name,
-            'transaction_id' => $this->transaction->id,
+            'transaction_id' => empty($this->transaction) ? null : $this->transaction->id,
             'details' => $invoice,
             'total' => $this->$type->amount,
             'balance' => $this->balance,

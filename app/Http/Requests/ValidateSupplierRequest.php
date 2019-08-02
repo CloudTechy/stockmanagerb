@@ -24,7 +24,7 @@ class ValidateSupplierRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|string|min:4|max:255",
+            "name" => "required|string|min:2|max:255",
             "address" => "nullable|string|min:4",
             "city" => "nullable|string|max:255",
             "number" => "required|string|min:3|max:255|unique:suppliers,number",

@@ -153,7 +153,6 @@
 	    	this.form.get('./api/statistics/customers?owing')
 		  	.then(response  => {
     			this.owed = numeral(response.data.data.item.length > 0 ? response.data.data.item[0].owing : 0).format('0,0.00');
-          console.log('owing', response.data.data.item[0].owing);
           localStorage.owedStat = JSON.stringify(this.owed)
           this.$Progress.finish();
 		    })

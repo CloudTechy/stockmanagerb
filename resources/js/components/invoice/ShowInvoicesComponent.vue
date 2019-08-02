@@ -175,7 +175,7 @@
                     }
                     else{
                         this.$Progress.fail()
-                        this.$root.alert('error','error','An unexpected error occured, Try again Later')
+                        //this.$root.alert('error','error','An unexpected error occured, Try again Later')
                     }
                 })
                 .catch(error=> {

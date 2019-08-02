@@ -3,6 +3,7 @@ namespace App;
 
 use App\Http\Controllers\TransactionController;
 use App\Jobs\ProcessInvoice;
+use App\Jobs\ProcessTransaction;
 use App\Order;
 use App\Purchase;
 use Illuminate\Http\Request;
@@ -122,20 +123,10 @@ class Helper
                 $invoice['amount'] = $order->amount;
                 $invoice['cost'] = $order->cost;
 
-                // dd($order->cost);
+                $invoice = Invoice::create($invoice);
+                ProcessInvoice::dispatch();
 
-                $invoice_order = Invoice::where('order_id', $orderPurchaseId);
-                if ($invoice_order->count() != 0) {
-
-                    $invoice_order->first()->update($invoice);
-                } else {
-                    Invoice::create($invoice);
-                    ProcessInvoice::dispatch();
-
-                }
-                $invoice_created = Invoice::find($invoice_order->first()->id);
-
-                static::createTransaction($invoice_created);
+                static::createTransaction($invoice);
 
                 DB::commit();
                 return true;
@@ -148,16 +139,10 @@ class Helper
                 $invoice['amount'] = $purchase->amount;
                 $invoice['cost'] = $purchase->amount;
 
-                $invoice_purchase = Invoice::where('purchase_id', $orderPurchaseId);
-                if ($invoice_purchase->count() != 0) {
-                    $invoice_purchase->first()->update($invoice);
-                } else {
-                    Invoice::create($invoice);
+                $invoice = Invoice::create($invoice);
+                ProcessInvoice::dispatch();
 
-                }
-                $invoice_created = Invoice::find($invoice_purchase->first()->id);
-
-                static::createTransaction($invoice_created);
+                static::createTransaction($invoice);
                 DB::commit();
                 return true;
             }
@@ -172,10 +157,16 @@ class Helper
     public static function createTransaction(Invoice $invoice)
     {
 
-        $request = new Request(['invoice_id' => $invoice->id]);
+        try {
+            $request = new Request(['invoice_id' => $invoice->id]);
 
-        $transaction = new TransactionController;
-        $transaction->store($request);
+            $transaction = new TransactionController;
+            $transaction->store($request);
+            ProcessTransaction::dispatch();
+        } catch (Exception $bug) {
+            DB::rollback();
+            return $this->exception($bug, 'unknown error', 500);
+        }
 
     }
 

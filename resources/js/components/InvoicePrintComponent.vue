@@ -20,10 +20,10 @@
           {{ invoice.type == 'order' ? 'From ' : 'To '  }}
           <address>
             <strong>Big Star IND CO LTD</strong><br>
-            Zone 15 No 76, New Motorcycle Spare Parts Nnewi<br>
-            Staff: {{ user.names }}<br>
-            Phone: {{ user.number }}<br>
-            Email: {{ user.email }} 
+            Zone 15 NO 76, New Motorcycle Spare Parts Nnewi<br>
+            Staff: {{ $root.user.names }}<br>
+            Phone: {{ $root.user.number }}<br>
+            Email: {{ $root.user.email }}
           </address>
         </div>
         <!-- /.col -->
@@ -43,8 +43,11 @@
           <b>Payment Due:</b> {{ invoice.due_date }}<br>
           <b>Status:</b> {{ invoice.status }}<br>
         </div>
+        <!-- /.col -->
       </div>
+      <!-- /.row -->
 
+      <!-- Table row -->
       <div class="row">
         <div class="col-12 table-responsive">
           <table class="table table-striped table-valign-middle">
@@ -55,6 +58,7 @@
                 <th>Price</th>
                 <th>Discount</th>
                 <th>Subtotal</th>
+
               </tr>
             </thead>
             <tbody>
@@ -69,6 +73,7 @@
           </table>
         </div>
       </div>
+      <!-- /.row -->
 
       <div class="row">
         <div style="width: 50vw" class="offset-6 col-6 card-body ">
@@ -94,14 +99,6 @@
             </tbody>
           </table>
         </div>
-        <div class = "border border-secondary text-center card-footer col-12 small">
-          <h6>
-            Thank you for choosing Big Star
-          </h6>
-          <p>
-            No return of goods after payment.
-          </p>
-        </div>
       </div>
     </section>
   
@@ -125,9 +122,6 @@
 
         return mm + '/' + dd + '/' + yyyy;
       },
-      user(){
-        return this.$session.get('user')
-      }
     },
     mounted(){
 

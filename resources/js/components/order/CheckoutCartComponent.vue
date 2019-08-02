@@ -135,8 +135,9 @@
             this.transaction = "";
             this.form.reset();
             this.loading = false;
-            this.$refs.closeButton.click();
-
+            if (this.$refs.closeButton) {
+                this.$refs.closeButton.click();
+            }
         },
         watch: {
             customer_id(){
@@ -161,6 +162,16 @@
                 .then(response => {
                     this.customers =  response.data.data.item
                 })
+                .catch(error=> {
+                    if (error.response) {
+                        this.$Progress.fail()
+                        console.log(error.response)
+                        this.$root.alert('error','error',error.response.data.data.error)
+                    }else{
+                        this.$root.alert('error','error','An unexpected error occured, Try again Later')
+                        console.log(error);
+                    }
+                }); 
         	},
             loadCustomerDetails(){
                 var data = [];
@@ -221,13 +232,12 @@
             buildCart(cart){
 
             	cart.forEach((item)=>{
-            		if(item != undefined){
+            		if(item){
             			this.builtCart.push(item)
             		}
             	})
 
             	this.builtCart.forEach((item) => {
-
             		this.orderdetails.push({[item.id] : parseInt(item.quantity)})
             	})
             	
@@ -266,6 +276,16 @@
                     this.invoice_id =  response.data.data.invoice_id
                     this.loadTransactionId()
                 })
+                .catch(error=> {
+                    if (error.response) {
+                        this.$Progress.fail()
+                        console.log(error.response)
+                        this.$root.alert('error','error',error.response.data.data.error)
+                    }else{
+                        this.$root.alert('error','error','An unexpected error occured, Try again Later')
+                        console.log(error);
+                    }
+                }); 
             },
             loadTransactionId(){
             	this.form.get('./api/invoices/'+this.invoice_id)
@@ -273,6 +293,16 @@
                     this.transaction_id =  response.data.data.transaction_id
                     this.getTransaction();
             	})
+                .catch(error=> {
+                    if (error.response) {
+                        this.$Progress.fail()
+                        console.log(error.response)
+                        this.$root.alert('error','error',error.response.data.data.error)
+                    }else{
+                        this.$root.alert('error','error','An unexpected error occured, Try again Later')
+                        console.log(error);
+                    }
+                }); 
             },
 
             getTransaction(){
@@ -284,6 +314,16 @@
                     this.closeComponent()
                     this.$root.addTransactionComponent(this.transaction)
             	})
+                .catch(error=> {
+                    if (error.response) {
+                        this.$Progress.fail()
+                        console.log(error.response)
+                        this.$root.alert('error','error',error.response.data.data.error)
+                    }else{
+                        this.$root.alert('error','error','An unexpected error occured, Try again Later')
+                        console.log(error);
+                    }
+                }); 
             }
     	} 
   	}

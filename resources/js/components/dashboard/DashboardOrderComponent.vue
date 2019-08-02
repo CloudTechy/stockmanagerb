@@ -67,29 +67,18 @@
                                 </tr>
                                 <tr v-if = "pageLoader(current_page).length > 0">
                                     <td colspan="2">
-                                       <span class="small font-weight-bold text-success"> {{ "Total quantities for " + pageLoader(current_page).length + " product(s)" }}</span>
+                                       <span class="small font-weight-bold text-success"> {{ "Summary for " + pageLoader(current_page).length + " product(s)" }}</span>
                                     </td>
-                                    <td colspan="6">
+                                    <td colspan="2">
                                          <span class="font-weight-bold badge badge-success">
                                             {{ pageLoader(current_page).sum('quantity') }}
                                         </span>
                                     </td>
-                                </tr>
-                                <tr v-if = "pageLoader(current_page).length > 0">
-                                    <td colspan="4">
-                                        
-                                       <span class="small font-weight-bold text-success"> {{ "Total sales for " + pageLoader(current_page).length + " product(s)" }}</span>
-                                    </td>
-                                    <td colspan="1">
+                                    <td colspan="5">
                                        <span class="small font-weight-bold text-success">
                                         <span style="text-decoration: line-through">N</span>{{ $root.numeral(pageLoader(current_page).sum('amount')) }}</span>
                                     </td>
-                                    <td colspan="3">    
-                                         <span class="font-weight-bold badge badge-success">
-                                            <span style="text-decoration: line-through">N</span>
-                                           {{ $root.numeral(pageLoader(current_page).sum('payment')) }}
-                                        </span>
-                                    </td>
+                                </tr>
                                 </tr>
                                 <tr v-if = "loading == false && pageLoader(current_page).length == 0">
                                     <td colspan="9">

@@ -71,21 +71,20 @@ class TransactionController extends Controller
         $validated['user_id'] = auth()->id();
         $request->except('updated_by');
         $transaction = "";
-        if (Transaction::where('invoice_id', $validated['invoice_id'])->count() > 0) {
-            $invoice = Invoice::find($validated['invoice_id']);
-            $newTransaction = Transaction::where('invoice_id', $validated['invoice_id']);
-            $type = $invoice->type;
-            $validated['amount'] = $invoice->amount;
-            $validated['cost'] = $invoice->cost;
+        // if (Transaction::where('invoice_id', $validated['invoice_id'])->count() > 0) {
+        //     $invoice = Invoice::find($validated['invoice_id']);
+        //     $newTransaction = Transaction::where('invoice_id', $validated['invoice_id']);
+        //     $type = $invoice->type;
+        //     $validated['amount'] = $invoice->amount;
+        //     $validated['cost'] = $invoice->cost;
 
-            if ($type == 'order') {
-                $transaction = $newTransaction->update($validated);
-            } elseif ($type == 'purchase') {
-                $transaction = $newTransaction->update($validated);
-            }
-            DB::commit();
+        //     if ($type == 'order') {
+        //         $transaction = $newTransaction->update($validated);
+        //     } elseif ($type == 'purchase') {
+        //         $transaction = $newTransaction->update($validated);
+        //     }
 
-        }
+        // }
 
         DB::beginTransaction();
         try
@@ -159,18 +158,17 @@ class TransactionController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
-
-        $request->only('payment', 'due_date');
-        $validated['updated_by'] = auth()->user()->first_name . ' ' . auth()->user()->last_name;
-        $validated = $request->validate(['payment' => 'required|numeric', 'due_date' => 'nullable|date']);
-        $invoice = Invoice::find($transaction->invoice_id);
-        $type = $invoice->type;
-        $old_payment = $transaction->payment;
-        $new_payment = $validated['payment'];
-        $amount = $transaction->amount;
-        $remaining_payment = $amount - $old_payment;
-
         try {
+            $request->only('payment', 'due_date');
+            $validated['updated_by'] = auth()->user()->first_name . ' ' . auth()->user()->last_name;
+            $validated = $request->validate(['payment' => 'required|numeric', 'due_date' => 'nullable|date']);
+            $invoice = Invoice::find($transaction->invoice_id);
+            $type = $invoice->type;
+            $old_payment = $transaction->payment;
+            $new_payment = $validated['payment'];
+            $amount = $transaction->amount;
+            $remaining_payment = $amount - $old_payment;
+
             if ($new_payment < $remaining_payment) {
 
                 $validated['payment'] = $old_payment + $new_payment;
@@ -193,9 +191,21 @@ class TransactionController extends Controller
 
                 $transaction = $transaction->update($validated);
                 if ($type == 'order') {
-                    $invoice->order->customer->update(['owing' => 0, 'due_date' => null]);
+                    $owing = $invoice->order->customer->owing - $new_payment;
+                    if ($owing <= 0) {
+                        $invoice->order->customer->update(['owing' => 0, 'due_date' => null]);
+                    } else {
+                        $invoice->order->customer->update(['owing' => $owing, 'due_date' => $validated['due_date']]);
+                    }
+
                 } elseif ($type == 'purchase') {
-                    $invoice->purchase->supplier->update(['owed' => 0, 'due_date' => null]);
+                    $owed = $invoice->purchase->supplier->owed - $new_payment;
+                    if ($owed <= 0) {
+                        $invoice->purchase->supplier->update(['owed' => 0, 'due_date' => null]);
+                    } else {
+                        $invoice->purchase->supplier->update(['owed' => $owed]);
+                    }
+
                 }
 
             }

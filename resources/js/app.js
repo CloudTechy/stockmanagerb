@@ -149,10 +149,10 @@ const app = new Vue({
 
     //window.axios.defaults.headers.common['Authorization'] = 'Bearer '+ this.$session.get('token')
 
-    window.addEventListener('beforeunload', () => {
-      this.$session.destroy()
-      this.$root.alert('info','leaving?','see you soon')
-    })
+    // window.addEventListener('beforeunload', () => {
+    //   this.$session.destroy()
+    //   this.$root.alert('info','leaving?','see you soon')
+    // })
     Fire.$on('user_login', (data)=> {
       this.loadUser(data);
     })

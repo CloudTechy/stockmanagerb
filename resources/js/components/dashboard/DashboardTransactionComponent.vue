@@ -38,21 +38,20 @@
                             <table  class="table table-bordered table-small table-hover table-striped dataTable" >
                                 <thead class="text-center ">
                                     <tr role="row" class="text-center">
-                                            <th>Invoice</th>
+                                            <th>Owner</th>
                                             <th>Amount <br> (<span style="text-decoration: line-through">N</span>)</th>
                                             <th>Payment <br> (<span style="text-decoration: line-through">N</span>)</th>
-                                            <th>created</th>
-                                            <th>updated</th>
                                             <th>Status</th>
+                                            <th>Type</th>
+                                            <th>Date</th>
+                                            <th>User</th>
                                         </tr>
                                 </thead>
                                 <tbody id="body">
                                     <tr v-for = " transaction in pageLoader(current_page) ">
-                                        <td>{{ transaction.invoice_id }}</td>
+                                        <td>{{ transaction.owner }}</td>
                                         <td>{{numeral(transaction.amount) }}</td>
                                         <td>{{numeral(transaction.payment) }}</td>
-                                        <td>{{ transaction.date }}</td>
-                                        <td>{{ transaction.updated_at }}</td>
                                         <td class="p-sm-1 text-center" v-if = "transaction.status == 'paid'">
                                            <span class="badge badge-success">{{ transaction.status }}</span>
                                         </td>
@@ -63,7 +62,7 @@
                                                 <button  title="make transaction" class=" btn-link badge badge-secondary btn-secondary small m-1" data-toggle="" data-target=""  >
                                                       {{'pay?' }}
                                                 </button>
-                                            </div></span>
+                                            </div>
                                         </td>
                                         <td class="p-sm-1 text-center" v-else = "transaction.status == 'not-paid'">
                                             <span class="badge badge-danger">{{ transaction.status }}
@@ -74,20 +73,36 @@
                                                 </button>
                                             </div>
                                         </td>
+                                        <td>{{ transaction.type }}</td>
+                                        <td>{{ transaction.updated_at }}</td>
+                                        <td>{{ transaction.user }}</td>
                                         
                                     </tr>
                                     <tr v-if = "loading == false && pageLoader(current_page).length == 0">
-                                        <td colspan="6">
+                                        <td colspan="7">
                                             <h4  class="text-center m-1 p-2 border border-info small text-success">Invoice Not Found</h4>
                                           </td>
                                     </tr>
+                                    <tr v-if = "pageLoader(current_page).length > 0 ">
+                                        <td colspan="1">
+                                           <span class="small font-weight-bold text-success"> {{ "Summary" }}</span>
+                                        </td>
+                                    <td colspan="1">
+                                       <span class="small font-weight-bold text-success">
+                                        <span style="text-decoration: line-through">N</span>{{ $root.numeral(pageLoader(current_page).sum('amount')) }}</span>
+                                    </td>
+                                    <td colspan="5">    
+                                         <span class="font-weight-bold badge badge-success">
+                                            <span style="text-decoration: line-through">N</span>
+                                           {{ $root.numeral(pageLoader(current_page).sum('payment')) }}
+                                        </span>
+                                    </td>
+                                </tr>
                                  
                                 </tbody>
                                 <tfoot class="text-center">
                                 <tr>
-                                    <th>Invoice</th>
-                                    <th>Amount</th><th>Payment</th>
-                                    <th>Date</th><th>Updated</th<th>Status</th>
+                                    <th>Owner</th><th>Amount</th><th>Payment</th><th>Status</th><th>Type</th><th>Date</th><th>User</th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -177,24 +192,8 @@
             });
         },
         watch : {
-            filteredTransactions: function(){
-                this.loading = false;
-            }
         },
         computed: {
-            filteredTransactions (){
-                var data = [];
-                if(this.search){
-                  data =  this.transactions.filter((item)=>{
-                    return item.invoice_id.toLowerCase().includes(this.search.toLowerCase());
-                  })
-                }else{
-                    data = this.transactions;
-                }
-                this.length = data.length;
-                this.pages =  Math.ceil(data.length / this.rowsPerPage);
-                return data;
-            },
             start(){
                 if (this.pages > 0  && this.current_page  >=  this.pages ) {
                     this.current_page = this.pages
@@ -242,7 +241,11 @@
                     this.$refs.next.classList.remove('disabled')
                 }
                 this.current_page = pageNumber;
-               return this.filteredTransactions.slice(this.start,this.end);
+                this.loading = false;
+                var data = this.$root.myFilter(this.transactions,this.search)
+                this.length = data.length;
+                this.pages =  Math.ceil(data.length / this.rowsPerPage);
+                return data.slice(this.start,this.end);
             },
             pageLoaderB(amount){
 

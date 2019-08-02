@@ -57,4 +57,4 @@ window.Echo = new Echo({
     cluster: 'eu',
     encrypted: true
 });
-Pusher.logToConsole = true;
+Pusher.logToConsole = false;

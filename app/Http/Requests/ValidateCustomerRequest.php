@@ -24,7 +24,7 @@ class ValidateCustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|string|min:6|max:255",
+            "name" => "required|string|min:2|max:255",
             "number" => "required|string|min:3|max:255|unique:customers,number",
             "notes" => "string|max:150",
             "owning" => "numeric",

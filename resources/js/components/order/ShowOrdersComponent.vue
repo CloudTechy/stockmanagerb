@@ -193,7 +193,6 @@
             if(this.cart.length > 0){
                 localStorage.cart = JSON.stringify(this.cart)
                 localStorage.productCart = JSON.stringify(this.products)
-                console.log('test', JSON.stringify(this.cart));
             }
         },
         methods: {

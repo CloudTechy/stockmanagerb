@@ -16,7 +16,7 @@ class Invoice extends Model
 
     public function getStatusAttribute()
     {
-        return Transaction::where('invoice_id', $this->id)->first()->status;
+        return empty(Transaction::where('invoice_id', $this->id)->first()->status) ? null : Transaction::where('invoice_id', $this->id)->first()->status;
 
     }
 
