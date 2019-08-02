@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use App\Attribute;
 use App\Helper;
 use App\Http\Resources\AttributeResource;
-<<<<<<< HEAD
 use App\Jobs\ProcessBrand;
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 use Illuminate\Http\Request;
 use \Exception;
 
@@ -37,7 +34,7 @@ class AttributeController extends Controller
 
         } catch (Exception $bug) {
 
-            return $this->exception($bug, 'unknown error', 500);
+            return $this->exception($bug, 'unknown error', 500); 
         }
         return Helper::validRequest($data, 'attributes fetched successfully', 200);
     }
@@ -70,11 +67,7 @@ class AttributeController extends Controller
         {
 
             $attribute = Attribute::create($validated);
-<<<<<<< HEAD
             ProcessBrand::dispatch();
-=======
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         } catch (Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -131,10 +124,7 @@ class AttributeController extends Controller
         try {
 
             $attribute = $attribute->update($validated);
-<<<<<<< HEAD
             ProcessBrand::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
         } catch (Exception $bug) {
 
@@ -154,10 +144,7 @@ class AttributeController extends Controller
         try {
 
             $attribute = $attribute->delete();
-<<<<<<< HEAD
             ProcessBrand::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
         } catch (Exception $bug) {
 
