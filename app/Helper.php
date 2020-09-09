@@ -2,11 +2,9 @@
 namespace App;
 
 use App\Http\Controllers\TransactionController;
-<<<<<<< HEAD
+
 use App\Jobs\ProcessInvoice;
 use App\Jobs\ProcessTransaction;
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 use App\Order;
 use App\Purchase;
 use Illuminate\Http\Request;
@@ -124,27 +122,12 @@ class Helper
                 $invoice['order_id'] = $orderPurchaseId;
                 $invoice['user_id'] = $order->user_id;
                 $invoice['amount'] = $order->amount;
-<<<<<<< HEAD
                 $invoice['cost'] = $order->cost;
 
                 $invoice = Invoice::create($invoice);
                 ProcessInvoice::dispatch();
 
                 static::createTransaction($invoice);
-=======
-
-                $invoice_order = Invoice::where('order_id', $orderPurchaseId);
-                if ($invoice_order->count() != 0) {
-
-                    $invoice_order->first()->update($invoice);
-                } else {
-                    Invoice::create($invoice);
-
-                }
-                $invoice_created = Invoice::find($invoice_order->first()->id);
-
-                static::createTransaction($invoice_created);
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
                 DB::commit();
                 return true;
@@ -155,26 +138,13 @@ class Helper
                 $invoice['purchase_id'] = $orderPurchaseId;
                 $invoice['user_id'] = $purchase->user_id;
                 $invoice['amount'] = $purchase->amount;
-<<<<<<< HEAD
                 $invoice['cost'] = $purchase->amount;
 
                 $invoice = Invoice::create($invoice);
                 ProcessInvoice::dispatch();
 
                 static::createTransaction($invoice);
-=======
 
-                $invoice_purchase = Invoice::where('purchase_id', $orderPurchaseId);
-                if ($invoice_purchase->count() != 0) {
-
-                    $invoice_purchase->first()->update($invoice);
-                } else {
-                    Invoice::create($invoice);
-                }
-                $invoice_created = Invoice::find($invoice_purchase->first()->id);
-
-                static::createTransaction($invoice_created);
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                 DB::commit();
                 return true;
             }
@@ -189,7 +159,6 @@ class Helper
     public static function createTransaction(Invoice $invoice)
     {
 
-<<<<<<< HEAD
         try {
             $request = new Request(['invoice_id' => $invoice->id]);
 
@@ -200,12 +169,7 @@ class Helper
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
-=======
-        $request = new Request(['invoice_id' => $invoice->id]);
 
-        $transaction = new TransactionController;
-        $transaction->store($request);
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
     }
 

@@ -28,18 +28,11 @@
         "admin-lte": "^3.0.0-alpha.2",
         "font-awesome": "^4.7.0",
         "jspdf": "^1.5.3",
-<<<<<<< HEAD
         "laravel-echo": "^1.5.4",
         "numeral": "^2.0.6",
         "pusher-js": "^4.4.0",
         "vform": "^1.0.0",
         "vue-cookies": "^1.5.13",
-=======
-        "laravel-echo": "^1.4.0",
-        "numeral": "^2.0.6",
-        "pusher-js": "^4.2.2",
-        "vform": "^1.0.0",
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         "vue-meta": "^1.6.0",
         "vue-morris": "^1.0.1",
         "vue-printer": "0.0.4",

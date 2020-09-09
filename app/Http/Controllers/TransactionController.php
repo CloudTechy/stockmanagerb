@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use App\Helper;
 use App\Http\Resources\TransactionResource;
 use App\Invoice;
-<<<<<<< HEAD
 use App\Jobs\ProcessTransaction;
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
@@ -74,7 +71,6 @@ class TransactionController extends Controller
         $validated['user_id'] = auth()->id();
         $request->except('updated_by');
         $transaction = "";
-<<<<<<< HEAD
         // if (Transaction::where('invoice_id', $validated['invoice_id'])->count() > 0) {
         //     $invoice = Invoice::find($validated['invoice_id']);
         //     $newTransaction = Transaction::where('invoice_id', $validated['invoice_id']);
@@ -89,23 +85,6 @@ class TransactionController extends Controller
         //     }
 
         // }
-=======
-        if (Transaction::where('invoice_id', $validated['invoice_id'])->count() > 0) {
-            $invoice = Invoice::find($validated['invoice_id']);
-            $newTransaction = Transaction::where('invoice_id', $validated['invoice_id']);
-            $type = $invoice->type;
-            $validated['amount'] = $invoice->amount;
-            $validated['cost'] = $invoice->cost;
-
-            if ($type == 'order') {
-                $transaction = $newTransaction->update($validated);
-            } elseif ($type == 'purchase') {
-                $transaction = $newTransaction->update($validated);
-            }
-            DB::commit();
-
-        }
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
         DB::beginTransaction();
         try
@@ -129,10 +108,7 @@ class TransactionController extends Controller
             }
 
             DB::commit();
-<<<<<<< HEAD
             ProcessTransaction::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
         } catch (Exception $bug) {
             DB::rollback();
@@ -182,7 +158,6 @@ class TransactionController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
-<<<<<<< HEAD
         try {
             $request->only('payment', 'due_date');
             $validated['updated_by'] = auth()->user()->first_name . ' ' . auth()->user()->last_name;
@@ -194,20 +169,7 @@ class TransactionController extends Controller
             $amount = $transaction->amount;
             $remaining_payment = $amount - $old_payment;
 
-=======
 
-        $request->only('payment', 'due_date');
-        $validated['updated_by'] = auth()->user()->first_name . ' ' . auth()->user()->last_name;
-        $validated = $request->validate(['payment' => 'required|numeric', 'due_date' => 'nullable|date']);
-        $invoice = Invoice::find($transaction->invoice_id);
-        $type = $invoice->type;
-        $old_payment = $transaction->payment;
-        $new_payment = $validated['payment'];
-        $amount = $transaction->amount;
-        $remaining_payment = $amount - $old_payment;
-
-        try {
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             if ($new_payment < $remaining_payment) {
 
                 $validated['payment'] = $old_payment + $new_payment;
@@ -230,7 +192,6 @@ class TransactionController extends Controller
 
                 $transaction = $transaction->update($validated);
                 if ($type == 'order') {
-<<<<<<< HEAD
                     $owing = $invoice->order->customer->owing - $new_payment;
                     if ($owing <= 0) {
                         $invoice->order->customer->update(['owing' => 0, 'due_date' => null]);
@@ -250,15 +211,7 @@ class TransactionController extends Controller
 
             }
             ProcessTransaction::dispatch();
-=======
-                    $invoice->order->customer->update(['owing' => 0, 'due_date' => null]);
-                } elseif ($type == 'purchase') {
-                    $invoice->purchase->supplier->update(['owed' => 0, 'due_date' => null]);
-                }
 
-            }
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             return Helper::validRequest(["success" => $transaction], 'Transaction was updated successfully', 200);
 
         } catch (Exception $bug) {
@@ -285,10 +238,7 @@ class TransactionController extends Controller
             $transaction = $transaction->delete();
 
             DB::commit();
-<<<<<<< HEAD
             ProcessTransaction::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return Helper::validRequest(["success" => $transaction], 'Transaction was deleted successfully', 200);
 

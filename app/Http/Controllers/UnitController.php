@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper;
 use App\Http\Resources\UnitResource;
-<<<<<<< HEAD
 use App\Jobs\ProcessUnit;
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 use App\Unit;
 use Illuminate\Http\Request;
 use \Exception;
@@ -71,10 +68,7 @@ class UnitController extends Controller
         {
 
             $unit = Unit::create($validated);
-<<<<<<< HEAD
             ProcessUnit::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return Helper::validRequest(new UnitResource($unit), 'Unit was sent successfully', 200);
         } catch (Exception $bug) {
@@ -131,11 +125,7 @@ class UnitController extends Controller
         try {
 
             $unit = $unit->update($validated);
-<<<<<<< HEAD
             ProcessUnit::dispatch();
-=======
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             return Helper::validRequest(["success" => $unit], 'Unit was updated successfully', 200);
 
         } catch (Exception $bug) {
@@ -155,11 +145,7 @@ class UnitController extends Controller
         try {
 
             $unit = $unit->delete();
-<<<<<<< HEAD
             ProcessUnit::dispatch();
-=======
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             return Helper::validRequest(["success" => $unit], 'Unit was deleted successfully', 200);
 
         } catch (Exception $bug) {

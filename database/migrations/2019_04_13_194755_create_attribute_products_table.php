@@ -17,14 +17,9 @@ class CreateAttributeProductsTable extends Migration
             $table->uuid('id')->primary();
             $table->string('product_id')->index();
             $table->integer('attribute_id')->unsigned()->index();
-            $table->string('size')->index();
-<<<<<<< HEAD
+            $table->string('size')->index(); 
             $table->decimal('purchase_price', 60, 4)->default(0);
             $table->decimal('sale_price', 60, 4)->default(0);
-=======
-            $table->bigInteger('purchase_price')->default(0);
-            $table->bigInteger('sale_price')->default(0);
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             $table->integer('percent_sale')->default(0);
             $table->Integer('available_stock')->default(0);
             $table->unique(['product_id', 'size', 'attribute_id']);

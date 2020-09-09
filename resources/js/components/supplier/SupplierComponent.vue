@@ -66,12 +66,7 @@
 								     <div class="clearfix"> </div>
 								        
 								        <ul class="products-list product-list-in-card pl-2 pr-2">
-
-<<<<<<< HEAD
 								          <li ref = 'supplier' v-if = "loading == false" v-for = "supplier in  $root.myFilter(suppliers,search).slice(0,5)" class="item">
-=======
-								          <li ref = 'supplier' v-if = "loading == false" v-for = "supplier in  filteredSuppliers.slice(0,5)" class="item">
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 								            <div class="product-img">
 								              <img v-bind:src=" 'img/user.png'" alt="supplier Image" class="rounded-circle">
 								            </div>
@@ -138,7 +133,6 @@
 	
     export default {
         mounted() {
-<<<<<<< HEAD
           if(localStorage.suppliers){
             this.suppliers = JSON.parse(localStorage.suppliers)
             this.suppliers.forEach(this.countDebts); 
@@ -153,10 +147,6 @@
           }
         },
         data() { 
-=======
-            },
-         data() { 
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             var d = new Date();
             return {
             month : d.getMonth() + 1,
@@ -171,7 +161,6 @@
             }
         },
         created(){
-<<<<<<< HEAD
           this.loadSuppliers();
           Fire.$on('supplier_created', (data)=> {
               this.loadSuppliers();
@@ -208,28 +197,6 @@
         watch : {
         },
         computed: {
-=======
-            Fire.$on('supplier_created', (data)=> {
-                this.loadSuppliers();
-
-            })
-            Fire.$on('supplier_deleted', (data)=> {
-                this.loadSuppliers();
-            })
-            Fire.$on('supplier_edited', (data)=> {
-                this.loadSuppliers();
-            })
-            Fire.$on('view', (data)=> {
-                this.search = data.name;
-                this.$refs.search.focus()
-            })
-            this.loadSuppliers();
-        },
-        watch : {
-        },
-         computed: {
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             filteredSuppliers (){
                 var data = [];
               if(this.search){
@@ -249,11 +216,8 @@
                 	if(response.data.status == true){
                 		this.loading = false;
                     	this.suppliers = response.data.data.item;
-<<<<<<< HEAD
                       localStorage.suppliers = JSON.stringify(this.suppliers)
                       this.creditors = [];
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     	response.data.data.item.forEach(this.countDebts);
                       window.dispatchEvent(new Event('sidebar_min'))	
                 	}
@@ -282,10 +246,7 @@
     		    	this.form.get('./api/statistics/suppliers?owed')
     			  	.then(response  => {
     				  this.owed = numeral(response.data.data.item[0].owed).format('0,0');
-<<<<<<< HEAD
               localStorage.owed = this.owed
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 			    })
 			    .catch( error => {
 			     this.error = error.response.data.error;

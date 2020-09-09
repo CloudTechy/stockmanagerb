@@ -57,13 +57,10 @@
           Fire.$on('transaction_created', data => {
             this.loadPendingInvoices();
           })
-<<<<<<< HEAD
           Echo.channel('transaction')
             .listen('UpdateTransaction', (e) => {
                 this.loadPendingInvoices();
             });
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         methods: {
             loadPendingInvoices(){                

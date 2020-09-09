@@ -27,17 +27,11 @@
                     <td>{{numeral(debt.owed)}}</td>
                     <td>
                     <div class="progress progress-xs progress-striped ">
-<<<<<<< HEAD
                         <div v-bind:class="{'progress-bar' : true, 'bg-danger': getPercent(debt.owed) >= 70,'bg-warning': getPercent(debt.owed) >= 30, 'bg-success': getPercent(debt.owed) >= 0} " v-bind:style="{width: getPercent(debt.owed) + '%'}"></div>
                       </div>
                     </td>
                     <td class="text-center"><span v-bind:class="{badge:true, 'bg-danger': getPercent(debt.owed) >= 70,'bg-warning': getPercent(debt.owed) >= 30, 'bg-success': getPercent(debt.owed) >= 0}">{{ getPercent(debt.owed) }}%</span>
-=======
-                        <div v-bind:class="{'progress-bar' : true, 'bg-danger': getPercent(debt.owed) >= 70,'bg-warning': getPercent(debt.owed) >= 30, 'bg-success': getPercent(debt.owed) > 0} " v-bind:style="{width: getPercent(debt.owed) + '%'}"></div>
-                      </div>
-                    </td>
-                    <td class="text-center"><span v-bind:class="{badge:true, 'bg-danger': getPercent(debt.owed) >= 70,'bg-warning': getPercent(debt.owed) >= 30, 'bg-success': getPercent(debt.owed) > 0}">{{ getPercent(debt.owed) }}%</span>
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
+
                     </td>
                 </tr>
                 <tr v-if = "loading == false && filteredDebts == 0">
@@ -63,13 +57,10 @@
     
     export default {
         mounted() {
-<<<<<<< HEAD
             if(localStorage.debtsStat){
                 this.debts =  JSON.parse(localStorage.debtsStat)
                 this.loading = false;
             }
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             this.loadDebt();
             },
          data() { 
@@ -89,13 +80,10 @@
           Fire.$on('product_created', data => {
             this.loadDebt();
           })
-<<<<<<< HEAD
           Echo.channel('purchase')
                 .listen('UpdatePurchase', (e) => {
                 this.loadDebt();
                 }); 
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         computed: {
 
@@ -120,10 +108,7 @@
                     if(response.data.status == true){
                         this.$Progress.finish();
                         this.debts = response.data.data.item.length !=0 ? response.data.data.item : [];
-<<<<<<< HEAD
                         localStorage.debtsStat = JSON.stringify(this.debts)
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                         this.totalDebts = response.data.data.item.length !=0 ? this.debts.sum("owed") : 0;
                         this.loading = false;
                     }

@@ -101,7 +101,6 @@
     export default {
         mounted(){
             this.loadBanks();
-<<<<<<< HEAD
             Fire.$on('bank_created', (data)=> {
                 this.loadBanks();
             })
@@ -109,8 +108,6 @@
             .listen('UpdateBank', (e) => {
                 this.loadBanks();
             });
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         data() { 
             return {

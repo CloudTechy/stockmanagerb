@@ -60,13 +60,10 @@
     
     export default {
         mounted() {
-<<<<<<< HEAD
           if(localStorage.products){
                 this.products = JSON.parse(localStorage.products)
                 this.loading = false
             }
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
           this.loadProductDetails();
             },
          data() { 
@@ -86,13 +83,10 @@
           Fire.$on('product_created', data => {
             this.loadProductDetails();
           })
-<<<<<<< HEAD
           Echo.channel('purchase')
             .listen('UpdatePurchase', (e) => {
               this.loadProductDetails();
             }); 
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
          computed: {
 

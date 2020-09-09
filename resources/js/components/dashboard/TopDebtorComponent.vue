@@ -28,11 +28,8 @@
                     <td>{{numeral(debtor.owing)}}</td>
                     <td>
                     <div class="progress progress-xs progress-striped ">
-<<<<<<< HEAD
                         <div v-bind:class="{'progress-bar' : true, 'bg-danger': getPercent(debtor.owing) >= 70,'bg-warning': getPercent(debtor.owing) >= 30, 'bg-success': getPercent(debtor.owing) >= 0} " v-bind:style="{width: getPercent(debtor.owing) + '%'}"></div>
-=======
                         <div v-bind:class="{'progress-bar' : true, 'bg-danger': getPercent(debtor.owing) >= 70,'bg-warning': getPercent(debtor.owing) >= 30, 'bg-success': getPercent(debtor.owing) > 0} " v-bind:style="{width: getPercent(debtor.owing) + '%'}"></div>
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                       </div>
                     </td>
                     <td class="text-center"><span v-bind:class="{badge:true,'bg-danger': getPercent(debtor.owing) >= 70,'bg-warning': getPercent(debtor.owing) >= 30, 'bg-success': getPercent(debtor.owing) >= 0}">{{ getPercent(debtor.owing) }}%</span>
@@ -61,7 +58,6 @@
    
     export default {
         mounted() {
-<<<<<<< HEAD
           if(localStorage.debtorsStat){
             this.debtors =  JSON.parse(localStorage.debtorsStat)
             this.loading = false;
@@ -80,22 +76,6 @@
           totalDebtors: 0,
           form : new Form()
           }
-=======
-            this.loadDebtor();
-            },
-         data() { 
-            var d = new Date();
-            return {
-            month : d.getMonth() + 1,
-            year : d.getFullYear(),
-            debtors : [],
-            loading : true,
-            search : '',
-            error : '',
-            totalDebtors: 0,
-            form : new Form()
-            }
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         computed: {
 
@@ -116,13 +96,10 @@
           Fire.$on('product_created', data => {
             this.loadDebtor();
           })
-<<<<<<< HEAD
           Echo.channel('order')
             .listen('UpdateOrder', (e) => {
                 this.loadDebtor();
             });
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         methods: {
             loadDebtor(){
@@ -130,10 +107,7 @@
                 .then(response => {
                     if(response.data.status == true){
                         this.debtors = response.data.data.item.length !=0 ? response.data.data.item : [];
-<<<<<<< HEAD
                         localStorage.debtorsStat = JSON.stringify(this.debtors)
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                         this.totalDebtors = response.data.data.item.length !=0 ? this.debtors.sum("owing") : 0;
                         this.loading = false;
                     }

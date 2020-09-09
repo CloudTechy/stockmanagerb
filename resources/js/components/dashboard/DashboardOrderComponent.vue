@@ -27,18 +27,13 @@
                     </div>
                     <div class="col-6 col-md-6">
                         <div id="example1_filter" class="dataTables_filter float-right">
-<<<<<<< HEAD
                             <label>Search:<input v-model="search" type="search" class="form-control form-control-sm" placeholder="search" aria-controls="example1">
-=======
-                            <label>Search:<input v-model="search" type="search" class="form-control form-control-sm" placeholder="search customer" aria-controls="example1">
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                             </label>
                         </div>
                     </div> 
                 </div>
                 <div class="row">
                     <div class="col-sm-12" >
-<<<<<<< HEAD
                         <div  class="table-responsive-sm table-responsive ">
                         <table  class="table table-bordered table-small table-hover table-striped dataTable" >
                             <thead class="text-center ">
@@ -52,42 +47,23 @@
                                     <th>Status</th>
                                     <th>Date</th>
                                     <th>User</th>
-=======
-                        <div class="table-responsive-sm">
-                        <table  class="table table-bordered table-hover table-striped dataTable" >
-                            <thead class="text-center ">
-                                <tr role="row " >
-                                    <th>Customer</th>
-                                    <th>Done By</th>
-                                    <th>Amount <br> 
-                                        (<span style="text-decoration: line-through">N</span>)
-                                    </th>
-                                    <th>Status<br>
-                                    <th>Date</th>
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                                 </tr>
                             </thead>
                             <tbody id="body">   
                                 <tr v-for = "order in pageLoader(current_page)">
-<<<<<<< HEAD
                                     <td>{{ order.customer }}</td>
                                     <td>{{ order.product }}</td>
                                     <td>{{ order.quantity }}</td>
                                     <td><span style="text-decoration: line-through">N</span>{{ $root.numeral(order.price) }}</td>
                                     <td><span style="text-decoration: line-through">N</span>{{ $root.numeral(order.amount) }}</td>
                                     <td><span style="text-decoration: line-through">N</span>{{ $root.numeral(order.payment) }}</td>
-=======
-                                    <td>{{ order.customer_name }}</td>
-                                    <td>{{ order.user }}</td>
-                                    <td>{{ numeral(order.Total_amount) }}</td>
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
+
                                     <td class="text-center">
                                         <span v-bind:class="{badge:true, 'badge-danger':order.status == 'not-paid',  'badge-success' : order.status == 'paid', 'badge-warning':order.status == 'pending' }">
                                             {{ order.status }}
                                         </span>
                                     </td>
                                     <td>{{ order.date }}</td>
-<<<<<<< HEAD
                                     <td>{{ order.user }}</td>
                                 </tr>
                                 <tr v-if = "pageLoader(current_page).length > 0">
@@ -111,21 +87,6 @@
                                       </td>
                                 </tr>
                             </tbody>
-=======
-                                </tr>
-                                 <tr v-if = "loading == false && pageLoader(current_page).length == 0">
-                                    <td colspan="5">
-                                        <h4  class="text-center m-1 p-2 border border-info small text-success">order Not Found</h4>
-                                      </td>
-                                </tr>
-                            </tbody>
-                            <tfoot class="text-center">
-                            <tr>
-                                <th>Customer</th><th>Done By</th>
-                                <th>Amount</th><th>Status</th><th>Date</th>
-                            </tr>
-                            </tfoot>
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                         </table>
                         </div>
                     </div>
@@ -175,13 +136,10 @@
     
     export default {
         mounted() {
-<<<<<<< HEAD
             if(localStorage.orderDetails){
                 this.orders =  JSON.parse(localStorage.orderDetails)
                 this.loading = false;
             }
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             this.loadOrders();
             },
         data() { 
@@ -198,9 +156,8 @@
                 length: 0,
                 pages : 0,
                 form : new Form,
-            }
-<<<<<<< HEAD
-        },
+        }
+    },
         created(){
             Fire.$on('order_created', data => {
                 this.loadOrders();
@@ -218,35 +175,6 @@
         },
 
         computed: {
-=======
-
-        },
-        created(){
-          Fire.$on('order_created', data => {
-            this.loadOrders();
-          })
-        },
-        watch : {
-            filteredOrders: function(){
-                this.loading = false;
-            } 
-        },
-
-        computed: {
-            filteredOrders (){
-                var data = [];
-                  if(this.search){
-                  data =  this.orders.filter((item)=>{
-                    return item.customer_name.toLowerCase().includes(this.search.toLowerCase());
-                  })
-                  }else{
-                    data = this.orders;
-                  }
-                  this.length = data.length;
-                  this.pages =  Math.ceil(data.length / this.rowsPerPage);
-                  return data;
-            },
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             start(){
                 if (this.pages > 0  && this.current_page  >=  this.pages ) {
                     this.current_page = this.pages
@@ -259,18 +187,11 @@
         },
         methods: {
             loadOrders(){
-<<<<<<< HEAD
                 this.form.get('./api/orderdetails?pageSize=1000000')
                 .then( response => {
                     if(response.data.status == true){
                         this.orders = response.data.data.item.length !=0 ? response.data.data.item : [];
                         localStorage.orderDetails = JSON.stringify(this.orders)
-=======
-                this.form.get('./api/orders?pageSize=1000000')
-                .then( response => {
-                    if(response.data.status == true){
-                        this.orders = response.data.data.item.length !=0 ? response.data.data.item : [];
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     }
                 })
                 .catch( error => {
@@ -295,24 +216,16 @@
                 }
             },
             pageLoader(pageNumber){
-<<<<<<< HEAD
                if(this.pages > 6){
-=======
-                if(this.pages > 6){
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     this.$refs.prev.classList.remove('disabled')
                     this.$refs.next.classList.remove('disabled')
                 }
                 this.current_page = pageNumber;
-<<<<<<< HEAD
                 this.loading = false;
                 var data = this.$root.myFilter(this.orders,this.search)
                 this.length = data.length;
                 this.pages =  Math.ceil(data.length / this.rowsPerPage);
                 return data.slice(this.start,this.end);
-=======
-               return this.filteredOrders.slice(this.start,this.end);
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             },
             pageLoaderB(amount){
                 if(this.current_page <= 1 && amount == -1){
@@ -324,7 +237,7 @@
                 else{
                    this.current_page += amount;
                 }
-            },
+            }, 
             numeral(value){
                 return numeral(value).format('0,0.00');
             }

@@ -104,17 +104,10 @@
     
     export default {
         mounted() {
-<<<<<<< HEAD
             if(localStorage.transactions){
                 this.transactions = JSON.parse(localStorage.transactions)
             }
         },
-=======
-            
-        },
-
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         data() { 
             var d = new Date();
             return {
@@ -130,10 +123,6 @@
                 pages : 0,
                 form: new Form(),
             }
-<<<<<<< HEAD
-=======
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         watch : {
         },
@@ -173,10 +162,7 @@
                         this.$Progress.finish()
                         Fire.$emit('transactions_loaded', response.data.data)
                         this.transactions = response.data.data.item.length !=0 ? response.data.data.item : [];
-<<<<<<< HEAD
                         localStorage.transactions = JSON.stringify(this.transactions)
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     }
                     else{
                         this.$Progress.fail()

@@ -7,10 +7,7 @@ use App\AttributeProduct;
 use App\Helper;
 use App\Http\Requests\ValidatePurchaseDetailRequest;
 use App\Http\Resources\PurchaseDetailResource;
-<<<<<<< HEAD
 use App\Jobs\ProcessPurchase;
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 use App\Product;
 use App\Purchase;
 use App\PurchaseDetail;
@@ -96,26 +93,12 @@ class PurchaseDetailController extends Controller
                         //create new purchase detail and update product attribute here
                         $quantity = $prdAttribute->first()->available_stock + $validated['quantity'];
                         $purchasedetail = PurchaseDetail::create($validated);
-<<<<<<< HEAD
                         $user = auth()->user()->first_name . ' ' . auth()->user()->last_name;
                         if ($prdAttribute->update(['available_stock' => $quantity, 'purchase_price' => $validated['price'], 'sale_price' => $validated['sale_price'], 'updated_by' => $user])) {
                             array_push($purchasedetails, $purchasedetail);
                         }
 
                     } else {
-=======
-
-                        if ($prdAttribute->update(['available_stock' => $quantity, 'purchase_price' => $validated['price'], 'sale_price' => $validated['sale_price'], 'user_id' => auth()->id()])) {
-                            // return the product attribute and call the invoice method
-
-                            array_push($purchasedetails, $purchasedetail);
-                            //return Helper::validRequest(new PurchaseDetailResource($purchasedetail), 'PurchaseDetail was sent successfully', 200);
-                        }
-
-                    } else {
-                        //Product attribute not found create one here
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                         $newPurchaseDetail = $validated;
                         $newPurchaseDetail['product_id'] = $product_id;
                         $newPurchaseDetail['attribute_id'] = $attribute_id;
@@ -156,10 +139,7 @@ class PurchaseDetailController extends Controller
                 }
 
             }
-<<<<<<< HEAD
             ProcessPurchase::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             DB::commit();
             $purchasedetails = collect($purchasedetails)->map(function ($row) {
                 return PurchaseDetailResource::make($row)->resolve();
@@ -251,10 +231,7 @@ class PurchaseDetailController extends Controller
             $purchasedetail = $purchasedetail->update($validated);
 
             DB::commit();
-<<<<<<< HEAD
             ProcessPurchase::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
         } catch (Exception $bug) {
             DB::rollback();
@@ -280,10 +257,7 @@ class PurchaseDetailController extends Controller
             $purchasedetail = $purchasedetail->delete();
 
             DB::commit();
-<<<<<<< HEAD
             ProcessPurchase::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
         } catch (Exception $bug) {
             DB::rollback();

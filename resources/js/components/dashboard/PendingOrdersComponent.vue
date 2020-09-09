@@ -11,14 +11,11 @@
 <script>
     export default {
         mounted() {
-<<<<<<< HEAD
             //localStorage.removeItem('pendingOrdersStat')
             if(localStorage.pendingOrdersStat){
                 this.orders = JSON.parse(localStorage.pendingOrdersStat)
                 this.loading = false
             }
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             this.loadOrders();
             },
          data() { 
@@ -45,11 +42,8 @@
                     if(response.data.status == true){
                         this.loading = false;
                         this.orders = response.data.data.item.length !=0 ? response.data.data.item : [{count:0}];
-<<<<<<< HEAD
                         localStorage.pendingOrdersStat = JSON.stringify(this.orders)
 
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     } 
                 })
                 .catch(error => {

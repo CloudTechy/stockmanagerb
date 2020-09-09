@@ -7,10 +7,7 @@ use App\AttributeProduct;
 use App\Helper;
 use App\Http\Requests\ValidateOrderDetailRequest;
 use App\Http\Resources\OrderDetailResource;
-<<<<<<< HEAD
 use App\Jobs\ProcessOrder;
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 use App\Order;
 use App\OrderDetail;
 use App\Product;
@@ -70,11 +67,7 @@ class OrderDetailController extends Controller
     public function store(ValidateOrderDetailRequest $request)
     {
 
-<<<<<<< HEAD
-=======
-        DB::beginTransaction();
 
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         try
         {
             $validated = $request->validated();
@@ -91,17 +84,11 @@ class OrderDetailController extends Controller
                 $brand = Attribute::find($productAttribute->attribute_id);
                 $product = Product::find($productAttribute->product_id);
                 if ($product->discountValidity) {
-<<<<<<< HEAD
                     $price = (100 - $product->discount) / 100 * (float) $productAttribute->price;
                     $orderDetail['price'] = (float) $price;
                 } else {
                     $orderDetail['price'] = (float) $productAttribute->price;
-=======
-                    $price = (100 - $product->discount) / 100 * $productAttribute->price;
-                    $orderDetail['price'] = number_format($price, 2);
-                } else {
-                    $orderDetail['price'] = number_format($productAttribute->price, 2);
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
+
                 }
 
                 //check to see that the stock is not exceeded
@@ -120,11 +107,8 @@ class OrderDetailController extends Controller
                     $productAttribute->update(['available_stock' => $productAttribute->available_stock - $quantity]);
                     // update customer
                     $order = Order::find($order_id);
-<<<<<<< HEAD
                     $debit = $orderDetail['price'] * $quantity + (float) $order->customer->owing;
-=======
-                    $debit = $orderDetail['price'] * $quantity + $order->customer->owing;
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
+
                     $order->customer->update(['owing' => $debit]);
 
                     array_push($orderDetails, $orderdetail);
@@ -154,10 +138,7 @@ class OrderDetailController extends Controller
                 throw new Exception("Error Processing invoice request", 1);
 
             }
-<<<<<<< HEAD
             ProcessOrder::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             DB::commit();
 
             $orderdetails = collect($orderDetails)->map(function ($row) {
@@ -166,10 +147,7 @@ class OrderDetailController extends Controller
             });
 
             return Helper::validRequest($orderdetails, 'OrderDetail was sent successfully', 200);
-<<<<<<< HEAD
             DB::beginTransaction();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
         } catch (Exception $bug) {
             DB::rollback();
@@ -246,10 +224,7 @@ class OrderDetailController extends Controller
             }
 
             $orderdetail = $orderdetail->update($validated);
-<<<<<<< HEAD
             ProcessOrder::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             DB::commit();
 
@@ -275,11 +250,7 @@ class OrderDetailController extends Controller
         try {
 
             $orderdetail = $orderdetail->delete();
-<<<<<<< HEAD
             ProcessOrder::dispatch();
-=======
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             DB::commit();
 
         } catch (Exception $bug) {

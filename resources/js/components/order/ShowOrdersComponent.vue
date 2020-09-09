@@ -126,11 +126,10 @@
     
     export default {
         mounted() {
-<<<<<<< HEAD
             window.dispatchEvent(new Event('sidebar_min'))
 
             if(localStorage.cart){
-                this.cart = JSON.parse(localStorage.cart)
+                this.cart = JSON.parse(localStorage.cart) 
             }
             if(localStorage.productCart){
                 this.products = JSON.parse(localStorage.productCart)
@@ -140,12 +139,6 @@
             }
 
         },
-=======
-            Fire.$emit('sidebar_min')
-        },
-
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         data() { 
             var d = new Date();
             return {
@@ -167,16 +160,11 @@
                 pages : 0,
                 form: new Form()
             }
-<<<<<<< HEAD
-=======
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         watch : {
         },
         created(){
             this.$Progress.start()
-<<<<<<< HEAD
             if (!localStorage.cart) {
               this.loadProducts();
             }
@@ -189,20 +177,6 @@
                 this.loadProducts();
             });
         },
-=======
-            Fire.$on('product_created', (data)=> {
-                this.loadProducts();
-            })
-            Fire.$on('product_deleted', (data)=> {
-                this.loadProducts();
-            })
-            Fire.$on('product_edited', (data)=> {
-                this.loadProducts();
-            })
-            this.loadProducts();
-        },
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         computed: {
             start(){
                 if (this.pages > 0  && this.current_page  >=  this.pages ) {
@@ -215,15 +189,11 @@
             }         
         },
         beforeDestroy(){
-<<<<<<< HEAD
             this.$root.OrderCustomerID = '';
             if(this.cart.length > 0){
                 localStorage.cart = JSON.stringify(this.cart)
                 localStorage.productCart = JSON.stringify(this.products)
             }
-=======
-                this.$root.OrderCustomerID = '';
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         methods: {
             loadProducts(){
@@ -235,10 +205,7 @@
                         Fire.$emit('products_loaded', response.data.data)
                         window.dispatchEvent(new Event('sidebar_min'))
                         this.products = response.data.data.item.length !=0 ? response.data.data.item : [];
-<<<<<<< HEAD
                         localStorage.products = JSON.stringify(this.products)
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     }
                     else{
                         this.$Progress.fail()
@@ -304,10 +271,6 @@
             },
             loadAddCart(product,index){
                 this.$root.product = product;
-<<<<<<< HEAD
-=======
-                console.log('initiate index', index);
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                 this.$root.index = index;
                 this.addCartShow = true;
                 this.index = index
@@ -328,34 +291,16 @@
                 this.checkoutCartShow = false;
 
             },
-<<<<<<< HEAD
             updateCart(cart,indexes){
                 if(indexes.length> 0){
                     indexes.forEach((item) => {
                         this.loadProducts();
-=======
-            // closeViewCart(){
-            //     $('modal').hide();
-            //     this.viewCartShow = false;
-            // },
-            // closeViewCheckoutCart(){
-            //     $('modal').hide();
-            //     this.checkoutCartShow = false;
-            // },
-            updateCart(cart,indexes){
-                if(indexes.length> 0){
-                    indexes.forEach((item) => {
-                        console.log(item);
-                        this.products[item] = this.cartCopy[item]
-                        this.pageLoader(this.current_page)
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     })
                 }
                 this.cart = cart;
                 this.$root.alert('success', 'success', 'cart updated')
             },
             loadCart(data){
-<<<<<<< HEAD
                 this.cart.push(data)
                 this.cartCopy.push(data) 
                 delete this.products[this.index]
@@ -367,18 +312,6 @@
                 this.loadProducts()
                 localStorage.removeItem('cart')
                 localStorage.removeItem('productCart')
-=======
-                // this.cart.push(data);
-                this.cart[this.index] = data
-                this.cartCopy[this.index] = data
-                delete this.products[this.index];
-                this.$root.alert('success','success','added to cart');
-            },
-            refreshCart(){
-                this.cart = [];
-                this.cartCopy = [];
-                this.loadProducts();
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             },
             deleteData(id,index){
             this.$swal({

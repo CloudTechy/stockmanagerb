@@ -11,13 +11,10 @@
 <script>
     export default {
         mounted() {
-<<<<<<< HEAD
             if(localStorage.ordersStat){
                 this.orders =  JSON.parse(localStorage.ordersStat)
                 this.loading = false;
               }
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             this.loadOrders();
             },
          data() { 
@@ -45,10 +42,7 @@
                     if(response.data.status == true){
                         this.loading = false;
                         this.orders = response.data.data.item.length !=0 ? response.data.data.item : [{order:0}];
-<<<<<<< HEAD
                         localStorage.ordersStat = JSON.stringify(this.orders)
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     } 
                 })
                 .catch( error => {

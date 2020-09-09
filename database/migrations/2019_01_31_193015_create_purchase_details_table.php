@@ -18,7 +18,7 @@ class CreatePurchaseDetailsTable extends Migration
             $table->integer('purchase_id')->unsigned()->index();
             $table->string('product');
             $table->string('brand');
-<<<<<<< HEAD
+
             $table->string('pku')->index();
             $table->string('category')->index();
             $table->string('size')->index();
@@ -26,7 +26,7 @@ class CreatePurchaseDetailsTable extends Migration
             $table->decimal('price', 60, 4)->default(0);
             $table->decimal('sale_price', 60, 4)->default(0);
             $table->integer('percent_sale')->default(0);
-=======
+
             $table->integer('quantity')->default(0);
             $table->bigInteger('price')->default(0);
             $table->integer('percent_sale')->default(0);
@@ -34,7 +34,6 @@ class CreatePurchaseDetailsTable extends Migration
             $table->string('pku')->index();
             $table->string('category')->index();
             $table->string('size')->index();
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             $table->timestamps();
             $table->foreign('category')->references('name')->on('categories');

@@ -127,7 +127,6 @@
 	
     export default {
         mounted() {
-<<<<<<< HEAD
           if(localStorage.invoices){
             this.invoices = JSON.parse(localStorage.invoices)
             this.invoices.forEach(this.count); 
@@ -135,10 +134,6 @@
           }
         },
         data() { 
-=======
-            },
-         data() { 
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             var d = new Date();
             return {
               month : d.getMonth() + 1,
@@ -153,10 +148,6 @@
               error : '',
               search : '',
               form: new Form(),
-<<<<<<< HEAD
-=======
-              owed : '',
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
               title : 'RECENTLY ADDED',
             }
         },
@@ -180,13 +171,10 @@
                 this.$refs.search.focus()
             })
             this.loadinvoices();
-<<<<<<< HEAD
             Echo.channel('invoice')
             .listen('UpdateInvoice', (e) => {
                 this.loadInvoices();
             });
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         methods: {
             loadinvoices(){
@@ -195,7 +183,6 @@
                 	if(response.data.status == true){
                 		this.loading = false;
                     	this.invoices = response.data.data.item;
-<<<<<<< HEAD
                       this.paid = []
                       this.pending = []
                       this.not_paid = []
@@ -203,9 +190,6 @@
                       this.purchase_type = []
                     	response.data.data.item.forEach(this.count);
                       localStorage.invoices = JSON.stringify(this.invoices)
-=======
-                    	response.data.data.item.forEach(this.count);
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                 	}
                 	else{
                 		console.log("load supplier did not return positive response");

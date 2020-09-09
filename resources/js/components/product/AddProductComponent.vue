@@ -16,7 +16,7 @@
                                         <div class="text-center"><h3 class=" badge badge-secondary font-weight-bold ">STEP 1</h3></div>
                                         <fieldset class="border border-warning p-2">
                                             <legend  class="w-auto small font-weight-bold border bg-warning">Supplier Info</legend>
-                                            <div class="form-group row">
+                                              <div class="form-group row">
                                                 <label for="name" class="col-sm-6 col-form-label">Supplier ID</label>
                                                 <div class="col-sm-6">
                                                     <input id= "supplier_id" ref="supplier_id" name = "supplier_id" list = "suppliers" class="form-control" type="text" v-model = "supplierID" required="" >
@@ -72,19 +72,11 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="price">Price</label>
-<<<<<<< HEAD
                                                     <input step="0.01"  type=number v-model="form.purchaseDetails[0].price" required =""  class="form-control" ref="price" id="price" placeholder="Enter purchase price">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="price">Sale Price</label>
                                                     <input step="0.01"  type=number v-model="form.purchaseDetails[0].sale_price" required =""  class="form-control" ref="sale_price" id="sale_price" placeholder="Enter Selling price">
-=======
-                                                    <input  type=number v-model="form.purchaseDetails[0].price" required =""  class="form-control" ref="price" id="price" placeholder="Enter purchase price">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="price">Sale Price</label>
-                                                    <input  type=number v-model="form.purchaseDetails[0].sale_price" required =""  class="form-control" ref="sale_price" id="sale_price" placeholder="Enter Selling price">
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                                                 </div>
                                             </fieldset>
                                         </div>
@@ -144,7 +136,6 @@
             if(this.$root.purchaseSupplierID){
                 this.supplierID = this.$root.purchaseSupplierID;
             } 
-<<<<<<< HEAD
             Echo.channel('brand')
             .listen('UpdateBrand', (e) => {
                 this.loadBrands();
@@ -165,8 +156,6 @@
             .listen('UpdateSupplier', (e) => {
                 this.loadSuppliers();
             });
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
         data() { 
            
@@ -221,10 +210,7 @@
             this.supplierStatus = false;
             this.supplierID = '';
             this.supplier_details = '';
-<<<<<<< HEAD
             Fire.$emit('product_created',[])
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             this.$refs.closeButton.click();
         },
         methods: {
@@ -274,10 +260,7 @@
             add(){
 
                 this.$Progress.start();
-<<<<<<< HEAD
                 this.form.purchaseDetails[0].product = this.form.purchaseDetails[0].product.toLowerCase();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                 this.form.post('./api/purchasedetails')
                 .then(response => {
                     if(response.data.status == true){

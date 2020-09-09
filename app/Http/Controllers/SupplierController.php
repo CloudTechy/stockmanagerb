@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use App\Helper;
 use App\Http\Requests\ValidateSupplierRequest;
 use App\Http\Resources\SupplierResource;
-<<<<<<< HEAD
 use App\Jobs\ProcessSupplier;
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 use App\Supplier;
 use App\User;
 use Illuminate\Http\Request;
@@ -87,10 +84,7 @@ class SupplierController extends Controller
                 ]);
             }
             DB::commit();
-<<<<<<< HEAD
             ProcessSupplier::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
         } catch (Exception $bug) {
             DB::rollback();
@@ -165,10 +159,7 @@ class SupplierController extends Controller
             $supplier = $supplier->update($validated);
 
             DB::commit();
-<<<<<<< HEAD
             ProcessSupplier::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
         } catch (Exception $bug) {
             DB::rollback();
@@ -195,10 +186,7 @@ class SupplierController extends Controller
             $supplier = $supplier->delete();
 
             DB::commit();
-<<<<<<< HEAD
             ProcessSupplier::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
         } catch (Exception $bug) {
             DB::rollback();

@@ -23,11 +23,7 @@ class CreateSuppliersTable extends Migration
             $table->string('number');
             $table->string('email');
             $table->boolean('is_stock_available')->default(true);
-<<<<<<< HEAD
             $table->decimal('owed', 60, 4)->default(0);
-=======
-            $table->bigInteger('owed')->default(0);
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             $table->date('due_date')->nullable();
             $table->integer('user_id')->unsigned()->index();
             $table->string('updated_by')->nullable();

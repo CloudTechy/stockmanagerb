@@ -97,13 +97,9 @@
     
     export default {
         mounted() {
-<<<<<<< HEAD
             if(this.$cookies.get('categories')){
                 this.categories = JSON.parse(this.$cookies.get('categories'))
             }
-=======
-            
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
 
         data() { 
@@ -132,17 +128,11 @@
             
         },
         created(){
-<<<<<<< HEAD
             if(!this.$cookies.get('categories')){
                 this.loadCategories();
             }
             Fire.$on('category_created', (data)=> {
                 this.loadCategories();
-=======
-            Fire.$on('category_created', (data)=> {
-                this.loadCategories();
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             })
             Fire.$on('category_deleted', (data)=> {
                 this.loadCategories();
@@ -150,14 +140,10 @@
             Fire.$on('category_edited', (data)=> {
                 this.loadCategories();
             })
-<<<<<<< HEAD
             Echo.channel('category')
             .listen('UpdateCategory', (e) => {
                 this.loadCategories();
             });
-=======
-            this.loadCategories();
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
 
         computed: {
@@ -194,10 +180,7 @@
                         this.$Progress.finish()
                         Fire.$emit('categories_loaded', response.data.data)
                         this.categories = response.data.data.item.length !=0 ? response.data.data.item : [];
-<<<<<<< HEAD
                         this.$cookies.set('categories',JSON.stringify(this.categories))
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     }
                     else{
                         this.$Progress.fail()

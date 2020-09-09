@@ -8,11 +8,7 @@ Stockmanager Web Application by Spacehub Technologies
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-<<<<<<< HEAD
   <title>Stock Manager</title>
-=======
-  <title>StockManager</title>
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
   <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
   <link rel="icon" type="image/png" href="{{ asset( 'img/medium2.png')}}">
   <style>

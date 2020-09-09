@@ -35,17 +35,12 @@
                                                         <tr>
                                                             <td class="font-weight-bold">Names</td>
                                                             <td>
-<<<<<<< HEAD
                                                                {{ customer_details.name }}
-=======
-                                                               {{ customer_details[0].name }}
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                                                             </td>
                                                         </tr>
                                                          <tr>
                                                             <td class="font-weight-bold">Phone Number</td>
                                                             <td>
-<<<<<<< HEAD
                                                                {{ customer_details.number }}
                                                             </td>
                                                         </tr>
@@ -53,15 +48,6 @@
                                                             <td class="font-weight-bold">Address:  </td>
                                                             <td>
                                                                {{ customer_details.address }}
-=======
-                                                               {{ customer_details[0].number }}
-                                                            </td>
-                                                        </tr>
-                                                        <tr v-if = "customer_details[0].address">
-                                                            <td class="font-weight-bold">Address:  </td>
-                                                            <td>
-                                                               {{ customer_details[0].address }}
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                                                             </td>
                                                         </tr>
                                                   </tbody>
@@ -149,15 +135,10 @@
             this.transaction = "";
             this.form.reset();
             this.loading = false;
-<<<<<<< HEAD
             if (this.$refs.closeButton) {
                 this.$refs.closeButton.click();
-            }
-=======
-            this.$refs.closeButton.click();
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
-        },
+        }
+    },
         watch: {
             customer_id(){
                 this.loadCustomerDetails();
@@ -181,7 +162,6 @@
                 .then(response => {
                     this.customers =  response.data.data.item
                 })
-<<<<<<< HEAD
                 .catch(error=> {
                     if (error.response) {
                         this.$Progress.fail()
@@ -192,8 +172,6 @@
                         console.log(error);
                     }
                 }); 
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         	},
             loadCustomerDetails(){
                 var data = [];
@@ -214,11 +192,7 @@
                 }else{
                     data = [];
                 }
-<<<<<<< HEAD
                 this.customer_details = data[0];
-=======
-                this.customer_details = data;
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             },
         	getOrders(){
         		this.form.post('./api/orders')
@@ -228,7 +202,6 @@
                     this.sendOrder()
                     this.$Progress.start()
                 })
-<<<<<<< HEAD
                 .catch(error=> {
                     if (error.response) {
                         this.$Progress.fail()
@@ -239,8 +212,6 @@
                         console.log(error);
                     }
                 }); 
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         	},
             closeComponent(){
             	this.cart = [];
@@ -261,21 +232,13 @@
             buildCart(cart){
 
             	cart.forEach((item)=>{
-<<<<<<< HEAD
             		if(item){
-=======
-            		if(item != undefined){
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             			this.builtCart.push(item)
             		}
             	})
 
             	this.builtCart.forEach((item) => {
-<<<<<<< HEAD
             		this.orderdetails.push({[item.id] : parseInt(item.quantity)})
-=======
-            		this.orderdetails.push({[item.id] : item.quantity})
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             	})
             	
             },
@@ -285,7 +248,6 @@
 
             	this.form.post('./api/orderdetails')
                 .then(response => {
-<<<<<<< HEAD
                     if (response.data.status) {
                         this.orderData =  response.data.data
                         this.$emit('order_created',this.orderData)
@@ -306,16 +268,6 @@
                         this.$root.alert('error','error','An unexpected error occured, Try again Later')
                         console.log(error);
                     }
-=======
-                    this.orderData =  response.data.data
-                    this.$emit('order_created',this.orderData)
-                    this.$root.alert('success', 'success','Order has been placed')
-                    this.loadPayment();
-                })
-                .catch(error=> {
-                    this.$Progress.fail()
-                    console.log(error.response)
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                 }); 
             },
             loadPayment(){
@@ -324,7 +276,6 @@
                     this.invoice_id =  response.data.data.invoice_id
                     this.loadTransactionId()
                 })
-<<<<<<< HEAD
                 .catch(error=> {
                     if (error.response) {
                         this.$Progress.fail()
@@ -335,19 +286,6 @@
                         console.log(error);
                     }
                 }); 
-=======
-                // this.form.get('./api/invoices/'+this.invoice_id)
-                // .then(response => {
-                //     this.transaction_id =  response.data.data.transaction_id
-                //     console.log(response.data.data);
-                // })
-                // this.form.get('./api/transactions/'+this.transaction_id)
-                // .then(response => {
-                //    var  transaction =  response.data.data
-                //    console.log('transctiont',transaction);
-                //     //this.$root.addTransactionComponent(transaction);
-                // })
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             },
             loadTransactionId(){
             	this.form.get('./api/invoices/'+this.invoice_id)
@@ -355,7 +293,6 @@
                     this.transaction_id =  response.data.data.transaction_id
                     this.getTransaction();
             	})
-<<<<<<< HEAD
                 .catch(error=> {
                     if (error.response) {
                         this.$Progress.fail()
@@ -366,8 +303,6 @@
                         console.log(error);
                     }
                 }); 
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             },
 
             getTransaction(){
@@ -379,7 +314,6 @@
                     this.closeComponent()
                     this.$root.addTransactionComponent(this.transaction)
             	})
-<<<<<<< HEAD
                 .catch(error=> {
                     if (error.response) {
                         this.$Progress.fail()
@@ -390,8 +324,6 @@
                         console.log(error);
                     }
                 }); 
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             }
     	} 
   	}

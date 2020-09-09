@@ -66,13 +66,8 @@
                             </td>
                             
                         </tr>
-<<<<<<< HEAD
                          <tr v-if = "loading == false && $root.myFilter(customers,search).length == 0">
                             <td colspan="8">
-=======
-                         <tr v-if = "loading == false && pageLoader(current_page).length == 0">
-                            <td colspan="7">
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                                 <h4 class="text-center small text-secondary">Customer Not Found</h4>
                             </td>
                         </tr>
@@ -120,17 +115,10 @@
     
     export default {
         mounted() {
-<<<<<<< HEAD
             if(localStorage.customers){
                 this.customers = JSON.parse(localStorage.customers)
             }
         },
-=======
-            
-        },
-
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         data() { 
             var d = new Date();
             return {
@@ -149,27 +137,12 @@
 
         },
         watch : {
-<<<<<<< HEAD
         },
         created(){
             this.$Progress.start()
             this.loadCustomers();
             Fire.$on('customer_created', (data)=> {
                 this.loadCustomers();
-=======
-            
-            filteredCustomers: function(){
-                this.loading = false;
-            },
-           
-            
-        },
-        created(){
-            this.$Progress.start()
-            Fire.$on('customer_created', (data)=> {
-                this.loadCustomers();
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             })
             Fire.$on('customer_deleted', (data)=> {
                 this.loadCustomers();
@@ -177,7 +150,6 @@
             Fire.$on('customer_edited', (data)=> {
                 this.loadCustomers();
             })
-<<<<<<< HEAD
             Fire.$on('transaction_created', (data)=> {
                 this.loadCustomers();
             })
@@ -196,26 +168,6 @@
         },
 
         computed: {
-=======
-            this.loadCustomers();
-        },
-
-        computed: {
-            filteredCustomers (){
-                var data = [];
-              if(this.search){
-              data =  this.customers.filter((item)=>{
-
-                return item.name.toLowerCase().includes(this.search.toLowerCase()) || item.number.toLowerCase().includes(this.search.toLowerCase());
-              })
-              }else{
-              data = this.customers;
-              }
-              this.length = data.length;
-              this.pages =  Math.ceil(data.length / this.rowsPerPage);
-              return data;
-            },
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             start(){
                 if (this.pages > 0  && this.current_page  >=  this.pages ) {
                     this.current_page = this.pages
@@ -236,10 +188,7 @@
                         this.$Progress.finish()
                         Fire.$emit('customer_loaded', response.data.data)
                         this.customers = response.data.data.item.length !=0 ? response.data.data.item : [];
-<<<<<<< HEAD
                         localStorage.customers = JSON.stringify(this.customers)
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     }
                     else{
                         this.$Progress.fail()
@@ -248,7 +197,6 @@
                 })
                 .catch(error=> {
                     this.$Progress.fail()
-<<<<<<< HEAD
                     if(error.response){
                         var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message
                         this.$root.alert('error','error',message)
@@ -257,12 +205,6 @@
                     else{
                         console.log(error);
                     }
-                   
-=======
-                    var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message
-                    this.$root.alert('error','error',message)
-                    console.log(error.response.data.error)
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                 }); 
             },
             classObject (value) {
@@ -288,15 +230,11 @@
                     this.$refs.next.classList.remove('disabled')
                 }
                 this.current_page = pageNumber;
-<<<<<<< HEAD
                 this.loading = false;
                 var data = this.$root.myFilter(this.customers,this.search)
                 this.length = data.length;
                 this.pages =  Math.ceil(data.length / this.rowsPerPage);
                 return data.slice(this.start,this.end);
-=======
-               return this.filteredCustomers.slice(this.start,this.end);
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             },
             pageLoaderB(amount){
                 if(this.current_page <= 1 && amount == -1){

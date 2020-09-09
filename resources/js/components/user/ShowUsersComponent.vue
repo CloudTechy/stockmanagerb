@@ -103,17 +103,10 @@
     
     export default {
         mounted() {
-<<<<<<< HEAD
             if(localStorage.users){
                 this.users = JSON.parse(localStorage.users)
             }
         },
-=======
-            
-        },
-
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         data() { 
             var d = new Date();
             return {
@@ -131,7 +124,6 @@
             }
 
         },
-<<<<<<< HEAD
         created(){
             this.$Progress.start()
             if(!localStorage.users){
@@ -139,21 +131,6 @@
             }
             Fire.$on('user_created', (data)=> {
                 this.loadUsers();
-=======
-        watch : {
-            
-            filteredUsers: function(){
-                this.loading = false;
-            },
-           
-            
-        },
-        created(){
-            this.$Progress.start()
-            Fire.$on('user_created', (data)=> {
-                this.loadUsers();
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             })
             Fire.$on('user_deleted', (data)=> {
                 this.loadUsers();
@@ -162,7 +139,6 @@
                 this.loadUsers();
             })
             this.loadUsers();
-<<<<<<< HEAD
             Echo.channel('user')
             .listen('UpdateUser', (e) => {
                 this.loadUsers();
@@ -170,24 +146,6 @@
         },
 
         computed: {
-=======
-        },
-
-        computed: {
-            filteredUsers (){
-                var data = [];
-              if(this.search){
-              data =  this.users.filter((item)=>{
-                return item.name.toLowerCase().includes(this.search.toLowerCase());
-              })
-              }else{
-              data = this.users;
-              }
-              this.length = data.length;
-              this.pages =  Math.ceil(data.length / this.rowsPerPage);
-              return data;
-            },
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             start(){
                 if (this.pages > 0  && this.current_page  >=  this.pages ) {
                     this.current_page = this.pages
@@ -208,10 +166,7 @@
                         this.$Progress.finish()
                         Fire.$emit('Users_loaded', response.data.data)
                         this.users = response.data.data.item.length !=0 ? response.data.data.item : [];
-<<<<<<< HEAD
                         localStorage.users = JSON.stringify(this.users)
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     }
                     else{
                         this.$Progress.fail()
@@ -248,15 +203,11 @@
                     this.$refs.next.classList.remove('disabled')
                 }
                 this.current_page = pageNumber;
-<<<<<<< HEAD
                 this.loading = false;
                 var data = this.$root.myFilter(this.users,this.search)
                 this.length = data.length;
                 this.pages =  Math.ceil(data.length / this.rowsPerPage);
                 return data.slice(this.start,this.end);
-=======
-               return this.filteredUsers.slice(this.start,this.end);
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             },
             pageLoaderB(amount){
                 if(this.current_page <= 1 && amount == -1){

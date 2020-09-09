@@ -6,10 +6,7 @@ use App\Customer;
 use App\Helper;
 use App\Http\Requests\ValidateCustomerRequest;
 use App\Http\Resources\CustomerResource;
-<<<<<<< HEAD
 use App\Jobs\ProcessCustomer;
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 use App\User;
 use Illuminate\Http\Request;
 use \Exception;
@@ -75,10 +72,7 @@ class CustomerController extends Controller
         {
 
             $customer = Customer::create($validated);
-<<<<<<< HEAD
             ProcessCustomer::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return Helper::validRequest(new CustomerResource($customer), 'Customer was sent successfully', 200);
         } catch (Exception $bug) {
@@ -126,12 +120,9 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-<<<<<<< HEAD
         if (!Helper::userIsSuperAdmin()) {
             return Helper::inValidRequest('User not Unauthorized or not Activated.', 'Unauthorized Access!', 400);
         }
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
         $request->except('user_id');
         $user = auth()->user()->first_name . ' ' . auth()->user()->last_name;
@@ -149,10 +140,7 @@ class CustomerController extends Controller
             $validated['updated_by'] = $user;
 
             $customer = $customer->update($validated);
-<<<<<<< HEAD
             ProcessCustomer::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return Helper::validRequest(["success" => $customer], 'Customer was updated successfully', 200);
 
@@ -176,10 +164,7 @@ class CustomerController extends Controller
         try {
 
             $customer = $customer->delete();
-<<<<<<< HEAD
             ProcessCustomer::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return Helper::validRequest(["success" => $customer], 'Customer was deleted successfully', 200);
 

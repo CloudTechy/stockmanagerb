@@ -72,14 +72,9 @@ const sweetOptions = {
 }
  
 Vue.use(VueSweetalert2, sweetOptions)
-
-<<<<<<< HEAD
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 VueCookies.config('7d')
-
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 import { Form, HasError, AlertError } from 'vform'
  
  window.Form = Form;
@@ -88,68 +83,10 @@ Vue.component(AlertError.name, AlertError)
 
 import VueSession from 'vue-session'
 Vue.use(VueSession,{persist : true})
-
-<<<<<<< HEAD
 const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-=======
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-
-const files = require.context('./', true, /\.vue$/i)
-files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-// Vue.component('nav-component', require('./components/NavComponent.vue').default);
-// Vue.component('sidebar-component', require('./components/SidebarComponent.vue').default);
-// Vue.component('footer-component', require('./components/FooterComponent.vue').default);
-// Vue.component('dashoard-info-component', require('./components/DashboardInfoComponent.vue').default);
-// Vue.component('top-product-component', require('./components/TopProductComponent.vue').default);
-// Vue.component('top-debtors-component', require('./components/TopDebtorComponent.vue').default);
-// Vue.component('top-debt-component', require('./components/TopDebtComponent.vue').default);
-// Vue.component('new-product-component', require('./components/NewProductComponent.vue').default);
-// Vue.component('daily-orders-component', require('./components/DailyOrdersComponent.vue').default);
-// Vue.component('pending-orders-component', require('./components/PendingOrdersComponent.vue').default);
-// Vue.component('orders-component', require('./components/OrderComponent.vue').default);
-// Vue.component('transaction-component', require('./components/TransactionComponent.vue').default);
-// Vue.component('invoice-donut-component', require('./components/InvoiceDonutComponent.vue').default);
-// Vue.component('revenue-line-chart-component', require('./components/RevenueLineChartComponent.vue').default);
-// Vue.component('dashoard-component', require('./components/DashboardComponent.vue').default);
-
-// Vue.component('brand-component', require('./components/brand/BrandComponent.vue').default);
-// Vue.component('add-brand-component', require('./components/brand/AddBrandComponent.vue').default);
-// Vue.component('show-brands-component', require('./components/brand/ShowBrandsComponent.vue').default);
-// Vue.component('edit-brand-component', require('./components/brand/EditBrandComponent.vue').default);
-
-// Vue.component('unit-component', require('./components/unit/UnitComponent.vue').default);
-// Vue.component('add-unit-component', require('./components/unit/AddUnitComponent.vue').default);
-// Vue.component('show-units-component', require('./components/unit/ShowUnitsComponent.vue').default);
-// Vue.component('edit-unit-component', require('./components/unit/EditUnitComponent.vue').default);
-
-// Vue.component('size-component', require('./components/size/SizeComponent.vue').default);
-// Vue.component('add-size-component', require('./components/size/AddSizeComponent.vue').default);
-// Vue.component('show-sizes-component', require('./components/size/ShowSizesComponent.vue').default);
-// Vue.component('edit-size-component', require('./components/size/EditSizeComponent.vue').default);
-
-// Vue.component('category-component', require('./components/category/CategoryComponent.vue').default);
-// Vue.component('add-category-component', require('./components/category/AddCategoryComponent.vue').default);
-// Vue.component('show-categories-component', require('./components/category/ShowCategoriesComponent.vue').default);
-// Vue.component('edit-category-component', require('./components/category/EditCategoryComponent.vue').default);
-
-// Vue.component('user-summary-component', require('./components/user/UserSummaryComponent.vue').default);
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 Array.prototype.sum = function(prop) {
   var total = 0
   for ( var i = 0, _len = this.length; i < _len; i++ ) {
@@ -166,10 +103,7 @@ const app = new Vue({
     VueProgressBar,
     VueSweetalert2,
     VueSession,
-<<<<<<< HEAD
     VueCookies,
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
   	donutOrders:{},
   	error : '',
     token:'',
@@ -191,10 +125,6 @@ const app = new Vue({
   // this.$nextTick(function () {
 	// console.log('test');
 	// })
-<<<<<<< HEAD
-  
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
   },
   created () {
     this.$Progress.start()
@@ -215,18 +145,10 @@ const app = new Vue({
     }
 
     //window.axios.defaults.headers.common['Authorization'] = 'Bearer '+ this.$session.get('token')
-
-<<<<<<< HEAD
     // window.addEventListener('beforeunload', () => {
     //   this.$session.destroy()
     //   this.$root.alert('info','leaving?','see you soon')
     // })
-=======
-    window.addEventListener('beforeunload', () => {
-      this.$session.destroy()
-      this.$root.alert('info','leaving?','see you soon')
-    })
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
     Fire.$on('user_login', (data)=> {
       this.loadUser(data);
     })

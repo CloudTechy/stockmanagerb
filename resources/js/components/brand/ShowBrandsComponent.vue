@@ -100,13 +100,9 @@
     
     export default {
         mounted() {
-<<<<<<< HEAD
             if(this.$cookies.get('brands')){
                 this.brands = JSON.parse(this.$cookies.get('brands'))
             }
-=======
-            
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
 
         data() { 
@@ -135,17 +131,11 @@
             
         },
         created(){
-<<<<<<< HEAD
             if(!this.$cookies.get('brands')){
                 this.loadBrands();
             }
             Fire.$on('brand_created', (data)=> {
                 this.loadBrands();
-=======
-            Fire.$on('brand_created', (data)=> {
-                this.loadBrands();
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             })
             Fire.$on('brand_deleted', (data)=> {
                 this.loadBrands();
@@ -153,14 +143,10 @@
             Fire.$on('brand_edited', (data)=> {
                 this.loadBrands();
             })
-<<<<<<< HEAD
             Echo.channel('brand')
             .listen('UpdateBrand', (e) => {
                 this.loadBrands();
             });
-=======
-            this.loadBrands();
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
 
         computed: {
@@ -198,10 +184,7 @@
                         this.$Progress.finish()
                         Fire.$emit('brands_loaded', response.data.data)
                         this.brands = response.data.data.item.length !=0 ? response.data.data.item : [];
-<<<<<<< HEAD
                         this.$cookies.set('brands',JSON.stringify(this.brands))
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     }
                     else{
                         this.$Progress.fail()

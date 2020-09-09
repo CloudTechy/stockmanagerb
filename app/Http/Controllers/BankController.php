@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use App\Bank;
 use App\Helper;
 use App\Http\Resources\BankResource;
-<<<<<<< HEAD
 use App\Jobs\ProcessBank;
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 use Illuminate\Http\Request;
 use \Exception;
 
@@ -70,10 +67,7 @@ class BankController extends Controller
         {
 
             $bank = Bank::create($validated);
-<<<<<<< HEAD
             ProcessBank::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return Helper::validRequest(new BankResource($bank), 'Bank created successfully', 200);
         } catch (Exception $bug) {
@@ -130,10 +124,7 @@ class BankController extends Controller
         try {
 
             $bank = $bank->update($validated);
-<<<<<<< HEAD
             ProcessBank::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return Helper::validRequest(["success" => $bank], 'Bank was updated successfully', 200);
 
@@ -154,10 +145,7 @@ class BankController extends Controller
         try {
 
             $bank = $bank->delete();
-<<<<<<< HEAD
             ProcessBank::dispatch();
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
 
             return Helper::validRequest(["success" => $bank], 'Bank was deleted successfully', 200);
 

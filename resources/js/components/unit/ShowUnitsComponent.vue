@@ -98,13 +98,9 @@
     
     export default {
         mounted() {
-<<<<<<< HEAD
             if(this.$cookies.get('units')){
                 this.units = JSON.parse(this.$cookies.get('units'))
             }
-=======
-            
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
 
         data() { 
@@ -133,17 +129,11 @@
             
         },
         created(){
-<<<<<<< HEAD
             if(!this.$cookies.get('units')){
                 this.loadUnits();
             }
             Fire.$on('unit_created', (data)=> {
                 this.loadUnits();
-=======
-            Fire.$on('unit_created', (data)=> {
-                this.loadUnits();
-
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
             })
             Fire.$on('unit_deleted', (data)=> {
                 this.loadUnits();
@@ -151,14 +141,10 @@
             Fire.$on('unit_edited', (data)=> {
                 this.loadUnits();
             })
-<<<<<<< HEAD
             Echo.channel('unit')
             .listen('UpdateUnit', (e) => {
                 this.loadUnits();
             });
-=======
-            this.loadUnits();
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
         },
 
         computed: {
@@ -195,10 +181,7 @@
                         this.$Progress.finish()
                         Fire.$emit('units_loaded', response.data.data)
                         this.units = response.data.data.item.length !=0 ? response.data.data.item : [];
-<<<<<<< HEAD
                         this.$cookies.set('units',JSON.stringify(this.units))
-=======
->>>>>>> a90f05ca68e2264c685a9477281ef51e4d16983b
                     }
                     else{
                         this.$Progress.fail()
