@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Purchase extends Model
 {
-    protected $fillable = ['supplier_id', 'user_id', 'comment'];
+    protected $fillable = ['supplier_id','supplier_name','staff', 'user_id', 'comment'];
     protected $appends = array('amount', 'quantity', 'InvoiceId', 'TransactionId');
 
     public function getInvoiceIdAttribute()
@@ -54,7 +54,7 @@ class Purchase extends Model
     {
 
         try {
-            $fields = ['supplier_id', 'user_id', 'updated_by'];
+            $fields = ['supplier_id','staff', 'user_id', 'updated_by'];
 
             return $query->where(
                 function ($query) use ($filter, $fields) {

@@ -37,7 +37,6 @@ class SupplierResource extends JsonResource
             'date' => Carbon::createFromTimeStamp(strtotime($this->created_at))->diffForHumans(),
 
             'bank_details' => BankDetailResource::collection($this->bankDetails),
-            'purchases' => $this->purchases,
         ];
     }
 }

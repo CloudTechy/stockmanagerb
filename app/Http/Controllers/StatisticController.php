@@ -10,11 +10,11 @@ use \Exception;
 class StatisticController extends Controller
 {
 
-    public function customer()
+    public function customer() 
     {
         try {
             $page = request()->query('page', 1);
-            $pageSize = request()->query('pageSize', 30);
+            $pageSize = request()->query('pageSize', 30000);
             $customers = Statistic::customerFilter(request()->all())
                 ->paginate($pageSize);
             $total = $customers->total();

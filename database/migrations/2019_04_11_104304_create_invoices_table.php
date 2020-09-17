@@ -22,6 +22,7 @@ class CreateInvoicesTable extends Migration
             $table->decimal('amount', 60, 4)->default(0);
             $table->decimal('balance', 60, 4)->default(0);
             $table->integer('user_id')->unsigned()->index();
+            $table->string('staff')->index();
             $table->timestamps();
 
             $table->foreign('order_id')->references('id')->on('orders');

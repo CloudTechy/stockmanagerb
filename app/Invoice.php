@@ -10,7 +10,7 @@ class Invoice extends Model
 {
     use HasUUID;
     protected $uuidFieldName = 'id';
-    protected $fillable = ['type', 'purchase_id', 'balance', 'order_id', 'user_id', 'cost', 'amount'];
+    protected $fillable = ['type',  'staff', 'purchase_id', 'balance', 'order_id', 'user_id', 'cost', 'amount'];
     public $incrementing = false;
     protected $appends = array('status');
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper;
 use App\Http\Resources\TransactionResource;
+use App\Http\Resources\TransactionDetailsResource;
 use App\Invoice;
 use App\Jobs\ProcessTransaction;
 use App\Transaction;
@@ -158,24 +159,39 @@ class TransactionController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
+        
         try {
             $request->only('payment', 'due_date');
             $validated['updated_by'] = auth()->user()->first_name . ' ' . auth()->user()->last_name;
-            $validated = $request->validate(['payment' => 'required|numeric', 'due_date' => 'nullable|date']);
+            $validated = $request->validate(['payment' => 'nullable|numeric', 'due_date' => 'nullable|date']);
             $invoice = Invoice::find($transaction->invoice_id);
             $type = $invoice->type;
             $old_payment = $transaction->payment;
-            $new_payment = $validated['payment'];
+            $new_payment =  $validated['payment'] ;
             $amount = $transaction->amount;
             $remaining_payment = $amount - $old_payment;
 
+            if(empty($new_payment)){
+                $validated['status'] = 'not-paid';
+                $transaction = $transaction->update($validated);
+                if ($type == 'order') {
 
-            if ($new_payment < $remaining_payment) {
+                    $owing = $invoice->order->customer->owing + $amount;
+                    $invoice->order->customer->update(['owing' => $owing, 'due_date' => $validated['due_date']]);
+                } elseif ($type == 'purchase') {
+                    $owed = $invoice->purchase->supplier->owed + $amount;
+                    $invoice->purchase->supplier->update(['owed' => $owed]);
+                }
+            }
+
+
+           else if ($new_payment < $remaining_payment && !empty($new_payment)) {
 
                 $validated['payment'] = $old_payment + $new_payment;
                 $validated['status'] = 'pending';
                 $transaction = $transaction->update($validated);
                 if ($type == 'order') {
+
                     $owing = $invoice->order->customer->owing - $new_payment;
                     $invoice->order->customer->update(['owing' => $owing, 'due_date' => $validated['due_date']]);
                 } elseif ($type == 'purchase') {

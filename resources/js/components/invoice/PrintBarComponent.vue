@@ -17,6 +17,7 @@
 				
 			},
 			print(){
+				this.$Progress.start();
 				this.$session.start()
                 Fire.$emit('printing')
                 var a = this.$session.set('session',this.invoice)
@@ -24,6 +25,7 @@
                 this.$root.invoice = this.invoice;
                 this.$router.push('/print_invoice')
                 console.log('printing');
+                this.$Progress.finish();
 			},
 			Posprint(){
 				var form = new Form();
@@ -31,9 +33,9 @@
                 console.log('printing');
                 form.get('./api/print/'+this.invoice.id+'/'+this.user.id)
                 .then(response => {
+                    this.$Progress.finish()
                     if(response.data.status == true){
                         Fire.$emit('invoice_printed')
-                        this.$Progress.finish()
                         this.$root.alert('success','success','invoice printed')
                         console.log('printed', response.data.data);
                     }

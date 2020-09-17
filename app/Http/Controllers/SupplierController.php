@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helper;
 use App\Http\Requests\ValidateSupplierRequest;
 use App\Http\Resources\SupplierResource;
+use App\Http\Resources\SupplierDetails;
 use App\Jobs\ProcessSupplier;
 use App\Supplier;
 use App\User;
@@ -90,7 +91,7 @@ class SupplierController extends Controller
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
-        return Helper::validRequest(new SupplierResource($supplier), 'Supplier was sent successfully', 200);
+        return Helper::validRequest(new SupplierDetails($supplier), 'Supplier was sent successfully', 200);
     }
 
     /**
@@ -103,7 +104,7 @@ class SupplierController extends Controller
     {
         try {
 
-            $supplier = new SupplierResource($supplier);
+            $supplier = new SupplierDetails($supplier);
 
         } catch (Exception $bug) {
 

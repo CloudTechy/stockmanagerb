@@ -12,7 +12,7 @@ class Order extends Model
     protected $uuidFieldName = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
-    protected $fillable = ['customer_id', 'user_id', 'comment'];
+    protected $fillable = ['customer_id','staff', 'customer_name', 'user_id', 'comment'];
     protected $appends = array('amount', 'quantity', 'cost', 'invoiceId', 'transactionId');
 
     public function getAmountAttribute()
@@ -53,7 +53,7 @@ class Order extends Model
     {
 
         try {
-            $fields = ['customer_id', 'user_id', 'updated_by'];
+            $fields = ['customer_id', 'staff', 'user_id', 'updated_by'];
 
             return $query->where(
                 function ($query) use ($filter, $fields) {

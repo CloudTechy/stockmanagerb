@@ -39,50 +39,45 @@
                             <thead class="text-center ">
                                 <tr role="row " >
                                     <th>Customer</th>
-                                    <th>Product PKU</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
+                                    <th>Item(s)</th>
                                     <th>Amount</th>
-                                    <th>Paid</th>
-                                    <th>Status</th>
                                     <th>Date</th>
-                                    <th>User</th>
+                                    <th>Operator</th>
                                 </tr>
                             </thead>
                             <tbody id="body">   
                                 <tr v-for = "order in pageLoader(current_page)">
-                                    <td>{{ order.customer }}</td>
-                                    <td>{{ order.product }}</td>
-                                    <td>{{ order.quantity }}</td>
-                                    <td><span style="text-decoration: line-through">N</span>{{ $root.numeral(order.price) }}</td>
-                                    <td><span style="text-decoration: line-through">N</span>{{ $root.numeral(order.amount) }}</td>
-                                    <td><span style="text-decoration: line-through">N</span>{{ $root.numeral(order.payment) }}</td>
+                                    <td>{{ order.customer_name }}</td>
+                                    <td>{{ order.Total_quantity }}</td>
+                                    <!-- <td><span style="text-decoration: line-through">N</span>{{ $root.numeral(order.price) }}</td> -->
+                                    <td><span style="text-decoration: line-through">N</span>{{ $root.numeral(order.Total_amount) }}</td>
+                                    <!-- <td><span style="text-decoration: line-through">N</span>{{ $root.numeral(order.payment) }}</td> -->
 
-                                    <td class="text-center">
+                                   <!--  <td class="text-center">
                                         <span v-bind:class="{badge:true, 'badge-danger':order.status == 'not-paid',  'badge-success' : order.status == 'paid', 'badge-warning':order.status == 'pending' }">
                                             {{ order.status }}
                                         </span>
-                                    </td>
+                                    </td> -->
                                     <td>{{ order.date }}</td>
                                     <td>{{ order.user }}</td>
                                 </tr>
                                 <tr v-if = "pageLoader(current_page).length > 0">
-                                    <td colspan="2">
+                                    <td colspan="1">
                                        <span class="small font-weight-bold text-success"> {{ "Summary for " + pageLoader(current_page).length + " product(s)" }}</span>
                                     </td>
-                                    <td colspan="2">
+                                    <td colspan="1">
                                          <span class="font-weight-bold badge badge-success">
-                                            {{ pageLoader(current_page).sum('quantity') }}
+                                            {{ pageLoader(current_page).sum('Total_quantity') }}
                                         </span>
                                     </td>
-                                    <td colspan="5">
-                                       <span class="small font-weight-bold text-success">
-                                        <span style="text-decoration: line-through">N</span>{{ $root.numeral(pageLoader(current_page).sum('amount')) }}</span>
+                                    <td colspan="3">
+                                       <span class="text-left font-weight-bold text-success">
+                                        <span style="text-decoration: line-through">N</span>{{ $root.numeral(pageLoader(current_page).sum('Total_amount')) }}</span>
                                     </td>
                                 </tr>
                                 </tr>
                                 <tr v-if = "loading == false && pageLoader(current_page).length == 0">
-                                    <td colspan="9">
+                                    <td colspan="5">
                                         <h4  class="text-center m-1 p-2 border border-info small text-success">Order details not found</h4>
                                       </td>
                                 </tr>
@@ -187,7 +182,7 @@
         },
         methods: {
             loadOrders(){
-                this.form.get('./api/orderdetails?pageSize=1000000')
+                this.form.get('./api/orders?pageSize=1000000')
                 .then( response => {
                     if(response.data.status == true){
                         this.orders = response.data.data.item.length !=0 ? response.data.data.item : [];
@@ -222,7 +217,7 @@
                 }
                 this.current_page = pageNumber;
                 this.loading = false;
-                var data = this.$root.myFilter(this.orders,this.search)
+                var data = this.$root.created_atFilter(this.orders,this.search)
                 this.length = data.length;
                 this.pages =  Math.ceil(data.length / this.rowsPerPage);
                 return data.slice(this.start,this.end);

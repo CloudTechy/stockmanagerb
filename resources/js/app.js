@@ -49,15 +49,15 @@ global.Raphael = Raphael
 import VueProgressBar from 'vue-progressbar'
 
 const options = {
-  color: '#bffaf3',
-  failedColor: '#874b4b',
+  color: '#ffc107',
+  failedColor: 'red',
   thickness: '5px',
   transition: {
-    speed: '0.2s',
+    speed: '0.1s',
     opacity: '0.6s',
-    termination: 300
+    termination: 36000
   },
-  autoRevert: true,
+  autoRevert: false,
   location: 'top',
   inverse: false
 }
@@ -165,6 +165,20 @@ const app = new Vue({
     numeral(value){
         return numeral(value).format('0,0.00');
     },
+    created_atFilter(list, search) {
+             
+            var data = [];
+            if (search) {
+                data = list.filter((item) => {
+
+                return item.created_at.toString().toLowerCase().includes(search.toLowerCase()) 
+             })
+
+            } else {
+                data = list;
+            }
+            return data;
+        },
     myFilter (list,search){
       var data = [];
       if(search){
@@ -186,10 +200,10 @@ const app = new Vue({
       }
       return data;
     },
-    loadUser(email){
-      
+    loadUser(data){
     },
     addTransactionComponent(transaction,type){
+      this.$Progress.start()
       if (transaction == undefined) {
         this.transaction = undefined;
         this.orderIDs = undefined
@@ -222,6 +236,7 @@ const app = new Vue({
         this.orderIDs = undefined;
       }
       window.dispatchEvent(new Event('sidebar_min'));
+      this.$Progress.finish()
       this.$router.push('/payment')
     },
     back(){

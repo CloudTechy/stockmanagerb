@@ -17,6 +17,8 @@ class CreateOrdersTable extends Migration
             $table->uuid('id')->primary();
             $table->integer('customer_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
+            $table->string('staff')->index();
+            $table->string('customer_name')->index();
             $table->string('comment')->nullable();
             $table->timestamps();
 

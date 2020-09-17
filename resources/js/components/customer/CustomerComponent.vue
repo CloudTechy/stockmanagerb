@@ -33,7 +33,7 @@
 						</div>
 						<div class="col-lg-3 col-sm-6 mb-3 text-center">
 							<div class="circle mb-lg-4"><div class="inner-circle border-success"><p class="circle-text">{{ customers.length - debtors.length }}</p></div></div>
-							<h4 class="profile-username ">Not debtors</h4>
+							<h4 class="profile-username ">Non debtors</h4>
 						</div>
 						<div class="col-lg-3 col-sm-6 mb-3 text-center">
 							<div class="circle mb-lg-4"><div class="inner-circle border-danger"><p class="circle-text"><span class="" style="text-decoration: line-through">N</span>{{ owing }}</p></div></div>
@@ -50,7 +50,7 @@
 	            <show-customers-component></show-customers-component>
 	        </div>
 	        <hr>
-				<div class="row">
+				<!-- <div class="row">
 						<div class="card-body box-profile">
 							<div class="row container  mb-3 mt-3">
 								<div class="col-lg-12 col-sm-12 mb-3 ">
@@ -108,7 +108,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
      	</div>
@@ -152,7 +152,7 @@
             error : '',
             search : '',
             form: new Form(),
-            owing : '',
+            owing : 0,
             }
         },
         beforeDestroy() {

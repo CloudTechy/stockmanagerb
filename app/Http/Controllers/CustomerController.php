@@ -6,6 +6,7 @@ use App\Customer;
 use App\Helper;
 use App\Http\Requests\ValidateCustomerRequest;
 use App\Http\Resources\CustomerResource;
+use App\Http\Resources\CustomerDetails;
 use App\Jobs\ProcessCustomer;
 use App\User;
 use Illuminate\Http\Request;
@@ -74,7 +75,7 @@ class CustomerController extends Controller
             $customer = Customer::create($validated);
             ProcessCustomer::dispatch();
 
-            return Helper::validRequest(new CustomerResource($customer), 'Customer was sent successfully', 200);
+            return Helper::validRequest(new CustomerDetails($customer), 'Customer was sent successfully', 200);
         } catch (Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -90,7 +91,7 @@ class CustomerController extends Controller
     {
         try {
 
-            $customer = new CustomerResource($customer);
+            $customer = new CustomerDetails($customer);
 
             return Helper::validRequest($customer, 'specified Customer was fetched successfully', 200);
 

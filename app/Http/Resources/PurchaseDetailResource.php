@@ -23,7 +23,7 @@ class PurchaseDetailResource extends JsonResource
             'name' => $this->product,
             'purchase_id' => $this->purchase_id,
             'invoice_id' => $this->purchase->invoice_id,
-            'vendor' => $this->purchase->supplier->name,
+            'vendor' => $this->purchase->supplier_name,
             'user' => $this->purchase->user->username,
             'brand' => $this->brand,
             'pku' => $this->pku,

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Helper;
 use App\Http\Requests\ValidatePurchaseRequest;
 use App\Http\Resources\PurchaseResource;
+use App\Http\Resources\PurchaseDetailResource;
 use App\Purchase;
+use App\Supplier;
 use Illuminate\Http\Request;
 use \DB;
 use \Exception;
@@ -66,7 +68,9 @@ class PurchaseController extends Controller
         }
 
         $validated = $request->validated();
+        $validated['supplier_name'] = Supplier::find($validated['supplier_id'] )->name;
         $validated['user_id'] = auth()->id();
+         $validated['staff'] = auth()->user()->username;
 
         DB::beginTransaction();
 
@@ -81,7 +85,7 @@ class PurchaseController extends Controller
             return $this->exception($bug, 'unknown error', 500);
         }
 
-        return Helper::validRequest(new PurchaseResource($purchase), 'Purchase was sent successfully', 200);
+        return Helper::validRequest(new PurchaseDetailResource($purchase), 'Purchase was sent successfully', 200);
     }
 
     /**
@@ -95,7 +99,7 @@ class PurchaseController extends Controller
 
         try {
 
-            $purchase = new PurchaseResource($purchase);
+            $purchase = new PurchaseDetailResource($purchase);
 
             return Helper::validRequest($purchase, 'specified Purchase was fetched successfully', 200);
 

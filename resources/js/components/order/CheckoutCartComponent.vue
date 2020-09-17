@@ -300,7 +300,7 @@
                         this.$root.alert('error','error',error.response.data.data.error)
                     }else{
                         this.$root.alert('error','error','An unexpected error occured, Try again Later')
-                        console.log(error);
+                        console.log(error.response);
                     }
                 }); 
             },

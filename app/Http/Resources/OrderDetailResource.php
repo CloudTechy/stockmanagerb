@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
 
 class OrderDetailResource extends JsonResource
 {
@@ -23,7 +24,7 @@ class OrderDetailResource extends JsonResource
             'brand' => $this->brand,
             'pku' => $this->pku,
             'size' => $this->size,
-            'customer' => $this->order->customer->name,
+            'customer' => $this->order->customer_name,
             'user' => $this->order->user->username,
             'invoice_id' => $this->order->invoice_id,
             'status' => empty($this->order->invoice->transaction) ? null : $this->order->invoice->transaction->status,

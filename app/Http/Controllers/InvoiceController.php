@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helper;
 use App\Http\Requests\ValidateInvoiceRequest;
-use App\Http\Resources\InvoiceResource;
+use App\Http\Resources\InvoiceResource; 
+use App\Http\Resources\InvoiceDetails; 
 use App\Invoice;
 use App\Jobs\ProcessInvoice;
 use App\Order;
@@ -125,7 +126,7 @@ class InvoiceController extends Controller
             }
             ProcessInvoice::dispatch();
             DB::commit();
-            return Helper::validRequest(new InvoiceResource($invoice_created), 'Invoice was sent successfully', 200);
+            return Helper::validRequest(new InvoiceDetails($invoice_created), 'Invoice was sent successfully', 200);
 
         } catch (Exception $bug) {
             DB::rollback();
@@ -145,7 +146,7 @@ class InvoiceController extends Controller
 
         try {
 
-            $invoice = new InvoiceResource($invoice);
+            $invoice = new InvoiceDetails($invoice);
 
             return Helper::validRequest($invoice, 'specified Invoice was fetched successfully', 200);
 

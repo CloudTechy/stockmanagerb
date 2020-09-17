@@ -70,6 +70,7 @@ class ProductController extends Controller
             return Helper::inValidRequest('User not activated', 'Unauthorized Access!', 400);
         }
         $validated['user_id'] = auth()->id();
+         $validated['staff'] = auth()->user()->username;
 
         DB::beginTransaction();
         try

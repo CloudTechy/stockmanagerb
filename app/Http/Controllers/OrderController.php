@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Helper;
 use App\Http\Requests\ValidateOrderRequest;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\OrderDetailsResource;
 use App\Order;
+use App\Customer;
 use Illuminate\Http\Request;
 use \DB;
 use \Exception;
@@ -65,8 +67,12 @@ class OrderController extends Controller
             return Helper::inValidRequest('User not activated', 'Unauthorized Access!', 400);
         }
 
+
         $validated = $request->validated();
+        $validated['customer_name'] = Customer::find($validated['customer_id'])->name;
         $validated['user_id'] = auth()->id();
+        $validated['staff'] = auth()->user()->username;
+
 
         DB::beginTransaction();
 
@@ -81,7 +87,7 @@ class OrderController extends Controller
             return $this->exception($bug, 'unknown error', 500);
         }
 
-        return Helper::validRequest(new OrderResource($order), 'Order was sent successfully', 200);
+        return Helper::validRequest(new OrderDetailsResource($order), 'Order was sent successfully', 200);
     }
 
     /**
@@ -95,7 +101,7 @@ class OrderController extends Controller
 
         try {
 
-            $order = new OrderResource($order);
+            $order = new OrderDetailsResource($order);
 
             return Helper::validRequest($order, 'specified Order was fetched successfully', 200);
 
@@ -127,7 +133,7 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         $request->except('user_id');
-        $user = auth()->user()->first_name . ' ' . auth()->user()->last_name;
+        $user = auth()->user()->username;
         $validated = $request->validate([
 
             'customer_id' => "numeric|exists:customers,id",

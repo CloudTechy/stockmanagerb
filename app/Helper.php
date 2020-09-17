@@ -123,6 +123,7 @@ class Helper
                 $invoice['user_id'] = $order->user_id;
                 $invoice['amount'] = $order->amount;
                 $invoice['cost'] = $order->cost;
+                $invoice['staff'] = $order->user->username;
 
                 $invoice = Invoice::create($invoice);
                 ProcessInvoice::dispatch();
@@ -137,8 +138,10 @@ class Helper
                 $invoice['type'] = $type;
                 $invoice['purchase_id'] = $orderPurchaseId;
                 $invoice['user_id'] = $purchase->user_id;
+                $invoice['staff'] = $purchase->user->username;
                 $invoice['amount'] = $purchase->amount;
                 $invoice['cost'] = $purchase->amount;
+                $invoice['staff'] = $purchase->user->username;
 
                 $invoice = Invoice::create($invoice);
                 ProcessInvoice::dispatch();

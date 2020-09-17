@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Helper;
 //use Illuminate\Http\Request;
 require base_path('vendor') . '/autoload.php';
-use App\Http\Resources\InvoiceResource;
+use App\Http\Resources\InvoiceDetails;
 use App\Http\Resources\User as UserResource;
 use App\Invoice;
 use App\User;
@@ -30,101 +30,25 @@ class PrintController extends Controller
 
     public function prints(Invoice $invoice, User $user)
     {
-        $invoiceResource = new InvoiceResource($invoice);
-        $invoiceJson = json_encode($invoiceResource, true);
+        $InvoiceDetails = new InvoiceDetails($invoice);
+        $invoiceJson = json_encode($InvoiceDetails, true);
         $invoice = json_decode($invoiceJson);
         $userResource = new UserResource($user);
         $UserJson = json_encode($userResource, true);
         $user = json_decode($UserJson);
         try {
-
             $profile = CapabilityProfile::load("simple");
             $connector = new WindowsPrintConnector("smb://kazzykelson/pos");
             $printer = new Printer($connector, $profile);
-
-            $total = new item('Total', number_format($invoice->total, 2), true);
-            $payment = new item('Amount Recd', number_format($invoice->payment, 2), true);
-            $balance = new item('Change', number_format($invoice->balance, 2), true);
-/* Date is kept the same for testing */
-            $date = date('l jS \of F Y h:i:s A');
-/* Start the printer */
-            $printer = new Printer($connector);
-            /* Name of shop */
-            // $printer->setPrintLeftMargin(0);
-            $printer->setJustification(Printer::JUSTIFY_CENTER);
-            $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-            $printer->text("Big Star IND CO Ltd.\n");
-            $printer->selectPrintMode();
-            $printer->text(" Zone 15 No 76, New Motorcycle Spare Parts Nnewi\n");
-            $printer->text("08039303292\n");
-            $printer->feed();
-/* Title of receipt */
-            $printer->setEmphasis(true);
-            $printer->text("SALES INVOICE\n");
-            $printer->setEmphasis(false);
-            $printer->feed();
-
-            /* customer and invoice details */
-            $printer->setJustification(Printer::JUSTIFY_LEFT);
-            $printer->setEmphasis(true);
-            $printer->text("Customer: ");
-            $printer->setEmphasis(false);
-            $printer->text($invoice->name . "\n");
-            $printer->setEmphasis(true);
-            $printer->text("Telephone: ");
-            $printer->setEmphasis(false);
-            $printer->text($invoice->number . "\n");
-            $printer->setEmphasis(true);
-            $printer->text("Invoice ID: ");
-            $printer->setEmphasis(false);
-            $printer->text($invoice->id . "\n");
-            $printer->setEmphasis(true);
-            $printer->text("Payment due date: ");
-            $printer->setEmphasis(false);
-            $printer->text($invoice->due_date . "\n");
-            $printer->setEmphasis(true);
-            $printer->text("Payment Status: ");
-            $printer->setEmphasis(false);
-            $printer->text($invoice->status . "\n");
-            $printer->feed();
-
-            $printer->setEmphasis(true);
-            $printer->text("Staff : ");
-            $printer->setEmphasis(false);
-            $printer->text($user->username . "\n");
-            $printer->feed();
-
-            /* Items */
-            $printer->setEmphasis(true);
-            $printer->text($this->columnate('Qty', 'Item', 'Price   (=N=)', 'Amount        (=N=)', 4, 18, 8, 14, 4));
-            $data = $this->columnate('Qty', 'Item', 'Price   (=N=)', 'Amount        (=N=)', 4, 18, 8, 14, 4);
-            // dd($data);
-
-            $printer->setEmphasis(false);
-
-            $printer->setJustification(Printer::JUSTIFY_CENTER);
-            foreach ($invoice->details as $item) {
-                $data = $this->columnate($item->quantity, $item->product, number_format($item->price), number_format($item->amount), 4, 18, 6, 17, 3);
-
-                $printer->text($data);
+            $print_type = $invoice->status == "not-paid" ? "SALES INVOICE" : "SALES RECEIPT";
+            if ( $invoice->status == "not-paid") {
+                $this->printJob($user, $invoice, $printer, $print_type, Printer::CUT_FULL);
             }
-/* Tax and total */
-            $printer->setEmphasis(true);
-            $printer->text($total);
-            $printer->text($payment);
-            $printer->text($balance);
-            $printer->setEmphasis(false);
-            $printer->selectPrintMode();
+            else{
+                $this->printJob($user, $invoice, $printer, $print_type, Printer::CUT_PARTIAL);
+                $this->printJob($user, $invoice, $printer, $print_type, Printer::CUT_FULL);
 
-            /* Footer */
-            $printer->feed(2);
-            $printer->setJustification(Printer::JUSTIFY_CENTER);
-            $printer->text("Thank you for shopping at Big Star\n");
-            $printer->text("No refund or return of goods after payment\n");
-            $printer->feed(2);
-            $printer->text($date . "\n");
-            /* Cut the receipt and open the cash drawer */
-            $printer->cut();
+            }
             $printer->pulse();
             $printer->close();
 
@@ -160,6 +84,103 @@ class PrintController extends Controller
         }
         return implode($allLines, "\n") . "\n";
 
+    }
+
+    public function printJob($user, $invoice, $printer, $print_type, $printmode){
+            
+
+            $total = new item('Total', number_format($invoice->total, 2), true);
+            $payment = new item('Amount Recd', number_format($invoice->payment, 2), true);
+            $balance = new item('Change', number_format($invoice->balance, 2), true);
+/* Date is kept the same for testing */
+            $date = date('l jS \of F Y h:i:s A');
+/* Start the printer */
+            $printer = new Printer($connector);
+            /* Name of shop */
+            // $printer->setPrintLeftMargin(0);
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+            $printer->text("Big Star IND CO Ltd.\n");
+            $printer->selectPrintMode();
+            $printer->text(" Zone 15 No 76, New Motorcycle Spare Parts Nnewi\n");
+            $printer->text("08039303292\n");
+            $printer->feed();
+/* Title of receipt */
+            $printer->setEmphasis(true);
+            $printer->text($print_type . "\n");
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->setEmphasis(true);
+            $printer->text("payment status: ");
+            $printer->setEmphasis(false);
+            $printer->text($invoice->status . "\n");
+            $printer->setEmphasis(true);
+            $printer->text("Invoice no: ");
+            $printer->setEmphasis(false);
+            $printer->text($invoice->id . "\n");
+            if ($invoice->status != "not-paid") {
+                $printer->setEmphasis(true);
+                $printer->text("Payment date: ");
+                $printer->setEmphasis(false);
+                $printer->text($invoice->transaction_updated . "\n");
+            }
+            if (!empty($invoice->due_date )) {
+                $printer->setEmphasis(true);
+                $printer->text("Payment due date: ");
+                $printer->setEmphasis(false);
+                $printer->text($invoice->due_date . "\n");
+            }
+            $printer->feed();
+
+            /* customer and invoice details */
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->setEmphasis(true);
+            $printer->text("Customer: ");
+            $printer->setEmphasis(false);
+            $printer->text($invoice->name . "\n");
+            $printer->setEmphasis(true);
+            $printer->text("Telephone: ");
+            $printer->setEmphasis(false);
+            $printer->text($invoice->number . "\n");
+            $printer->feed();
+
+            $printer->setEmphasis(true);
+            $printer->text("Operator : ");
+            $printer->setEmphasis(false);
+            $printer->text($user->username . "\n");
+            $printer->feed();
+
+            /* Items */
+            $printer->setEmphasis(true);
+            $printer->text($this->columnate('Qty', 'Item', 'Price   (=N=)', 'Amount        (=N=)', 4, 18, 8, 14, 4));
+            $data = $this->columnate('Qty', 'Item', 'Price   (=N=)', 'Amount        (=N=)', 4, 18, 8, 14, 4);
+            // dd($data);
+
+            $printer->setEmphasis(false);
+
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            foreach ($invoice->details as $item) {
+                $data = $this->columnate($item->quantity, $item->product, number_format($item->price), number_format($item->amount), 4, 18, 6, 17, 3);
+
+                $printer->text($data);
+            }
+/* Tax and total */
+            $printer->setEmphasis(true);
+            $printer->text($total);
+            $printer->text($payment);
+            $printer->text($balance);
+            $printer->setEmphasis(false);
+            $printer->selectPrintMode();
+
+            /* Footer */
+            $printer->feed(2);
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->text("Thank you for shopping at Big Star\n");
+            $printer->text("No refund or return of goods after payment\n");
+            $printer->feed(2);
+            $printer->text($date . "\n");
+            /* Cut the receipt and open the cash drawer */
+            $printer->cut($printmode);
+            
     }
 
 }

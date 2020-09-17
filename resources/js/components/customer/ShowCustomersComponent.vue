@@ -45,22 +45,26 @@
                             <td class="text-capitalize">{{  customer.name }}</td>
                             <td class="text-capitalize">{{  customer.number }}</td>
                             <td class="text-capitalize">{{  customer.email }}</td>
-                            <td><span  v-if = "customer.owing > 0" v-bind:class="{badge:true, 'badge-danger':customer.owing > 0, 'badge-success' : customer.owing ==0}"><span class="users-list-date float-right text-white small text-capitalize "> <span class="" style="text-decoration: line-through">N</span>{{ $root.numeral(customer.owing) }}</span></span><br>
-                                <span style="cursor: pointer" v-if = "customer.owing > 0 && customer.orders.length > 0" class="badge float-right badge-secondary small strong">
-                                    <div class="small"  @click.prevent = "$root.addTransactionComponent(customer.orders,'order')" >
-                                        <button  title="make transaction" class=" btn-link badge badge-secondary btn-secondary small m-1" data-toggle="" data-target=""  >
-                                              {{'pay ' + customer.orders.length + ' order(s)'}}
+
+                            <td>
+                                <span style="cursor: pointer" v-if = "customer.owing > 0 " class="  small   float-right  strong">
+                                    <div class=""  @click.prevent = "getCustomerOrders(customer.id)" >
+                                        <button  title="make transaction" class=" btn badge badge-success m-1 p-2" data-toggle="" data-target=""  >
+                                              {{'Pay Now'}}
                                         </button>
                                     </div>
                                 </span>
+                                <span  v-if = "customer.owing > 0" v-bind:class="{badge:true, 'm-1' : true, 'p-2' : true, 'badge-danger':customer.owing > 0, 'badge-success' : customer.owing ==0}"><span class="users-list-date float-right text-white  text-capitalize "> <span class="" style="text-decoration: line-through">N</span>{{ $root.numeral(customer.owing)  }}</span></span><br>
+                                
                             </td>
+
                             <td class="text-capitalize">{{  customer.added_by }}</td>
                             <td class="text-capitalize small">{{  customer.date }}</td>
                             <td>
                                 <div style="width: 200px;">
                                     <button @click="createOrder(customer.id,index+start)" type="button" title="make order" class="btn btn-outline-success"><i class="fas fa-shopping-cart"></i></button>
                                     <button  @click="loadEditCustomer(customer,index)" type="button" title="edit this customer" class="btn btn-outline-primary m-1"  data-toggle="modal" data-target="#editCustomerModal" ><i class="fas fa-pen"></i></button>
-                                    <button @click="loadView(customer,index+start)" type="button" title="view more" class="  m-1 btn btn-outline-info"><i class="fas fa-street-view"></i></button>
+                                    <!-- <button @click="loadView(customer,index+start)" type="button" title="view more" class="  m-1 btn btn-outline-info"><i class="fas fa-street-view"></i></button> -->
                                     <button @click="deleteCustomer(customer.id,index+start)" type="button" title="delete this customer" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></button>
                                 </div>
                             </td>
@@ -179,6 +183,29 @@
             }         
         },
         methods: {
+            getCustomerOrders(customer_id){
+                this.form.get('./api/orders?pageSize=10000000&customer_id='+customer_id)
+                .then( response => {
+                    if(response.data.status == true){
+                        this.$root.addTransactionComponent(response.data.data.item,'order')
+                    }
+                    else{
+                        this.$root.alert('error','error','could not fetch orders, refresh this page and try again')
+                        return []
+                    }
+                })
+                .catch(error=> {
+                    this.$Progress.fail()
+                    if(error.response){
+                        var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message
+                        this.$root.alert('error','error',message)
+                         console.log(error.response.data.error)
+                    }
+                    else{
+                        console.log(error.response);
+                    }
+                }); 
+            },
             loadCustomers(){
                 this.$Progress.start();
                 var form = new Form()

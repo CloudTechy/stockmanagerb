@@ -29,9 +29,9 @@
                         <tr role="row " >
                             <th>ID</th>
                             <th>Type</th>
-                            <th>Order ID</th>
-                            <th>Done By</th>
-                            <th>Status</th>
+                            <th>Type id</th>
+                            <th>Staff</th>
+                            <th>Amount</th>
                             <th>Created</th>
                             <th class="text-center">Action</th>
 
@@ -41,9 +41,10 @@
                         <tr v-for = "invoice,index in pageLoader(current_page)">
                             <td class="text-capitalize">{{  invoice.id }}</td>
                             <td class="text-capitalize">{{  invoice.type }}</td>
-                            <td class="text-capitalize">{{  invoice.order_id }}</td>
+                            <td class="text-capitalize">{{  invoice.order_id ||  invoice.purchase_id }}</td>
                             <td class="text-capitalize">{{  invoice.user }}</td>
-                            <td class="text-center">
+                            <td class="text-capitalize">{{ "N" + $root.numeral(invoice.amount) }}</td>
+                            <!-- <td class="text-center">
                                 <span v-bind:class="{badge:true, 'badge-danger':invoice.status == 'not-paid',  'badge-success' : invoice.status == 'paid', 'badge-warning':invoice.status == 'pending' }">
                                     {{ invoice.status }}
                                 </span><br>
@@ -54,7 +55,7 @@
                                         </button>
                                     </div>
                                 </span>
-                            </td>
+                            </td> -->
                             <td class="text-capitalize small">{{  invoice.date }}</td>
                             <td>
                                 <div style="width: 110px;">
@@ -130,7 +131,8 @@
                 current_page: 1,
                 length: 0,
                 pages : 0,
-                form: new Form()
+                form: new Form(),
+                invoice : undefined
             }
         },
         watch : {
