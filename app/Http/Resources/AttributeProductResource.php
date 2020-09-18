@@ -20,7 +20,7 @@ class AttributeProductResource extends JsonResource
 
             'id' => $this->id,
             'product_id' => $this->product_id,
-            'product' => $this->product->name . '-' . $this->product->category . '-' . $this->attribute->type . '-' . $this->size,
+            'product' =>   $this->size . ' ' .  $this->attribute->type . ' ' .$this->product->category . ' - ' .$this->product->name,
             'TOS' => $this->product->name . ' ' . $this->product->category . ' ' . $this->attribute->type . ' ' . $this->size . ' ' . $this->created_at->format('Y-m-d H:i:s') . ' ' . $this->updated_at->format('Y-m-d H:i:s'),
             'name' => $this->product->name,
             'brand' => $this->attribute->type,
@@ -30,7 +30,7 @@ class AttributeProductResource extends JsonResource
             'image' => $this->product->image,
             'description' => $this->product->description,
             'purchase_price' => $this->purchase_price,
-            "price" => $this->price,
+            "price" => (float) $this->price,
             'amount' => $this->amount,
             'discount' => $this->product->discount,
             'discount_start' => $this->product->discount_start,

@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-6 col-md-6">
                         <div id="example1_filter" class="dataTables_filter float-right">
-                            <label>Search:<input v-model="search" type="search" class="form-control form-control-sm" placeholder="search invoice" aria-controls="example1">
+                            <label>Search:<input v-model="search" type="search" class="form-control form-control-sm" placeholder="search " aria-controls="example1">
                             </label>
                         </div>
                     </div> 
@@ -38,18 +38,17 @@
                             <table  class="table table-bordered table-small table-hover table-striped dataTable" >
                                 <thead class="text-center ">
                                     <tr role="row" class="text-center">
-                                            <th>Owner</th>
+                                        <th>Operator</th>
                                             <th>Amount <br> (<span style="text-decoration: line-through">N</span>)</th>
                                             <th>Payment <br> (<span style="text-decoration: line-through">N</span>)</th>
                                             <th>Status</th>
-                                            <th>Type</th>
                                             <th>Date</th>
-                                            <th>User</th>
+                                            
                                         </tr>
                                 </thead>
                                 <tbody id="body">
                                     <tr v-for = " transaction in pageLoader(current_page) ">
-                                        <td>{{ transaction.owner }}</td>
+                                        <td>{{ transaction.user }}</td>
                                         <td>{{numeral(transaction.amount) }}</td>
                                         <td>{{numeral(transaction.payment) }}</td>
                                         <td class="p-sm-1 text-center" v-if = "transaction.status == 'paid'">
@@ -73,9 +72,8 @@
                                                 </button>
                                             </div>
                                         </td>
-                                        <td>{{ transaction.type }}</td>
                                         <td>{{ transaction.updated_at }}</td>
-                                        <td>{{ transaction.user }}</td>
+                                        
                                         
                                     </tr>
                                     <tr v-if = "loading == false && pageLoader(current_page).length == 0">
@@ -102,7 +100,7 @@
                                 </tbody>
                                 <tfoot class="text-center">
                                 <tr>
-                                    <th>Owner</th><th>Amount</th><th>Payment</th><th>Status</th><th>Type</th><th>Date</th><th>User</th>
+                                    <th>operator</th><th>Amount</th><th>Payment</th><th>Status</th><th>Date</th>
 
                                 </tr>
                                 </tfoot>

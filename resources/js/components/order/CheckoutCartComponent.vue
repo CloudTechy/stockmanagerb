@@ -20,11 +20,11 @@
                                         <fieldset class="border border-warning p-2">
                                             <legend  class="w-auto small font-weight-bold border bg-warning">Customer Details</legend>
                                             <div class="form-group row">
-                                                <label for="name" class="col-sm-6 col-form-label">Customer ID</label>
+                                                <label for="name" class="col-sm-6 col-form-label">Customer details</label>
                                                 <div class="col-sm-6">
                                                     <input id= "customer_id" ref="customer_id" name = "customer_id" list = "customers" class="form-control" type="text" v-model = "customer_id" required="" >
-                                                    <datalist id="customers">
-                                                        <option  v-for = "customer in customers" :value="customer.id"></option>
+                                                    <datalist size = '5' id="customers">
+                                                        <option  v-for = "customer in customers" :value="customer.id"> {{ `${customer.name} ${customer.number}` }}</option>
                                                     </datalist>
                                                 </div>
                                             </div>
@@ -144,7 +144,7 @@
                 this.loadCustomerDetails();
             },
             customers(){
-                if (customer_id) {
+                if (this.customer_id) {
                     this.loadCustomerDetails();
                 }
             }
@@ -183,7 +183,7 @@
                         return false
                     }
                     var bool = keys.forEach((key) => {
-                      if(key != null && key == this.customer_id) {
+                      if(key != null && key == this.customer_id) { 
                         boolean = true
                       }
                     }) 
@@ -238,7 +238,7 @@
             	})
 
             	this.builtCart.forEach((item) => {
-            		this.orderdetails.push({[item.id] : parseInt(item.quantity)})
+            		this.orderdetails.push({[item.id] : `${item.quantity} ${item.price}`})
             	})
             	
             },

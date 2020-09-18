@@ -75,7 +75,10 @@ class ValidateOrderDetailRequest extends FormRequest
                 'min:1', //
                 function ($attribute, $value, $fail) {
 
-                    foreach ($value as $id => $quantity) {
+                    foreach ($value as $id => $weight) {
+
+                        $quantity = explode(" ", $weight);
+                         $quantity = $quantity[0];
 
                         $attributeProduct = AttributeProduct::find($id);
 

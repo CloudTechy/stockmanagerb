@@ -21,7 +21,9 @@
                                                 <div class="col-sm-6">
                                                     <input id= "supplier_id" ref="supplier_id" name = "supplier_id" list = "suppliers" class="form-control" type="text" v-model = "supplierID" required="" >
                                                     <datalist id="suppliers">
-                                                        <option  v-for = "supplier in suppliers" :value="supplier.id"></option>
+                                                        <option  v-for = "supplier in suppliers" :value="supplier.id">
+                                                            {{`${supplier.name} ${supplier.phone}`}}
+                                                        </option>
                                                     </datalist>
                                                 </div>
                                             </div>

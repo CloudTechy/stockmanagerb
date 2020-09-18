@@ -1,40 +1,36 @@
 <template>
-  <div>
-    <nav-component></nav-component>
-    <sidebar-component></sidebar-component>
-    <!-- <div class="modal fade" id="addOrderComponent"><add-order-component></add-order-component></div> -->
-    <div class="content-wrapper" style="min-height: 606px;">
-      <div class="content-header">
-        <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-12">
-              <h1 class="m-0 text-dark">orders</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="content">
-        <div  class="container-fluid">
-            <div class="card card-success card-outline m-auto ">
-
-              <div class="no-print">
-                <div class="card-header  mb-2">
-                  <h5 class="card-title font-weight-bold text-secondary">Make an Order</h5>
+    <div>
+        <nav-component></nav-component>
+        <sidebar-component></sidebar-component>
+        
+        <div class="content-wrapper" style="min-height: 606px;">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1 class="m-0 text-dark">orders</h1>
+                        </div>
+                    </div>
                 </div>
-                <show-orders-component></show-orders-component>
-              </div>
-              <hr>
+            </div>
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="card card-success card-outline m-auto ">
+                        <div class="no-print">
+                            <div class="card-header  mb-2">
+                                <h5 class="card-title font-weight-bold text-secondary">Make an Order</h5>
+                            </div>
+                            <show-orders-component></show-orders-component>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            
         </div>
-      </div>
     </div>
-   </div> 
-  </div>
-  
 </template>
-
 <script>
-  
     export default {
         mounted() {
          
@@ -124,9 +120,5 @@
     }
 
 </script>
-
-<style  type="text/css">
-  
-  
-   
+<style type="text/css">
 </style>

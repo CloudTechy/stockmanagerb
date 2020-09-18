@@ -21,6 +21,7 @@ class CreateTransactionsTable extends Migration
             $table->decimal('payment', 60, 4)->default(0);
             $table->string('status')->index()->default('pending');
             $table->date('due_date')->nullable();
+            $table->string('staff')->index();
             $table->integer('user_id')->unsigned()->index();
             $table->string('updated_by')->nullable();
             $table->timestamps();

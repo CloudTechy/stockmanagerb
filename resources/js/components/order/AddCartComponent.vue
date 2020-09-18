@@ -19,7 +19,7 @@
                                     <table class="table table-valign-middle">
                                         <tbody>
                                             <tr>
-                                                <td class="font-weight-bold">Product Name: </td>
+                                                <td class="font-weight-bold">Item: </td>
                                                 <td>
                                                    <div class="form-group">
                                                         <input  type=text v-model="form.name" disabled =""  class="form-control" ref="name" placeholder="name">
@@ -27,18 +27,11 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="font-weight-bold">Brand: </td>
-                                                <td>
-                                                   <div class="form-group">
-                                                        <input  type=text v-model="form.brand" disabled =""  class="form-control" ref="brand" placeholder="brand">
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="font-weight-bold">Size: </td>
+                                                <td class="font-weight-bold">Price: </td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input  type="text" v-model="form.size" disabled ="" class="form-control" ref="size" placeholder="size">
+                                                        <input title="you can change the price if you may"  type="text" v-model="form.price" class="form-control" ref="price" placeholder="price">
+                                                        <label class="small">Current price   <span style="text-decoration: line-through">N</span> {{$root.numeral(product.price) }}</label>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -46,7 +39,8 @@
                                                 <td class="font-weight-bold">Quantity: </td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input  type="number" v-model="form.quantity" required="" min="1" class="form-control" ref="quantity" placeholder="Enter quantity">
+                                                        <input  type="number" :max = "product.stock" v-model="form.quantity" required="" min="1" class="form-control" ref="quantity" placeholder="Enter quantity">
+                                                         <label class="small">Remaining {{product.stock}}pc(s)</label>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -77,10 +71,8 @@
                 this.product = this.$root.product;
                 this.index = this.$root.index;
                 this.product.quantity = 0;
-                this.form.name = this.product.name;
-                this.form.category = this.product.category;
-                this.form.brand = this.product.brand;
-                this.form.size = this.product.size
+                this.form.name = this.product.product;
+                this.form.price = this.product.price
                 this.$refs.quantity.focus();
                 this.$root.product = '';
             }
@@ -89,12 +81,15 @@
             return{
                 form : new Form({
                     name: '',
-                    category: '',
-                    brand : '',
-                    size : '',
+                    price : '',
                     quantity: '',
                 }),
                 product : {},
+            }
+        },
+        computed : {
+            amount(){
+                return this.form.price != "" && this.form.quantity != "" ? this.form.price * this.form.quantity : 0
             }
         },
         beforeDestroy(){
@@ -113,6 +108,8 @@
                     var product = this.product.id;
                     var quantity = this.form.quantity;
                     this.product.quantity = this.form.quantity
+                    this.product.price = this.form.price
+                    this.product.amount = this.amount 
                     this.$emit('cart_created',this.product)
                     this.$refs.closeButton.click();
                     this.closeComponent()

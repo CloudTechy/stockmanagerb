@@ -89,7 +89,7 @@ Stockmanager Web Application by Spacehub Technologies
       <footer class="main-footer no-print text-left">
         <!-- To the right -->
         <div class="float-right d-none d-sm-inline">
-         Version 0.1.0
+         Version 0.1.1
         </div>
         <!-- Default to the left -->
         <strong>Copyright &copy; {{ date('y') }} <span>SpaceHub Technologies</span>.</strong> All rights reserved.

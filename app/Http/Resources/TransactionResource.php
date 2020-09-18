@@ -33,6 +33,7 @@ class TransactionResource extends JsonResource
             'payment' => $this->payment,
             'status' => $this->status,
             // 'type' => $this->invoice->type,
+            'user' => $this->staff,
             'due' => $this->due,
             'updated_by' => $this->updated_by,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),

@@ -79,15 +79,17 @@ class OrderDetailController extends Controller
                 $val = array_keys($value);
                 $id = $val[0];
                 $quan = array_values($value);
-                $quantity = $quan[0];
+                $quantityPrice = explode(" ", $quan[0]);
+                $quantity = intval($quantityPrice[0]) ;
+                $price =  intval($quantityPrice[1]);
                 $productAttribute = AttributeProduct::find($id);
                 $brand = Attribute::find($productAttribute->attribute_id);
                 $product = Product::find($productAttribute->product_id);
                 if ($product->discountValidity) {
-                    $price = (100 - $product->discount) / 100 * (float) $productAttribute->price;
+                    $price = (100 - $product->discount) / 100 * (float) $price;
                     $orderDetail['price'] = (float) $price;
                 } else {
-                    $orderDetail['price'] = (float) $productAttribute->price;
+                    $orderDetail['price'] = (float) $price;
 
                 }
 

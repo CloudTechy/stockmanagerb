@@ -30,7 +30,7 @@
                     Big Star IND CO LTD<br>
                     <span class="small">Zone 15 NO 76, New Motorcycle Spare Parts Nnewi</span><br>
                     <span class="small">08039303292</span><br>
-                    <b>Operator:</b> {{ user.username || "N/A" }}<br>
+                    <b>Operator:</b> {{ $root.$session.get('user').username || "N/A" }}<br>
                 </address>
             </div>
             <!-- /.col -->
@@ -122,14 +122,12 @@ export default {
         this.$nextTick(() => {
 
             this.invoice = this.$root.invoice
-            this.user = this.$root.$session.get('user')
 
         });
     },
     beforeRouteEnter(to, from, next) {
         next(vm => {
             vm.invoice = vm.$root.invoice
-            vm.user = vm.$root.$session.get('user')
         });
     },
     beforeCreate() {

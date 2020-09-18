@@ -70,6 +70,7 @@ class TransactionController extends Controller
 
         $validated = $request->validate(['invoice_id' => 'required|string|exists:invoices,id']);
         $validated['user_id'] = auth()->id();
+        $validated['staff'] = auth()->user()->username;
         $request->except('updated_by');
         $transaction = "";
         // if (Transaction::where('invoice_id', $validated['invoice_id'])->count() > 0) {
@@ -162,7 +163,7 @@ class TransactionController extends Controller
         
         try {
             $request->only('payment', 'due_date');
-            $validated['updated_by'] = auth()->user()->first_name . ' ' . auth()->user()->last_name;
+            $validated['updated_by'] = auth()->user()->username;
             $validated = $request->validate(['payment' => 'nullable|numeric', 'due_date' => 'nullable|date']);
             $invoice = Invoice::find($transaction->invoice_id);
             $type = $invoice->type;
@@ -170,6 +171,7 @@ class TransactionController extends Controller
             $new_payment =  $validated['payment'] ;
             $amount = $transaction->amount;
             $remaining_payment = $amount - $old_payment;
+            $validated['staff'] = auth()->user()->username;
 
             if(empty($new_payment)){
                 $validated['status'] = 'not-paid';
