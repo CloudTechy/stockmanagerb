@@ -1,5 +1,5 @@
 
-const version = "v1:1:5"; //Change if you want to regenerate cache
+const version = "v1:1:6"; //Change if you want to regenerate cache
 const staticCacheName = `${version}static-resources`;
 
 self.addEventListener('install', event => {

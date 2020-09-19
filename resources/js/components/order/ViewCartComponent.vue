@@ -21,11 +21,7 @@
                             <div class="product-info ml-0">
                               <a href="javascript:void(0)" class="product-title"> 
                                 <span class="badge badge-warning float-right"> <span style="text-decoration: line-through">N</span> {{$root.numeral(product.price) }}</span>
-                                <span class="product-description clearfix">{{product.product }}</span>
-                                </a>
-                          <!--     <span class="product-description small">
-                                {{ product.category +  ", " + product.brand + ", " + product.size + ", " + product.unit}}.
-                              </span> -->
+                                <span class="product-description clearfix">{{product.product }}</span></a>
                               <span  v-bind:class = "{badge: true,small : true,'badge-success' :true, 'float-right' : true}"> {{ product.quantity }}</span>
                               <span  class="text-primary product-description small clearfix">Quantity</span>
                               <span class="badge badge-warning float-right">Amount: <span style="text-decoration: line-through">N</span> {{$root.numeral(product.price * product.quantity) }}</span>

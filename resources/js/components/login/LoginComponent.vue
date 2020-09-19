@@ -83,7 +83,7 @@
                     password: '',
                 }),
                 error : '',
-                path : '/dashboard'
+                path : '/orders'
             }
 
         },
@@ -92,7 +92,7 @@
         next(vm => {
                 
             if(from.path == "" ||  from.path == undefined || from.path == '/payment' ){
-                vm.path = "/dashboard"
+                vm.path = "/orders"
             }
             else{
                 vm.path = from.path

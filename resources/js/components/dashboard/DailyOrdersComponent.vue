@@ -46,6 +46,10 @@
                     } 
                 })
                 .catch( error => {
+                    if (error.response.status == 401) {
+                    this.$router.push("/login")
+
+                }
                     this.error = error.response.data.error;
                 }); 
             },

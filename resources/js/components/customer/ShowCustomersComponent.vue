@@ -223,6 +223,11 @@
                     }
                 })
                 .catch(error=> {
+                    if (error.response.status == 401) {
+                    this.$Progress.finish()
+                    this.$router.push("/login")
+
+                }
                     this.$Progress.fail()
                     if(error.response){
                         var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message

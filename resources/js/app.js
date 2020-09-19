@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -14,31 +13,32 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 let routes = [
-  { path: '/users', component: require('./components/user/UserSummaryComponent.vue').default },
-  { path: '/sizes', component: require('./components/size/SizeComponent.vue').default },
-  { path: '/dashboard', component: require('./components/dashboard/DashboardComponent.vue').default },
-  { path: '/units', component:  require('./components/unit/UnitComponent.vue').default},
-  { path: '/brands', component: require('./components/brand/BrandComponent.vue').default },
-  { path: '/banks', component: require('./components/bank/BankComponent.vue').default },
-  { path: '/categories', component: require('./components/category/CategoryComponent.vue').default },
-  { path: '/', component: require('./components/order/OrderComponent.vue').default },
-  // { path: '/', component: require('./components/dashboard/DashboardComponent.vue').default },
-  { path: '/login', component: require('./components/login/LoginComponent.vue').default },
-  { path: '/customers', component: require('./components/customer/CustomerComponent.vue').default },
-  { path: '/suppliers', component: require('./components/supplier/SupplierComponent.vue').default },
-  { path: '/invoices', component: require('./components/invoice/InvoiceComponent.vue').default },
-  { path: '/print_invoice', component: require('./components/InvoicePrintComponent.vue').default },
-  { path: '/transactions', component: require('./components/transaction/TransactionComponent.vue').default },
-  { path: '/payment', component: require('./components/transaction/AddTransactionComponent.vue').default },
-  { path: '/products', component: require('./components/product/PurchaseComponent.vue').default },
-  { path: '/orders', component: require('./components/order/OrderComponent.vue').default },
-  { path: '/statistics', component: require('./components/statistic/StatisticComponent.vue').default },
+    { path: '/users', component: require('./components/user/UserSummaryComponent.vue').default },
+    { path: '/sizes', component: require('./components/size/SizeComponent.vue').default },
+    { path: '/dashboard', component: require('./components/dashboard/DashboardComponent.vue').default },
+    { path: '/units', component: require('./components/unit/UnitComponent.vue').default },
+    { path: '/brands', component: require('./components/brand/BrandComponent.vue').default },
+    { path: '/banks', component: require('./components/bank/BankComponent.vue').default },
+    { path: '/categories', component: require('./components/category/CategoryComponent.vue').default },
+    { path: '/', component: require('./components/order/OrderComponent.vue').default },
+    // { path: '/', component: require('./components/dashboard/DashboardComponent.vue').default },
+    { path: '/login', component: require('./components/login/LoginComponent.vue').default },
+    { path: '/customers', component: require('./components/customer/CustomerComponent.vue').default },
+    { path: '/suppliers', component: require('./components/supplier/SupplierComponent.vue').default },
+    { path: '/invoices', component: require('./components/invoice/InvoiceComponent.vue').default },
+    { path: '/print_invoice', component: require('./components/InvoicePrintComponent.vue').default },
+    { path: '/transactions', component: require('./components/transaction/TransactionComponent.vue').default },
+    { path: '/payment', component: require('./components/transaction/AddTransactionComponent.vue').default },
+    { path: '/products', component: require('./components/product/PurchaseComponent.vue').default },
+    { path: '/orders', component: require('./components/order/OrderComponent.vue').default },
+    { path: '/statistics', component: require('./components/statistic/StatisticComponent.vue').default },
 
 ]
-const router = new VueRouter({ mode:'history',
-  routes
+const router = new VueRouter({
+    mode: 'history',
+    routes
 })
- 
+
 window.Fire = new Vue()
 
 
@@ -50,200 +50,212 @@ global.Raphael = Raphael
 import VueProgressBar from 'vue-progressbar'
 
 const options = {
-  color: '#ffc107',
-  failedColor: 'red',
-  thickness: '5px',
-  transition: {
-    speed: '0.1s',
-    opacity: '0.6s',
-    termination: 36000
-  },
-  autoRevert: false,
-  location: 'top',
-  inverse: false
+    color: '#ffc107',
+    failedColor: 'red',
+    thickness: '5px',
+    transition: {
+        speed: '0.1s',
+        opacity: '0.6s',
+        termination: 36000
+    },
+    autoRevert: false,
+    location: 'top',
+    inverse: false
 }
 
 Vue.use(VueProgressBar, options)
 
 import VueSweetalert2 from 'vue-sweetalert2';
- 
+
 const sweetOptions = {
-  confirmButtonColor: '#41b882',
-  cancelButtonColor: '#ff7674'
+    confirmButtonColor: '#41b882',
+    cancelButtonColor: '#ff7674'
 }
- 
+
 Vue.use(VueSweetalert2, sweetOptions)
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 VueCookies.config('7d')
 import { Form, HasError, AlertError } from 'vform'
- 
- window.Form = Form;
+
+window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
 import VueSession from 'vue-session'
-Vue.use(VueSession,{persist : true})
+Vue.use(VueSession, { persist: true })
 const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 
 Array.prototype.sum = function(prop) {
-  var total = 0
-  for ( var i = 0, _len = this.length; i < _len; i++ ) {
-      total = total + parseInt( this[i][prop])
-  }
-  return total
-} 
+    var total = 0
+    for (var i = 0, _len = this.length; i < _len; i++) {
+        total = total + parseInt(this[i][prop])
+    }
+    return total
+}
 
 const app = new Vue({
-  el: '#dashboard',
-  router,
-  data : {
-  	respond : '',
-    VueProgressBar,
-    VueSweetalert2,
-    VueSession,
-    VueCookies,
-  	donutOrders:{},
-  	error : '',
-    token:'',
-    user: {},
-    form: new Form(),
-    transactions: ''
-  },
-  beforeCreate: function () {
-    window.axios.defaults.headers.common['Authorization'] = 'Bearer '+ this.$session.get('token')
-    if (!this.$session.exists() || window.axios.defaults.headers.common['Authorization'] == undefined) {
-      console.log('app routing to login');
-      this.$router.push('/login')
-    }
-    else {
-      window.axios.defaults.headers.common['Authorization'] = 'Bearer '+ this.$session.get('token')
-    } 
-  },
-  mounted(){
-  // this.$nextTick(function () {
-	// console.log('test');
-	// })
-  },
-  created () {
-    this.$Progress.start()
-    this.$router.beforeEach((to, from, next) => {
-      if (to.meta.progress !== undefined) {
-        let meta = to.meta.progress
-        this.$Progress.parseMeta(meta)
-      }
-      this.$Progress.start()
-      next()
-    })
-    this.$router.afterEach((to, from) => {
-      this.$Progress.finish()
-    })
-
-    if(!this.$session.exists() || window.axios.defaults.headers.common['Authorization'] != 'Bearer '+ this.$session.get('token')) {
-      this.$router.push('/login')
-    }
-
-    //window.axios.defaults.headers.common['Authorization'] = 'Bearer '+ this.$session.get('token')
-    // window.addEventListener('beforeunload', () => {
-    //   this.$session.destroy()
-    //   this.$root.alert('info','leaving?','see you soon')
-    // })
-    Fire.$on('user_login', (data)=> {
-      this.loadUser(data);
-    })
-  },
-  methods:{
-    alert(type,title,message){
-      this.$swal({
-        toast: true,
-        position: 'top-end',type,title,text:message,
-        showConfirmButton: false,
-        timer: 1500
-      })
+    el: '#dashboard',
+    router,
+    data: {
+        respond: '',
+        VueProgressBar,
+        VueSweetalert2,
+        VueSession,
+        VueCookies,
+        donutOrders: {},
+        error: '',
+        token: '',
+        user: {},
+        form: new Form(),
+        transactions: ''
     },
-    numeral(value){
-        return numeral(value).format('0,0.00');
+    beforeCreate: function() {
+        this.$Progress.start()
+Vue.prototype.$session.start()
+        window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$session.get('token')
+        if (!Vue.prototype.$session.exists() || window.axios.defaults.headers.common['Authorization'] == undefined) {
+            console.log('app routing to login');
+            this.$router.push('/login')
+        } else {
+            window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$session.get('token')
+        }
+        var form = new Form()
+        form.get('./api/users/?id=1')
+            .then(response => {
+                this.$Progress.finish()
+            })
+            .catch((error) => {
+                if (error.response.status == 401) {
+                    this.$Progress.finish()
+                    this.$router.push("/login")
+
+                }
+            })
+
     },
-    created_atFilter(list, search) {
-             
+    mounted() {
+        // this.$nextTick(function () {
+        // console.log('test');
+        // })
+    },
+    created() {
+        this.$Progress.start()
+        this.$router.beforeEach((to, from, next) => {
+            if (to.meta.progress !== undefined) {
+                let meta = to.meta.progress
+                this.$Progress.parseMeta(meta)
+            }
+            this.$Progress.start()
+            next()
+        })
+        this.$router.afterEach((to, from) => {
+            this.$Progress.finish()
+        })
+
+        if (!this.$session.exists() || window.axios.defaults.headers.common['Authorization'] != 'Bearer ' + this.$session.get('token')) {
+            this.$router.push('/login')
+        }
+
+        //window.axios.defaults.headers.common['Authorization'] = 'Bearer '+ this.$session.get('token')
+        // window.addEventListener('beforeunload', () => {
+        //   this.$session.destroy()
+        //   this.$root.alert('info','leaving?','see you soon')
+        // })
+        Fire.$on('user_login', (data) => {
+            // this.loadUser(data);
+        })
+    },
+    methods: {
+        alert(type, title, message) {
+            this.$swal({
+                toast: true,
+                position: 'top-end',
+                type,
+                title,
+                text: message,
+                showConfirmButton: false,
+                timer: 1500
+            })
+        },
+        numeral(value) {
+            return numeral(value).format('0,0.00');
+        },
+        created_atFilter(list, search) {
+
             var data = [];
             if (search) {
                 data = list.filter((item) => {
 
-                return item.created_at.toString().toLowerCase().includes(search.toLowerCase()) 
-             })
+                    return item.created_at.toString().toLowerCase().includes(search.toLowerCase())
+                })
 
             } else {
                 data = list;
             }
             return data;
         },
-    myFilter (list,search){
-      var data = [];
-      if(search){
-        data =  list.filter((item)=>{
-        var keys = Object.values(item)
-        var boolean = false
-        if(item == undefined){
-          return false
-        }
-        var bool = keys.forEach((key) => {
-          if(key != null && key.toString().toLowerCase().includes(search.toLowerCase())) {
-            boolean = true
-          }
-        }) 
-         return boolean
-      })
-      }else{
-        data = list;
-      }
-      return data;
-    },
-    loadUser(data){
-    },
-    addTransactionComponent(transaction,type){
-      this.$Progress.start()
-      if (transaction == undefined) {
-        this.transaction = undefined;
-        this.orderIDs = undefined
-        this.purchaseIDs = undefined
-        this.invoice = undefined;
-        console.log('payment default');
-      }
-      else if(type == undefined){
-        this.transaction = transaction;
-        this.orderIDs = undefined
-        this.purchaseIDs = undefined
-        this.invoice = undefined;
-      }
-      else if(type == 'order'){
-        this.orderIDs = transaction
-        this.transaction = undefined;
-        this.purchaseIDs = undefined
-        this.invoice = undefined;
-      }
-      else if(type == 'purchase'){
-        this.purchaseIDs = transaction
-        this.transaction = undefined;
-        this.orderIDs = undefined
-        this.invoice = undefined;
-      }
-      else if(type == 'invoice'){
-        this.invoice = transaction;
-        this.purchaseIDs = undefined
-        this.transaction = undefined;
-        this.orderIDs = undefined;
-      }
-      window.dispatchEvent(new Event('sidebar_min'));
-      this.$Progress.finish()
-      this.$router.push('/payment')
-    },
-    back(){
-      this.$router.go(-1)
-    },
-  }
+        myFilter(list, search) {
+            var data = [];
+            if (search) {
+                data = list.filter((item) => {
+                    var keys = Object.values(item)
+                    var boolean = false
+                    if (item == undefined) {
+                        return false
+                    }
+                    var bool = keys.forEach((key) => {
+                        if (key != null && key.toString().toLowerCase().includes(search.toLowerCase())) {
+                            boolean = true
+                        }
+                    })
+                    return boolean
+                })
+            } else {
+                data = list;
+            }
+            return data;
+        },
+        loadUser() {
+
+        },
+        addTransactionComponent(transaction, type) {
+            this.$Progress.start()
+            if (transaction == undefined) {
+                this.transaction = undefined;
+                this.orderIDs = undefined
+                this.purchaseIDs = undefined
+                this.invoice = undefined;
+                console.log('payment default');
+            } else if (type == undefined) {
+                this.transaction = transaction;
+                this.orderIDs = undefined
+                this.purchaseIDs = undefined
+                this.invoice = undefined;
+            } else if (type == 'order') {
+                this.orderIDs = transaction
+                this.transaction = undefined;
+                this.purchaseIDs = undefined
+                this.invoice = undefined;
+            } else if (type == 'purchase') {
+                this.purchaseIDs = transaction
+                this.transaction = undefined;
+                this.orderIDs = undefined
+                this.invoice = undefined;
+            } else if (type == 'invoice') {
+                this.invoice = transaction;
+                this.purchaseIDs = undefined
+                this.transaction = undefined;
+                this.orderIDs = undefined;
+            }
+            window.dispatchEvent(new Event('sidebar_min'));
+            this.$Progress.finish()
+            this.$router.push('/payment')
+        },
+        back() {
+            this.$router.go(-1)
+        },
+    }
 });
-
-

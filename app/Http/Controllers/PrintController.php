@@ -95,7 +95,7 @@ class PrintController extends Controller
 /* Date is kept the same for testing */
             $date = date('l jS \of F Y h:i:s A');
 /* Start the printer */
-            $printer = new Printer($connector);
+            // $printer = new Printer($connector);
             /* Name of shop */
             // $printer->setPrintLeftMargin(0);
             $printer->setJustification(Printer::JUSTIFY_CENTER);
