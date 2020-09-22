@@ -177,10 +177,10 @@
             Fire.$on('user_edited', (data)=> {
                 this.loadUsers();
             })
-            Echo.channel('user')
-            .listen('UpdateUser', (e) => {
-                this.loadUsers();
-            });
+        //     Echo.channel('user')
+        //     .listen('UpdateUser', (e) => {
+        //         this.loadUsers();
+        //     });
         },
         watch : {
             users : function () {

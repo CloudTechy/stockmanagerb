@@ -8,7 +8,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-12">
-                            <h1 class="m-0 text-dark">orders</h1>
+                            <h1 class="m-0 text-dark">Customer Invoice Order</h1>
                         </div>
                     </div>
                 </div>
@@ -18,7 +18,7 @@
                     <div class="card card-success card-outline m-auto ">
                         <div class="no-print">
                             <div class="card-header  mb-2">
-                                <h5 class="card-title font-weight-bold text-secondary">Make an Order</h5>
+                                <h5 class="card-title font-weight-bold text-secondary">Available Inventory <i class="fa fa-shopping-cart "></i></h5>
                             </div>
                             <show-orders-component></show-orders-component>
                         </div>
@@ -33,7 +33,7 @@
 <script>
     export default {
         mounted() {
-         
+       
             },
          data() { 
             var d = new Date();
@@ -59,23 +59,23 @@
             window.dispatchEvent(new Event('close_sidebar_min'))
         },
         created(){
-            Fire.$on('order_created', (data)=> {
-                this.loadorders();
+            // Fire.$on('order_created', (data)=> {
+            //     this.loadorders();
 
-            })
-            Fire.$on('order_deleted', (data)=> {
-                this.loadorders();
-            })
-            Fire.$on('order_edited', (data)=> {
-                this.loadorders();
-            })
-            Fire.$on('view', (data)=> {
-                this.search = data.id;
-                this.title = "order DETAILS"
-                this.$refs.search.focus()
-            })
-            //this.loadorders();
-            //this.loadorderStat();
+            // })
+            // Fire.$on('order_deleted', (data)=> {
+            //     this.loadorders();
+            // })
+            // Fire.$on('order_edited', (data)=> {
+            //     this.loadorders();
+            // })
+            // Fire.$on('view', (data)=> {
+            //     this.search = data.id;
+            //     this.title = "order DETAILS"
+            //     this.$refs.search.focus()
+            // })
+            // //this.loadorders();
+            // //this.loadorderStat();
         },
         methods: {
             loadorders(){

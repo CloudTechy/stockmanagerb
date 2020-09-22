@@ -40,7 +40,7 @@ class PrintController extends Controller
             $profile = CapabilityProfile::load("simple");
             $connector = new WindowsPrintConnector("smb://kazzykelson/pos");
             $printer = new Printer($connector, $profile);
-            $print_type = $invoice->status == "not-paid" ? "SALES INVOICE" : "SALES RECEIPT";
+            $print_type = $invoice->status == "not-paid" ? "SALES INVOICE" : "ORIGINAL RECEIPT";
             if ( $invoice->status == "not-paid") {
                 $this->printJob($user, $invoice, $printer, $print_type, Printer::CUT_FULL);
             }
@@ -95,7 +95,6 @@ class PrintController extends Controller
 /* Date is kept the same for testing */
             $date = date('l jS \of F Y h:i:s A');
 /* Start the printer */
-            // $printer = new Printer($connector);
             /* Name of shop */
             // $printer->setPrintLeftMargin(0);
             $printer->setJustification(Printer::JUSTIFY_CENTER);
@@ -108,6 +107,7 @@ class PrintController extends Controller
 /* Title of receipt */
             $printer->setEmphasis(true);
             $printer->text($print_type . "\n");
+$printer->feed();
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer->setEmphasis(true);
             $printer->text("payment status: ");
@@ -141,15 +141,19 @@ class PrintController extends Controller
             $printer->text("Telephone: ");
             $printer->setEmphasis(false);
             $printer->text($invoice->number . "\n");
-            $printer->feed();
 
             $printer->setEmphasis(true);
-            $printer->text("Operator : ");
+            $printer->text("Cashier : ");
             $printer->setEmphasis(false);
-            $printer->text($user->username . "\n");
+            $printer->text($user->names . "\n");
+        // $printer->setEmphasis(true);
+        //     $printer->text("Telephone: ");
+        //     $printer->setEmphasis(false);
+        //     $printer->text($user->number . "\n");
             $printer->feed();
 
             /* Items */
+
             $printer->setEmphasis(true);
             $printer->text($this->columnate('Qty', 'Item', 'Price   (=N=)', 'Amount        (=N=)', 4, 18, 8, 14, 4));
             $data = $this->columnate('Qty', 'Item', 'Price   (=N=)', 'Amount        (=N=)', 4, 18, 8, 14, 4);
@@ -164,6 +168,7 @@ class PrintController extends Controller
                 $printer->text($data);
             }
 /* Tax and total */
+    $printer->setJustification(Printer::JUSTIFY_RIGHT);
             $printer->setEmphasis(true);
             $printer->text($total);
             $printer->text($payment);
@@ -174,8 +179,11 @@ class PrintController extends Controller
             /* Footer */
             $printer->feed(2);
             $printer->setJustification(Printer::JUSTIFY_CENTER);
-            $printer->text("Thank you for shopping at Big Star\n");
+if ($invoice->status != "not-paid") {
+               $printer->text("Thank you for shopping at Big Star\n");
             $printer->text("No refund or return of goods after payment\n");
+            }
+            
             $printer->feed(2);
             $printer->text($date . "\n");
             /* Cut the receipt and open the cash drawer */

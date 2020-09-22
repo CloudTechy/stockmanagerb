@@ -193,7 +193,7 @@ class Statistic extends Model
                         $queryMade = $query->select(DB::raw('COUNT(id) as count'));
                     } elseif ($key == 'type') {
                         $queryMade = $query
-                            ->select(DB::raw('SUM(amount) as amount'))
+                            ->select(DB::raw('SUM(amount) as amount, COUNT(id) as count'))
                             ->where($key, $val);
                     } elseif ($key == 'date') {
                         $queryMade = $query

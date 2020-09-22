@@ -27,7 +27,7 @@ class AttributeProductController extends Controller
             $pageSize = request()->query('pageSize', 10000000);
 
             $attributeproducts = AttributeProduct::filter(request()->all())
-                ->latest()
+                ->latest("size")
                 ->paginate($pageSize);
 
             $total = $attributeproducts->total();

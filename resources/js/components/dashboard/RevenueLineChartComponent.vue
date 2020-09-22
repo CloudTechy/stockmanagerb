@@ -118,10 +118,10 @@
           Fire.$on('product_created', data => {
             this.loadStat();
           })
-          Echo.channel('transaction')
-            .listen('UpdateTransaction', (e) => {
-                this.loadStat();
-            });
+          // Echo.channel('transaction')
+          //   .listen('UpdateTransaction', (e) => {
+          //       this.loadStat();
+          //   });
         },
         methods: {
             loadStat(){

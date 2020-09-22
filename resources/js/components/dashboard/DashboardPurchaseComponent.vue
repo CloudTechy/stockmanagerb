@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-6 col-md-6">
                         <div id="example1_filter" class="dataTables_filter float-right">
-                            <label>Search:<input v-model="search" type="search" class="form-control form-control-sm" placeholder="search" aria-controls="example1">
+                            <label>Search:<input v-model="search" type="Ex: 2020-02-20" class="form-control form-control-sm" placeholder="search" aria-controls="example1">
                             </label>
                         </div>
                     </div>
@@ -138,10 +138,10 @@ export default {
     },
     created() {
         this.loadPurchaseDetails();
-        Echo.channel('purchase')
-            .listen('UpdatePurchase', (e) => {
-                this.loadPurchaseDetails();
-            });
+        // Echo.channel('purchase')
+        //     .listen('UpdatePurchase', (e) => {
+        //         this.loadPurchaseDetails();
+        //     });
     },
 
     computed: {

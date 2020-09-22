@@ -81,10 +81,10 @@
           Fire.$on('product_created', data => {
             this.loadProducts();
           })
-          Echo.channel('purchase')
-            .listen('UpdatePurchase', (e) => {
-              this.loadProducts();
-            }); 
+          // Echo.channel('purchase')
+          //   .listen('UpdatePurchase', (e) => {
+          //     this.loadProducts();
+          //   }); 
         },
          computed: {
             filteredProducts (){

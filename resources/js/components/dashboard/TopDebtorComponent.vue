@@ -96,10 +96,10 @@
           Fire.$on('product_created', data => {
             this.loadDebtor();
           })
-          Echo.channel('order')
-            .listen('UpdateOrder', (e) => {
-                this.loadDebtor();
-            });
+          // Echo.channel('order')
+          //   .listen('UpdateOrder', (e) => {
+          //       this.loadDebtor();
+          //   });
         },
         methods: {
             loadDebtor(){

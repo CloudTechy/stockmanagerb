@@ -141,10 +141,10 @@
             Fire.$on('unit_edited', (data)=> {
                 this.loadUnits();
             })
-            Echo.channel('unit')
-            .listen('UpdateUnit', (e) => {
-                this.loadUnits();
-            });
+            // Echo.channel('unit')
+            // .listen('UpdateUnit', (e) => {
+            //     this.loadUnits();
+            // });
         },
 
         computed: {

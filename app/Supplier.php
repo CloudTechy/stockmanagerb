@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Supplier extends Model
 {
-    protected $fillable = ['name', 'address', 'city', 'country', 'number', 'email', 'is_stock_available', 'owed', 'due_date', 'user_id', "updated_by"];
+    protected $fillable = ['name', 'address', 'city','staff', 'country', 'number', 'email', 'is_stock_available', 'owed', 'due_date', 'user_id', "updated_by"];
     protected $appends = array('due');
 
     public function getDueAttribute()

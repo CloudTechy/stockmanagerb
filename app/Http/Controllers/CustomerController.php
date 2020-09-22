@@ -65,6 +65,7 @@ class CustomerController extends Controller
     {
         $request->except('updated_by');
         $validated = $request->validated();
+        $validated['staff'] = auth()->user()->username;
         if (!auth()->user()->activated) {
             return Helper::inValidRequest('User not activated', 'Unauthorized Access!', 400);
         }

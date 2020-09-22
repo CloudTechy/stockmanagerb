@@ -185,10 +185,10 @@
           Fire.$on('transaction_created', data => {
             this.loadTransactions();
           })
-          Echo.channel('transaction')
-            .listen('UpdateTransaction', (e) => {
-                this.loadTransactions();
-            });
+          // Echo.channel('transaction')
+          //   .listen('UpdateTransaction', (e) => {
+          //       this.loadTransactions();
+          //   });
         },
         watch : {
         },

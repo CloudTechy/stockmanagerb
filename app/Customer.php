@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    protected $fillable = ['name', 'number', 'email', 'notes', 'owing', 'due_date', 'user_id', "updated_by"];
+    protected $fillable = ['name', 'number','staff', 'email', 'notes', 'owing', 'due_date', 'user_id', "updated_by"];
     protected $appends = array('due');
 
     public function getDueAttribute()

@@ -139,10 +139,10 @@
                 this.loadUsers();
             })
             this.loadUsers();
-            Echo.channel('user')
-            .listen('UpdateUser', (e) => {
-                this.loadUsers();
-            });
+            // Echo.channel('user')
+            // .listen('UpdateUser', (e) => {
+            //     this.loadUsers();
+            // });
         },
 
         computed: {

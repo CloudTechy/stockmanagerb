@@ -85,7 +85,7 @@ class InvoiceResource extends JsonResource
 
             'cost' => $this->cost,
             'amount' => $this->amount,
-            'balance' => $this->balance,
+            'balance' => $this->balance, 
            // 'status' => $this->status,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),

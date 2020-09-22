@@ -134,7 +134,16 @@ export default {
             this.transactionView = true
             this.normalView = false
         }
-        if (this.$root.orderIDs != undefined) {
+        if (this.$root.purchaseId != undefined) {
+            this.$Progress.start();
+            this.form_typeid = this.$root.purchaseId
+            this.transaction_type = "purchases"
+            this.idTypes = [{id:this.form_typeid}]
+            this.normalView = false
+            this.nextStep()
+            this.$root.purchaseId = ""
+        }
+        else if (this.$root.orderIDs != undefined) {
             this.$Progress.start();
             this.idTypes = this.$root.orderIDs
             // this.form.invoice_id = this.idTypes.invoiceId
@@ -210,12 +219,11 @@ export default {
     methods: {
         add() {
             this.$Progress.start();
-            console.log('transaction id', this.transaction.id)
             this.form.put('./api/transactions/' + this.transaction.id)
                 .then(response => {
                     this.$Progress.finish()
                     if (response.data.status == true) {
-
+                        
                         this.$root.alert('success', 'success', 'transaction processed successfully ')
                         this.loadInvoice(this.transaction.invoice_id);
 
@@ -265,7 +273,7 @@ export default {
                     this.$Progress.fail()
                     console.log(error.response);
                     this.$root.alert('error', 'error', error.response.data.message)
-                    this.closeAddModalComponent()
+                    
                 })
 
         },
@@ -303,10 +311,15 @@ export default {
 
                                 })
                                 .catch(error => {
-                                    console.log(error.response);
+                                    if(error.response){
+                                        console.log(error.response);
                                     this.$root.alert('error', 'error', error.response.data.message)
-                                    this.closeAddModalComponent()
+                                    
                                     this.$Progress.fail()
+                                    console.log(error);
+                                    }
+
+                                    
                                 })
                         }
 
@@ -314,11 +327,10 @@ export default {
                     .catch(error => {
                         console.log(error.response);
                         this.$root.alert('error', 'error', error.response.data.message)
-                        this.closeAddModalComponent()
+                        
                         this.$Progress.fail()
                     })
             }
-            this.$Progress.finish()
         },
         load(type) {
             this.$Progress.start();
@@ -332,7 +344,7 @@ export default {
                 .catch(error => {
                     console.log(error.response);
                     this.$root.alert('error', 'error', error.response.data.message)
-                    this.closeAddModalComponent()
+                    
                     this.$Progress.fail()
                 })
         },
@@ -351,7 +363,7 @@ export default {
                 .catch(error => {
                     console.log(error.response);
                     this.$root.alert('error', 'error', error.response.data.message)
-                    this.closeAddModalComponent()
+                    
                     this.$Progress.fail()
                 })
         }

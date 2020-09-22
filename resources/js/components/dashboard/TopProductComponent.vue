@@ -83,10 +83,10 @@
           Fire.$on('product_created', data => {
             this.loadProductDetails();
           })
-          Echo.channel('purchase')
-            .listen('UpdatePurchase', (e) => {
-              this.loadProductDetails();
-            }); 
+          // Echo.channel('purchase')
+          //   .listen('UpdatePurchase', (e) => {
+          //     this.loadProductDetails();
+          //   }); 
         },
          computed: {
 

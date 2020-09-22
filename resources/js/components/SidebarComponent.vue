@@ -205,6 +205,7 @@
     methods : {
       logout () {
       this.$session.destroy()
+      localStorage.removeItem("token")
       this.$router.push('/login')
       this.$root.alert('success','success','Logged out')
       }

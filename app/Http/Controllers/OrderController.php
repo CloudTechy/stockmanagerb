@@ -28,7 +28,7 @@ class OrderController extends Controller
             $pageSize = request()->query('pageSize', 10000000);
 
             $orders = Order::filter(request()->all())
-                ->latest()
+                ->latest('created_at')
                 ->paginate($pageSize);
 
             $total = $orders->total();

@@ -2,9 +2,9 @@
     <div id="example1_wrapper" class="dataTables_wrapper  container-fluid dt-bootstrap4">
         <div class="row">
             <div class="col-6 col-md-6">
-                <div class="dataTables_length" id="example1_length">
+                <div class="dataTables_length d-inline" id="example1_length">
                     <label>Entries:
-                        <select v-model = "rowsPerPage" @change = "loadProducts" aria-controls="dataTables-example" class="form-control input-sm"> 
+                        <select v-model = "rowsPerPage" @change = "loadProducts" aria-controls="dataTables-example" class="form-control input-sm border border-success"> 
                             <option value="5">5</option>
                             <option value="10">10</option> 
                             <option value="25">25</option>
@@ -12,11 +12,12 @@
                             <option value="100">100</option>
                         </select> 
                     </label>
+                    <button @click="loadProducts" type="button" title="Refresh data" class="btn mb-2 btn-outline-success"><i :class="{fas:true, 'fa-sync-alt' : true, 'fa-spin':refresh}"></i></button>
                 </div>
             </div>
             <div class="col-6 col-md-6">
                 <div id="example1_filter" class="dataTables_filter float-right">
-                    <label>Search:<input v-model="search" type="search" class="form-control form-control-sm" placeholder="search product" aria-controls="example1">
+                    <label>Search:<input v-model="search" type="search" class="form-control form-control-sm border border-success" placeholder="search product" aria-controls="example1">
                     </label>
                 </div>
             </div> 
@@ -99,25 +100,25 @@
 
         <div class="row">
             <div class="col-6 col-md-6">
-                <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showed {{ start + 1 }} to {{ end > length ? length : end }} of {{ length }} entries
+                <div class="p-2 m-3  small border border-success" id="" role="status" aria-live="polite">Showing {{ start + 1 }} to {{ end > length ? length : end }} of {{ length }} entries
                 </div>
             </div>
             <div class="col-6 col-md-6">
-                <div class="dataTables_paginate paging_simple_numbers float-right" id="example1_paginate">
+                <div class="dataTables_paginate paging_simple_numbers  pt-3 float-right" id="example1_paginate">
                     <ul class="pagination">
                         <li class="paginate_button page-item previous" ref = "prev" id="example1_previous">
-                            <a href="#" @click.prevent ="pageLoaderB(-1)" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link">Previous
+                            <a href="#" @click.prevent ="pageLoaderB(-1)" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link border-primary">Previous
                             </a>
                         </li>
                         <li class="paginate_button bg-primary p-2 text-center page-item" style="display: inline; min-width: 70px"  v-if = "Math.floor(pages) > 6">
                             {{current_page + ' of ' + Math.floor(pages)}}
                         </li>
                         <li v-else v-for = "value in Math.floor(pages)" v-bind:class="classObject(value)" class="paginate_button page-item" >
-                            <a  aria-controls="example1" data-dt-idx="1" tabindex="0" class="page-link" @click.prevent ="pageLoader(value)" href="#">{{ value }}</a>
+                            <a  aria-controls="example1" data-dt-idx="1" tabindex="0" class="page-link border-primary" @click.prevent ="pageLoader(value)" href="#">{{ value }}</a>
                         </li>
                        
                         <li class="paginate_button page-item next" ref = "next" id="example1_next">
-                            <a @click.prevent ="pageLoaderB(1)" href="#" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link">Next
+                            <a @click.prevent ="pageLoaderB(1)" href="#" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link border-primary">Next
                             </a>
                         </li>
                     </ul>
@@ -149,6 +150,7 @@
                 error : '',
                 search : '',
                 rowsPerPage: 5,
+                refresh:false,
                 current_page: 1,
                 length: 0,
                 pages : 0,
@@ -167,18 +169,19 @@
                 this.loadProducts();
             })
             this.loadProducts();
-            Echo.channel('product')
-            .listen('UpdateProduct', (e) => {
-                this.loadProducts();
-            });
-            Echo.channel('purchase')
-            .listen('UpdatePurchase', (e) => {
-                this.loadProducts();
-            });
-            Echo.channel('order')
-            .listen('UpdateOrder', (e) => {
-                this.loadProducts();
-            });
+            window.scrollTo(0, 200)
+            // Echo.channel('product')
+            // .listen('UpdateProduct', (e) => {
+            //     this.loadProducts();
+            // });
+            // Echo.channel('purchase')
+            // .listen('UpdatePurchase', (e) => {
+            //     this.loadProducts();
+            // });
+            // Echo.channel('order')
+            // .listen('UpdateOrder', (e) => {
+            //     this.loadProducts();
+            // });
         },
 
         computed: {
@@ -194,9 +197,11 @@
         },
         methods: {
             loadProducts(){
+                this.refresh = true
                 this.$Progress.start();
                 this.form.get('./api/attributeproducts')
                 .then( response => {
+                    this.refresh = false
                     if(response.data.status == true){
                         this.$Progress.finish()
                         Fire.$emit('products_loaded', response.data.data)
@@ -211,7 +216,12 @@
                     }
                 })
                 .catch(error=> {
+                    this.refresh = false
                     this.$Progress.fail()
+                    if (error.response && error.response.status == 401) {
+                        this.$Progress.finish()
+                        this.$router.push("/login")
+                    }
                     var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message
                     this.$root.alert('error','error',message)
                     console.log(error.response.data.error)

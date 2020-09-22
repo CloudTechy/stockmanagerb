@@ -143,10 +143,10 @@
             Fire.$on('brand_edited', (data)=> {
                 this.loadBrands();
             })
-            Echo.channel('brand')
-            .listen('UpdateBrand', (e) => {
-                this.loadBrands();
-            });
+            // Echo.channel('brand')
+            // .listen('UpdateBrand', (e) => {
+            //     this.loadBrands();
+            // });
         },
 
         computed: {

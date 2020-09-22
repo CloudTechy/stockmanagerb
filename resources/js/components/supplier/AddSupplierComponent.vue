@@ -104,10 +104,10 @@
             Fire.$on('bank_created', (data)=> {
                 this.loadBanks();
             })
-            Echo.channel('bank')
-            .listen('UpdateBank', (e) => {
-                this.loadBanks();
-            });
+            // Echo.channel('bank')
+            // .listen('UpdateBank', (e) => {
+            //     this.loadBanks();
+            // });
         },
         data() { 
             return {

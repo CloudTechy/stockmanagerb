@@ -60,7 +60,7 @@
                         <hr>
                         <div>
                             <div class="card-header mb-2">
-                                <h5 class="card-title">Manage Customers</h5>
+                                <h5 class="card-title">Manage Customers <i class="fas fa-user"></i></h5>
                             </div>
                             <show-customers-component></show-customers-component>
                         </div>
@@ -183,18 +183,19 @@ export default {
         Fire.$on('transaction_created', (data) => {
             this.loadCustomers();
         })
-        Echo.channel('customer')
-            .listen('UpdateCustomer', (e) => {
-                this.loadCustomers();
-            });
-        Echo.channel('transaction')
-            .listen('UpdateTransaction', (e) => {
-                this.loadCustomers();
-            });
-        Echo.channel('order')
-            .listen('UpdateOrder', (e) => {
-                this.loadCustomers();
-            });
+        // Echo.channel('customer')
+        //     .listen('UpdateCustomer', (e) => {
+        //         this.loadCustomers();
+        //     });
+        // Echo.channel('transaction')
+        //     .listen('UpdateTransaction', (e) => {
+        //         this.loadCustomers();
+        //     });
+        // Echo.channel('order')
+        //     .listen('UpdateOrder', (e) => {
+        //         this.loadCustomers();
+        //     });
+
     },
     watch: {},
     computed: {
@@ -218,7 +219,6 @@ export default {
                         this.loading = false;
                         this.customers = response.data.data.item;
                         localStorage.customers = JSON.stringify(this.customers)
-                        window.dispatchEvent(new Event('sidebar_min'))
                         this.debtors = [];
                         response.data.data.item.forEach(this.countDebtors);
                     } else {

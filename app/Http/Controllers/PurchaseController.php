@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Helper;
 use App\Http\Requests\ValidatePurchaseRequest;
 use App\Http\Resources\PurchaseResource;
-use App\Http\Resources\PurchaseDetailResource;
+use App\Http\Resources\PurchaseDetailsResource;
 use App\Purchase;
 use App\Supplier;
 use Illuminate\Http\Request;
@@ -28,7 +28,7 @@ class PurchaseController extends Controller
             $pageSize = request()->query('pageSize', 10000000);
 
             $purchases = Purchase::filter(request()->all())
-                ->latest()
+                ->latest("created_at")
                 ->paginate($pageSize);
 
             $total = $purchases->total();
@@ -85,7 +85,7 @@ class PurchaseController extends Controller
             return $this->exception($bug, 'unknown error', 500);
         }
 
-        return Helper::validRequest(new PurchaseDetailResource($purchase), 'Purchase was sent successfully', 200);
+        return Helper::validRequest(new PurchaseDetailsResource($purchase), 'Purchase was sent successfully', 200);
     }
 
     /**
@@ -99,7 +99,7 @@ class PurchaseController extends Controller
 
         try {
 
-            $purchase = new PurchaseDetailResource($purchase);
+            $purchase = new PurchaseDetailsResource($purchase);
 
             return Helper::validRequest($purchase, 'specified Purchase was fetched successfully', 200);
 

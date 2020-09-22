@@ -140,10 +140,10 @@
             Fire.$on('category_edited', (data)=> {
                 this.loadCategories();
             })
-            Echo.channel('category')
-            .listen('UpdateCategory', (e) => {
-                this.loadCategories();
-            });
+            // Echo.channel('category')
+            // .listen('UpdateCategory', (e) => {
+            //     this.loadCategories();
+            // });
         },
 
         computed: {

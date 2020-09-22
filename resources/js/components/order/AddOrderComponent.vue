@@ -17,15 +17,14 @@
                                             <div class="form-row">
                                                 <div class="col-12 col-md-6">
                                                     <label class="small" for="">Input name of item</label>
-                                                    <input v-model="name" list="products" class="form-control" required="" type="text" ref="name" placeholder="Ex: 300-18 Sports Ordinary tyre">
-                                                    <datalist id="products">
-                                                        <option v-for="item in products" :value="item.product"> {{ `Remaining ${item.stock} pc(s)` }}</option>
+                                                    <input v-model="name" list="products" class="form-control" required="" type="search" ref="name" placeholder="Ex: 300-18 Sports Ordinary tyre">
+                                                    <datalist ref="datalist" id="products">
                                                     </datalist>
                                                 </div>
                                                 <div class="col-6 col-md-3">
                                                     <label class="small" for="">Price</label>
                                                     <input class="form-control" type="text" title="you can change the price if you may" v-model="cartItem.price" ref="price" required="" placeholder="Enter Price">
-                                                    <label v-if="product.price != undefined" class="small text-danger">Price: <span style="text-decoration: line-through"> N</span>{{$root.numeral(product.price) }}</label>
+                                                    <label v-if="product.price != undefined" class="small text-danger">Cost Price: <span style="text-decoration: line-through"> N</span>{{$root.numeral(product.purchase_price) }}</label>
                                                 </div>
                                                 <div class="col-6 col-md-3">
                                                     <label class="small" for="">Quantity</label>
@@ -39,11 +38,11 @@
                                         </fieldset>
                                     </div>
                                 </div>
-                                <div style="max-height: 37vh;  overflow: auto; "  class="row mt-3">
+                                <div style="max-height: 37vh;  overflow: auto; " class="row mt-3">
                                     <div class="col-sm-12 p-0 m-0">
                                         <h3>Bill Adjustment
                                             <i class="fas fa-cog fa-spin text-info"></i>
-                                            <span class="float-right">total amount: <span style="text-decoration: line-through">N</span> {{$root.numeral(CartTotalAmount)}}</span>
+                                            <span class="float-right">Total amount: <span style="text-decoration: line-through">N</span> {{$root.numeral(CartTotalAmount)}}</span>
                                         </h3>
                                         <div class="clearfix"></div>
                                         <div class="table-responsive">
@@ -132,10 +131,14 @@ export default {
         },
         amount() {
             return this.cartItem.price != "" && this.cartItem.quantity != "" ? this.cartItem.price * this.cartItem.quantity : 0
+        },
+        productsRevised() {
+            return this.products.map(({ product, stock }) => ({ product, stock }))
         }
     },
     watch: {
         name() {
+            this.search()
             this.product = {}
             this.cartItem = {}
             if (this.name == "") {
@@ -198,9 +201,12 @@ export default {
             } else if (type == "quantity") {
                 var shortFall = this.cart[index].quantity - value
                 var oldStock = this.products[productIndex].stock
-                if (oldStock - (-shortFall) < 0) {
+                var balance = oldStock - (-shortFall)
+                if (balance < 0) {
                     this.$root.alert('error', 'error', 'Not enough stock')
                     e.target.innerHTML = this.cart[index].quantity
+                    // e.target.innerHTML = balance < 0 ? oldStock : balance
+
                     this.$Progress.fail()
                     return
                 }
@@ -241,7 +247,7 @@ export default {
 
             this.$Progress.finish()
         },
-        processCheckout(){
+        processCheckout() {
             this.$Progress.start();
             this.$swal({
                     title: 'Checkout Bill',
@@ -254,12 +260,12 @@ export default {
                 })
                 .then((result) => {
                     if (result.value) {
-                            this.$emit('checkout', this.cart)
-                            this.closeComponent()
-                            // this.products[productIndex.index].stock = parseInt(this.products[productIndex.index].stock) + parseInt(productIndex.quantity)
-                            this.$root.alert('success', 'success', 'proceeding to checkout')
+                        this.$emit('checkout', this.cart)
+                        this.closeComponent()
+                        // this.products[productIndex.index].stock = parseInt(this.products[productIndex.index].stock) + parseInt(productIndex.quantity)
+                        this.$root.alert('success', 'success', 'proceeding to checkout')
 
-                       
+
                     }
                     this.$Progress.finish()
 
@@ -267,6 +273,30 @@ export default {
 
 
             this.$Progress.finish()
+        },
+        search() {
+            var datalist = this.$refs.datalist
+            var term = this.name.toLowerCase()
+            var found = 0
+            var frag = document.createDocumentFragment()
+            for (var child of [].slice.apply(datalist.childNodes)) {
+                datalist.removeChild(child)
+            }
+            for (var item of this.productsRevised) {
+
+                    if (item.product.toLowerCase().includes(term.trim().toLowerCase())) {
+                        let option = document.createElement("option")
+                        option.value = item.product
+                        option.innerHTML = "Remaining " + item.stock
+                        frag.appendChild(option)
+                        found++
+                    }
+
+                if (found == 7) break
+
+            }
+            datalist.appendChild(frag)
+
         }
     },
 }

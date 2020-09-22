@@ -32,8 +32,8 @@
                             <th>Email</th>
                             <th>City</th>
                             <th>Contact Person</th>
-                            <th>Owed</th>
-                            <th>Created</th>
+                            <th class="text-center">Owed</th>
+                            <th>Joined</th>
                             <th class="text-center">Action</th> 
 
                         </tr>
@@ -45,21 +45,27 @@
                             <td class="text-capitalize">{{  supplier.email }}</td>
                             <td class="text-capitalize">{{  supplier.city }}</td>
                             <td class="text-capitalize">{{  supplier.contact_person }}</td>
-                            <td class="text-center"><span v-if = "supplier.owed > 0" v-bind:class="{badge:true, 'badge-danger':supplier.owed > 0,  'badge-success' : supplier.owed ==0}"><span class="users-list-date float-right text-white small text-capitalize "> <span class="" style="text-decoration: line-through">N</span>{{ $root.numeral(supplier.owed) }}</span></span><br>
-                                <span style="cursor: pointer" v-if = "supplier.owed > 0 && supplier.purchases.length > 0" class="badge float-right badge-secondary small strong">
-                                    <div class="small"  @click.prevent = "$root.addTransactionComponent(supplier.purchases,'purchase')" >
-                                        <button  title="make transaction" class=" btn-link badge badge-secondary btn-secondary small m-1" data-toggle="" data-target=""  >
-                                              {{'pay ' + supplier.purchases.length + ' purchase(s)'}}
-                                        </button>
-                                    </div>
-                                </span>
-                            </td>
+                           
+
+                            <td class="text-center p-1">
+                                    
+                                    <span v-if="supplier.owed > 0" v-bind:class="{badge:true, 'p-2' : true, 'badge-danger':supplier.owed > 0, 'badge-success' : supplier.owed ==0}"><span class="users-list-date float-right text-white  text-capitalize "> <span class="" style="text-decoration: line-through">N</span>{{ $root.numeral(supplier.owed) }}</span></span><br>
+                                    <span style="cursor: pointer" v-if="supplier.owed > 0 " class="  small strong">
+                                        <div class="" @click.prevent="getsupplierOrders(supplier.id)">
+                                            <button title="make transaction" class=" btn badge badge-light  p-2" data-toggle="" data-target="">
+                                                {{'Pay Now'}}
+                                            </button>
+                                        </div>
+                                    </span>
+                                </td>
+
+
                             <td class="text-capitalize small">{{  supplier.date }}</td>
                             <td>
                                 <div style="width: 200px;">
                                     <button @click="createPurchase(supplier.id,index+start)" type="button" title="make purchase" class="btn btn-outline-success"><i class="fas fa-shopping-cart"></i></button>
                                     <button  @click="loadEditSupplier(supplier,index)" type="button" title="edit this supplier" class="btn btn-outline-primary small m-1"  data-toggle="modal" data-target="#editSupplierModal" ><i class="fas fa-pen"></i></button>
-                                    <button @click="loadView(supplier,index+start)" type="button" title="view more" class="  m-1 btn btn-outline-info"><i class="fas fa-street-view"></i></button>
+                                    <button disabled="" @click="loadView(supplier,index+start)" type="button" title="view more" class="  m-1 btn btn-outline-info"><i class="fas fa-street-view"></i></button>
                                     <button @click="deleteSupplier(supplier.id,index+start)" type="button" title="delete this supplier" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></button>
                                 </div>
                             </td>
@@ -104,7 +110,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="editSupplierModal"><edit-supplier-component></edit-supplier-component></div>
+        <div class="modal fade"  v-if = "editView" id="editSupplierModal"><edit-supplier-component  v-if = "editView"></edit-supplier-component></div>
 
     </div>
 </template>
@@ -116,6 +122,7 @@
             if(localStorage.suppliers){
                 this.suppliers = JSON.parse(localStorage.suppliers)
             }
+            window.scrollTo(0, 200)
         },
          data() { 
             var d = new Date();
@@ -126,6 +133,7 @@
                 loading : true,
                 error : '',
                 search : '',
+                editView : false,
                 rowsPerPage: 5,
                 current_page: 1,
                 length: 0,
@@ -145,6 +153,7 @@
                 this.loadSuppliers();
             })
             Fire.$on('supplier_edited', (data)=> {
+                this.editView = false;
                 this.loadSuppliers();
             })
             Fire.$on('transaction_created', (data)=> {
@@ -153,18 +162,18 @@
             Fire.$on('product_created', (data)=> {
                 this.loadSuppliers();
             })
-            Echo.channel('product')
-            .listen('UpdateProduct', (e) => {
-                this.loadSuppliers();
-            });
-            Echo.channel('supplier')
-            .listen('UpdateSupplier', (e) => {
-                this.loadSuppliers();
-            });
-            Echo.channel('transaction')
-            .listen('UpdateTransaction', (e) => {
-                this.loadSuppliers();
-            });
+            // Echo.channel('product')
+            // .listen('UpdateProduct', (e) => {
+            //     this.loadSuppliers();
+            // });
+            // Echo.channel('supplier')
+            // .listen('UpdateSupplier', (e) => {
+            //     this.loadSuppliers();
+            // });
+            // Echo.channel('transaction')
+            // .listen('UpdateTransaction', (e) => {
+            //     this.loadSuppliers();
+            // });
         },
 
         computed: {
@@ -196,7 +205,7 @@
                     }
                 })
                 .catch(error=> {
-                    if (error.response.status == 401) {
+                    if (error.response && error.response.status == 401) {
                     this.$Progress.finish()
                     this.$router.push("/login")
 
@@ -248,6 +257,7 @@
                 }
             },
             loadEditSupplier(supplier,index){
+                this.editView = true
                 Fire.$emit('edit_supplier',supplier);
                 window.dispatchEvent(new Event('sidebar_min'))
                 return true;

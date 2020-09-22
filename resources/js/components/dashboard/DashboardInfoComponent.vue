@@ -54,7 +54,9 @@
 
 <script>
   export default {
+
     mounted(){
+      window.scrollTo(0, 200)
       if(localStorage.orderDetailsStat){
         this.orderDetails =  JSON.parse(localStorage.orderDetailsStat)
         this.loading = false;
@@ -88,14 +90,14 @@
         this.bootstrap();
       })
       this.bootstrap();
-      Echo.channel('order')
-        .listen('UpdateOrder', (e) => {
-            this.bootstrap();
-        });
-      Echo.channel('purchase')
-        .listen('UpdatePurchase', (e) => {
-            this.bootstrap();
-        });
+      // Echo.channel('order')
+      //   .listen('UpdateOrder', (e) => {
+      //       this.bootstrap();
+      //   });
+      // Echo.channel('purchase')
+      //   .listen('UpdatePurchase', (e) => {
+      //       this.bootstrap();
+      //   });
     },
     data() { 
       var d = new Date();

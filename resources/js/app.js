@@ -22,7 +22,7 @@ let routes = [
     { path: '/categories', component: require('./components/category/CategoryComponent.vue').default },
     { path: '/', component: require('./components/order/OrderComponent.vue').default },
     // { path: '/', component: require('./components/dashboard/DashboardComponent.vue').default },
-    { path: '/login', component: require('./components/login/LoginComponent.vue').default },
+    { path: '/login', name:"login", component: require('./components/login/LoginComponent.vue').default },
     { path: '/customers', component: require('./components/customer/CustomerComponent.vue').default },
     { path: '/suppliers', component: require('./components/supplier/SupplierComponent.vue').default },
     { path: '/invoices', component: require('./components/invoice/InvoiceComponent.vue').default },
@@ -36,8 +36,21 @@ let routes = [
 ]
 const router = new VueRouter({
     mode: 'history',
-    routes
+    routes,
+    scrollBehavior:(to, from, savedPosition) => {
+        if(savedPosition){
+            return savedPosition
+        }else if(to.hash){
+            return{
+                selector : to.hash
+            }
+        }else {
+            return {x:0,y:100}
+        }
+    }
 })
+
+
 
 window.Fire = new Vue()
 
@@ -87,6 +100,20 @@ Vue.use(VueSession, { persist: true })
 const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+// router.beforeEach((to, from, next) => {
+   
+//     var form = new Form()
+//         axios.get('./api/banks',{headers:{Authorization:JSON.stringify(localStorage.token) }})
+//             .then(response => {
+//                 next()    
+//             })
+//             .catch((error) => {
+//                 if (error.response.status == 401) {
+//                      next({name: "login",  query:{to:to.path}})
+//                 }
+//             })
+// })
+
 
 Array.prototype.sum = function(prop) {
     var total = 0
@@ -112,30 +139,30 @@ const app = new Vue({
         form: new Form(),
         transactions: ''
     },
-    beforeCreate: function() {
-        this.$Progress.start()
-Vue.prototype.$session.start()
-        window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$session.get('token')
-        if (!Vue.prototype.$session.exists() || window.axios.defaults.headers.common['Authorization'] == undefined) {
-            console.log('app routing to login');
-            this.$router.push('/login')
-        } else {
-            window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$session.get('token')
-        }
-        var form = new Form()
-        form.get('./api/users/?id=1')
-            .then(response => {
-                this.$Progress.finish()
-            })
-            .catch((error) => {
-                if (error.response.status == 401) {
-                    this.$Progress.finish()
-                    this.$router.push("/login")
+//     beforeCreate: function() {
+//         this.$Progress.start()
+// Vue.prototype.$session.start()
+//         window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$session.get('token')
+//         if (!Vue.prototype.$session.exists() || window.axios.defaults.headers.common['Authorization'] == undefined) {
+//             console.log('app routing to login');
+//             this.$router.push('/login')
+//         } else {
+//             window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$session.get('token')
+//         }
+//         var form = new Form()
+//         form.get('./api/users/?id=1')
+//             .then(response => {
+//                 this.$Progress.finish()
+//             })
+//             .catch((error) => {
+//                 if (error.response.status == 401) {
+//                     this.$Progress.finish()
+//                     this.$router.push("/login")
 
-                }
-            })
+//                 }
+//             })
 
-    },
+//     },
     mounted() {
         // this.$nextTick(function () {
         // console.log('test');
@@ -155,9 +182,9 @@ Vue.prototype.$session.start()
             this.$Progress.finish()
         })
 
-        if (!this.$session.exists() || window.axios.defaults.headers.common['Authorization'] != 'Bearer ' + this.$session.get('token')) {
-            this.$router.push('/login')
-        }
+        // if (!this.$session.exists() || window.axios.defaults.headers.common['Authorization'] != 'Bearer ' + this.$session.get('token')) {
+        //     this.$router.push('/login')
+        // }
 
         //window.axios.defaults.headers.common['Authorization'] = 'Bearer '+ this.$session.get('token')
         // window.addEventListener('beforeunload', () => {

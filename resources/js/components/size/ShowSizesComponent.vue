@@ -139,10 +139,10 @@
             Fire.$on('size_edited', (data)=> {
                 this.loadSizes();
             })
-            Echo.channel('size')
-            .listen('UpdateSize', (e) => {
-                this.loadSizes();
-            });
+            // Echo.channel('size')
+            // .listen('UpdateSize', (e) => {
+            //     this.loadSizes();
+            // });
         },
 
         computed: {

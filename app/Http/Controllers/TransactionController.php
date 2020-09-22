@@ -165,6 +165,9 @@ class TransactionController extends Controller
             $request->only('payment', 'due_date');
             $validated['updated_by'] = auth()->user()->username;
             $validated = $request->validate(['payment' => 'nullable|numeric', 'due_date' => 'nullable|date']);
+            if(empty( $validated['payment'])){
+                return Helper::validRequest(["success" => $transaction], 'Transaction was updated successfully', 200);
+            }
             $invoice = Invoice::find($transaction->invoice_id);
             $type = $invoice->type;
             $old_payment = $transaction->payment;
@@ -173,21 +176,8 @@ class TransactionController extends Controller
             $remaining_payment = $amount - $old_payment;
             $validated['staff'] = auth()->user()->username;
 
-            if(empty($new_payment)){
-                $validated['status'] = 'not-paid';
-                $transaction = $transaction->update($validated);
-                if ($type == 'order') {
-
-                    $owing = $invoice->order->customer->owing + $amount;
-                    $invoice->order->customer->update(['owing' => $owing, 'due_date' => $validated['due_date']]);
-                } elseif ($type == 'purchase') {
-                    $owed = $invoice->purchase->supplier->owed + $amount;
-                    $invoice->purchase->supplier->update(['owed' => $owed]);
-                }
-            }
-
-
-           else if ($new_payment < $remaining_payment && !empty($new_payment)) {
+            
+            if ($new_payment < $remaining_payment && !empty($new_payment)) {
 
                 $validated['payment'] = $old_payment + $new_payment;
                 $validated['status'] = 'pending';

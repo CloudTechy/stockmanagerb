@@ -7,7 +7,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-12">
-                            <h1 class="m-0 text-dark">Invoice</h1>
+                            <h1 class="m-0 text-dark">Invoice Payment Module</h1>
                         </div>
                     </div>
                 </div>
@@ -15,9 +15,9 @@
             <div class="content">
                 <div class="container-fluid">
                     <div class="card card-success card-outline m-auto ">
-                        <div class="card-header">
+                        <!-- <div class="card-header">
                             <h5 class="card-title"> Summary</h5>
-                        </div>
+                        </div> -->
                         <!-- <div class="card-body no-print box-profile">
           <div class="row container text-center  mb-2 mt-4">
 
@@ -47,10 +47,10 @@
             </div>
           </div>
         </div> -->
-                        <hr>
+                        <!-- <hr> -->
                         <div class="no-print">
                             <div class="card-header  mb-2">
-                                <h5 class="card-title  text-primary">Manage Invoices</h5>
+                                <h5 class="card-title font-weight-bold text-secondary"> Invoice Manager </h5>
                             </div>
                             <show-invoices-component></show-invoices-component>
                         </div>
@@ -65,7 +65,7 @@
                                         <h2 class="card-title small"> &nbsp;</h2>
                                         <div class="">
                                             <div class="input-group input-group-sm float-right">
-                                                <input v-model="search" type="text" ref='search' name="table_search" class="p-2 form-control" placeholder="Search invoices">
+                                                <input v-model="search" type="text" ref='search' name="table_search" class="p-2 form-control" placeholder="Ex: D4d1ef50-Fb62-11ea-9326-Dda7ec05dd16">
                                             </div>
                                         </div>
                                         <div v-if = "invoice"  class="clearfix"> </div>
@@ -134,6 +134,7 @@
             this.invoices.forEach(this.count); 
             this.loading = false;
           }
+          window.scrollTo(0, 0)
         },
         data() { 
             var d = new Date();
@@ -174,14 +175,15 @@
               this.search = data.id;
               this.loadInvoice(data.id)
               this.title = "INVOICE DETAILS"
-              this.$refs.search.focus()
+              setTimeout(()=>this.$refs.search.focus(),1000)
 
             })
-            this.loadinvoices();
-            Echo.channel('invoice')
-            .listen('UpdateInvoice', (e) => {
-                this.loadInvoices();
-            });
+
+            // this.loadinvoices();
+            // Echo.channel('invoice')
+            // .listen('UpdateInvoice', (e) => {
+            //     this.loadInvoices();
+            // });
         },
         methods: {
             loadInvoice(id){
@@ -190,6 +192,7 @@
               this.search = id;
               this.form.get('./api/invoices/' + id)
                 .then(response => {
+                  window.dispatchEvent(new Event('sidebar_min'))
                   this.$Progress.finish()
                   this.invoice = response.data.data
                   this.loading = false
