@@ -77,6 +77,7 @@ class InvoiceDetails extends JsonResource
             'total' => $this->$type->amount,
             'balance' => $this->balance,
             'status' => $this->status,
+            'payment_mode' => $this->paymentmode,
             'transaction_updated' => empty($this->transaction) ? null : $this->transaction->updated_at->format('d-m-Y H:i'),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),

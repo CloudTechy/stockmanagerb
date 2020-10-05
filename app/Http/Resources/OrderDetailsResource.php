@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\OrderDetailResource;
 
 class OrderDetailsResource extends JsonResource
 {

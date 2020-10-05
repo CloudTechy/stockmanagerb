@@ -13,6 +13,7 @@
                         </select> 
                     </label>
                     <button @click="loadProducts" type="button" title="Refresh data" class="btn mb-2 btn-outline-success"><i :class="{fas:true, 'fa-sync-alt' : true, 'fa-spin':refresh}"></i></button>
+                    
                 </div>
             </div>
             <div class="col-6 col-md-6">
@@ -57,7 +58,7 @@
                                 {{  $root.numeral(product.price) }}
                             </td>
                             <td class="text-capitalize">
-                                <span v-bind:class="{badge:true, 'badge-warning':product.stock < 50, 'badge-danger':product.stock <= 10,  'badge-success' : product.stock >= 50 }">{{  product.stock }}
+                                <span v-bind:class="{badge:true, 'badge-warning':product.stock < 100, 'badge-danger':product.stock <= 50,  'badge-success' : product.stock >= 100 }">{{  product.stock }}
                                 </span>
                             </td>
                             <td class="text-capitalize">{{  product.added_by }}</td>
@@ -70,7 +71,7 @@
                             <td>
                                 <div style="width: 200px;">
                                     <button @click="loadView(product,index+start)" type="button" title="view more" class="  m-1 btn btn-outline-info"><i class="fas fa-street-view"></i></button>
-                                    <button  @click="loadEdit(product,index)" type="button" title="edit this product price" class="btn btn-outline-primary small m-1"  data-toggle="modal" data-target="#editProductModal" ><i class="fas fa-pen"></i></button>
+                                    <button  @click="loadEdit(product,index+start)" type="button" title="edit this product price" class="btn btn-outline-primary small m-1"  data-toggle="modal" data-target="#editProductModal" ><i class="fas fa-pen"></i></button>
                                     <button @click="deleteData(product.id,index+start)" type="button" title="delete this product" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></button>
                                 </div>
                             </td>
@@ -136,8 +137,8 @@
     export default {
         mounted() {
             window.dispatchEvent(new Event('sidebar_min'))
-            if(localStorage.products){
-                this.products = JSON.parse(localStorage.products)
+            if(localStorage.purchaseProducts){
+                this.products = JSON.parse(localStorage.purchaseProducts)
             }
         },
         data() { 
@@ -207,7 +208,7 @@
                         Fire.$emit('products_loaded', response.data.data)
                         window.dispatchEvent(new Event('sidebar_min'))
                         this.products = response.data.data.item.length !=0 ? response.data.data.item : [];
-                        localStorage.products = JSON.stringify(this.products)
+                        localStorage.purchaseProducts = JSON.stringify(this.products)
                     }
                     else{
                         this.$Progress.fail()
@@ -245,6 +246,7 @@
                 }
             },
             pageLoader(pageNumber){
+
                 if(this.pages > 6){
                     this.$refs.prev.classList.remove('disabled')
                     this.$refs.next.classList.remove('disabled')
@@ -254,7 +256,7 @@
                 var data = this.$root.myFilter(this.products,this.search)
                 this.length = data.length;
                 this.pages =  Math.ceil(data.length / this.rowsPerPage);
-                return data.slice(this.start,this.end);
+                return data.length > 0 ? data.slice(this.start,this.end) : [];
             },
             pageLoaderB(amount){
                 if(this.current_page <= 1 && amount == -1){
@@ -289,6 +291,7 @@
                 .then((result) => {
                     if (result.value) {
                         this.$Progress.start();
+                        this.products.splice(index, 1);
                         this.form.delete('./api/attributeproducts/'+id)
                         .then(response => {
                             if(response.data.status == true){

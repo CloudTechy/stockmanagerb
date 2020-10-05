@@ -194,6 +194,7 @@
                 }
             },
             pageLoader(pageNumber){
+
                 if(this.pages > 6){
                     this.$refs.prev.classList.remove('disabled')
                     this.$refs.next.classList.remove('disabled')
@@ -203,7 +204,7 @@
                 var data = this.$root.myFilter(this.transactions,this.search)
                 this.length = data.length;
                 this.pages =  Math.ceil(data.length / this.rowsPerPage);
-                return data.slice(this.start,this.end);
+                 return data.length > 0 ? data.slice(this.start,this.end) : [];
             },
             pageLoaderB(amount){
                 if(this.current_page <= 1 && amount == -1){

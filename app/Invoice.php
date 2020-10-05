@@ -12,11 +12,17 @@ class Invoice extends Model
     protected $uuidFieldName = 'id';
     protected $fillable = ['type',  'staff', 'purchase_id', 'balance', 'order_id', 'user_id', 'cost', 'amount'];
     public $incrementing = false;
-    protected $appends = array('status');
+    protected $appends = array('status','paymentmode');
+    // protected $trx = Transaction::where('invoice_id', $this->id)->first();
 
     public function getStatusAttribute()
     {
-        return empty(Transaction::where('invoice_id', $this->id)->first()->status) ? null : Transaction::where('invoice_id', $this->id)->first()->status;
+        return empty(Transaction::where('invoice_id', $this->id)->first()) ? null : Transaction::where('invoice_id', $this->id)->first()->status;
+
+    }
+    public function getPaymentmodeAttribute()
+    {
+        return empty(Transaction::where('invoice_id', $this->id)->first()) ? null : Transaction::where('invoice_id', $this->id)->first()->payment_mode;
 
     }
 

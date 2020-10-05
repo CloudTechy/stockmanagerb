@@ -30,6 +30,7 @@ let routes = [
     { path: '/transactions', component: require('./components/transaction/TransactionComponent.vue').default },
     { path: '/payment', component: require('./components/transaction/AddTransactionComponent.vue').default },
     { path: '/products', component: require('./components/product/PurchaseComponent.vue').default },
+    { path: '/BillingPurchase', name:"purchaseBilling", component: require('./components/product/AddProductBilling.vue').default },
     { path: '/orders', component: require('./components/order/OrderComponent.vue').default },
     { path: '/statistics', component: require('./components/statistic/StatisticComponent.vue').default },
 
@@ -225,6 +226,9 @@ const app = new Vue({
             return data;
         },
         myFilter(list, search) {
+            if (list.length == 0) {
+                return []
+            }
             var data = [];
             if (search) {
                 data = list.filter((item) => {

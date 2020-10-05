@@ -99,8 +99,9 @@
                                                     <span class="users-list-date"><strong>Contact: </strong>{{ invoice.number }}</span>
                                                     <span v-if="invoice.status == 'paid'" class='users-list-date badge badge-success'><strong>Balance :</strong>
                                                         <span class="" style="text-decoration: line-through">N</span>
-                                                        {{ invoice.balance }}
+                                                       {{  $root.numeral(invoice.balance) }}
                                                     </span>
+                                                    <h3 v-if="invoice.status == 'paid'"  href="javascript:void(0)" class="users-list-name">Payment is made by <span class="text-capitalize">{{invoice.payment_mode}}</span> </h3>
                                                     <p id="accordion" class="mt-2" ref='accordion'>
                                                         <button @click.prevent="collapse(invoice.id)" class="btn btn-outline-success" type="button">
                                                             view details
@@ -112,9 +113,9 @@
                                                     <print-bar-component :invoice='invoice' ></print-bar-component>
                                                 </div>
                                             </li>
-                                            <li class="p-4 m-3 border border-info" v-if="loading == false && $root.myFilter(invoices,search).length == 0">
+                                           <!--  <li class="p-4 m-3 border border-info" v-if="loading == false && $root.myFilter(invoices,search).length == 0">
                                                 <h4 class="text-center small text-secondary">Invoices Not Found</h4>
-                                            </li>
+                                            </li> -->
                                         </ul>
                                     </div>
                                 </div>

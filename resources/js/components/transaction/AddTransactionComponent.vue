@@ -37,6 +37,19 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <td class="font-weight-bold">Mode of Payment: </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <select v-model="form.payment_mode" class="form-control">
+                                                                    <option value="cash">CASH</option>
+                                                                    <option value="bank">BANK</option>
+                                                                </select>
+                                                                 <has-error :form="form" field="payment_mode"></has-error>
+                                                               
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td class="font-weight-bold">Amount: </td>
                                                         <td>
                                                             <div class="form-group">
@@ -185,6 +198,7 @@ export default {
                 invoice_id: null,
                 payment: null,
                 due_date: null,
+                payment_mode: "cash",
             }),
             error: '',
             transaction: '',

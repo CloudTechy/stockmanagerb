@@ -114,6 +114,10 @@ $printer->feed();
             $printer->setEmphasis(false);
             $printer->text($invoice->status . "\n");
             $printer->setEmphasis(true);
+            if ($invoice->status != "not-paid") {
+                $printer->text("paid by: ");
+                $printer->text($invoice->payment_mode . "\n");
+            }
             $printer->text("Invoice no: ");
             $printer->setEmphasis(false);
             $printer->text($invoice->id . "\n");

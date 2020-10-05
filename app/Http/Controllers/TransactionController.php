@@ -162,9 +162,9 @@ class TransactionController extends Controller
     {
         
         try {
-            $request->only('payment', 'due_date');
+            $request->only('payment','payment_mode', 'due_date');
             $validated['updated_by'] = auth()->user()->username;
-            $validated = $request->validate(['payment' => 'nullable|numeric', 'due_date' => 'nullable|date']);
+            $validated = $request->validate(['payment' => 'nullable|numeric', 'payment_mode' => 'nullable',  'due_date' => 'nullable|date']);
             if(empty( $validated['payment'])){
                 return Helper::validRequest(["success" => $transaction], 'Transaction was updated successfully', 200);
             }

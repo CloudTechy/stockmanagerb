@@ -163,6 +163,7 @@ export default {
     },
     methods: {
         nextStep() {
+            this.$Progress.start();
             this.buildCart(this.cart)
             this.form.customer_id = this.customer_id
             this.getOrders()
@@ -207,14 +208,17 @@ export default {
             this.customer_details = data[0];
         },
         getOrders() {
+            this.$Progress.start();
             this.form.post('./api/orders')
                 .then(response => {
+                    this.$Progress.finish();
                     this.orders = response.data.data
                     this.orderID = this.orders.id
                     this.sendOrder()
                     this.$Progress.start()
                 })
                 .catch(error => {
+                    this.$Progress.fail();
                     if (error.response) {
                         this.$Progress.fail()
                         console.log(error.response)
@@ -260,11 +264,13 @@ export default {
 
         },
         sendOrder() {
+            this.$Progress.start();
             this.form.orderDetails = this.orderdetails;
             this.form.order_id = this.orderID;
 
             this.form.post('./api/orderdetails')
                 .then(response => {
+                    this.$Progress.finish();
                     if (response.data.status) {
                         this.orderData = response.data.data
                         this.$emit('order_created', this.orderData)
@@ -278,6 +284,7 @@ export default {
                     }
                 })
                 .catch(error => {
+                    this.$Progress.fail();
                     if (error.response) {
                         this.$Progress.fail()
                         console.log(error.response)
@@ -290,12 +297,15 @@ export default {
                 });
         },
         loadPayment() {
+            this.$Progress.start();
             this.form.get('./api/orders/' + this.orderID)
                 .then(response => {
+                    this.$Progress.finish();
                     this.invoice_id = response.data.data.invoice_id
                     this.loadTransactionId()
                 })
                 .catch(error => {
+                    this.$Progress.fail();
                     if (error.response) {
                         this.$Progress.fail()
                         console.log(error.response)
@@ -307,12 +317,15 @@ export default {
                 });
         },
         loadTransactionId() {
+            this.$Progress.start();
             this.form.get('./api/invoices/' + this.invoice_id)
                 .then(response => {
+                    this.$Progress.finish();
                     this.transaction_id = response.data.data.transaction_id
                     this.getTransaction();
                 })
                 .catch(error => {
+                    this.$Progress.fail();
                     if (error.response) {
                         this.$Progress.fail()
                         console.log(error.response)
@@ -325,6 +338,7 @@ export default {
         },
 
         getTransaction() {
+            this.$Progress.start();
             this.loading = false
             this.form.get('./api/transactions/' + this.transaction_id)
                 .then(response => {

@@ -44,7 +44,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="font-weight-bold">Balance: </td>
+                            <td class="font-weight-bold">Change: </td>
                             <td>
                                 <span class="" style="text-decoration: line-through">N</span>{{ $root.numeral(invoice.balance) }}
                             </td>

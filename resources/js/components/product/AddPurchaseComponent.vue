@@ -1,6 +1,6 @@
 <template>
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div  class="modal-content">
+        <div class="modal-content">
             <div class="modal-header text-center">
                 <h3 class="modal-title display-5 font-weight-bold  ">Purchase Billing <i class="fa fa-user text-info"></i></h3>
                 <button type="button" @click.prevent="closeComponent" class="close" data-dismiss="modal">&times;</button>
@@ -24,7 +24,7 @@
                                                 <div class="col-6 col-md-3">
                                                     <label class="small" for="">Cost Price</label>
                                                     <input class="form-control" type="number" title="you can change the price if you may" v-model="product.price" ref="price" required="" placeholder="Enter Price">
-                                                    <label v-if="product.price != undefined" class="small text-danger">Selling at  <span style="text-decoration: line-through"> N</span>{{$root.numeral(product.price) }}</label>
+                                                    <label v-if="product.price != undefined" class="small text-danger">Selling at <span style="text-decoration: line-through"> N</span>{{$root.numeral(product.price) }}</label>
                                                 </div>
                                                 <div class="col-6 col-md-3">
                                                     <label class="small" for="">Quantity</label>
@@ -59,7 +59,7 @@
                                                 <tbody id="body">
                                                     <tr draggable @dragend="deleteItemOnCart(item,index,{index:item.index,quantity:item.quantity})" @dblclick="deleteItemOnCart(item,index,{index:item.index,quantity:item.quantity})" title="double click or swipe to remove this item from cart" v-for="item,index in cart">
                                                         <td class="text-center p-1 small text-capitalize">{{ index + 1}}</td>
-                                                        <td class="text-center p-1 small text-capitalize">{{ item.product }}</td>
+                                                        <td class="text-center p-1 small text-capitalize">{{ item.name }}</td>
                                                         <td @input="editItemOnCart($event, item, index,'quantity', item.index)" @keypress.enter.prevent="" contenteditable="" class="text-center p-1 small text-capitalize">{{ item.quantity }}</td>
                                                         <td @input="editItemOnCart($event, item, index, 'price', item.index)" @keypress.enter.prevent="" contenteditable="" class="text-center p-1 small text-capitalize">{{item.price}} </td>
                                                         <td :ref="'amount' + item.index" :key="item.index" class="text-center p-1 small text-capitalize">{{ $root.numeral(item.amount) }} </td>
@@ -80,26 +80,25 @@
                         </div>
                     </div>
                 </form>
-                
                 <div class="modal-footer border pt-0 pb-1 border-top-0 border-primary">
                     <button @click="closeComponent" type="button" ref="closeButtonPurchase" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    <button type="submit" @click.prevent="processCheckout" data-toggle="modal" data-target="#addProductComponent"  :disabled="cart.length == 0" class="btn btn-info">Checkout</button>
+                    <button type="submit" @click.prevent="processCheckout" data-toggle="modal" data-target="#addProductComponent" :disabled="cart.length == 0" class="btn btn-info">Checkout</button>
                 </div>
             </div>
         </div>
-        <div class="modal fade" @purchaseComplete = "emptyCart" @closeAddProduct = "closeComponent" v-if = "addProductShow" id="addProductComponent"><add-product-component :cart = "cart" v-if = "addProductShow" ></add-product-component></div>
+        <!-- <div class="modal fade" @closeAddPurchase = "closeComponent" @purchaseComplete = "emptyCart" @closeAddProduct = "closeComponent" v-if = "addProductShow" id="addProductComponent"><add-product-component :cart = "cart" v-if = "addProductShow" ></add-product-component></div> -->
     </div>
 </template>
 <script>
 export default {
     created() {
         window.dispatchEvent(new Event('sidebar_min'))
-        // console.log('purchasesCart',JSON.parse(localStorage.purchasesCart))
-        // if (localStorage.purchasesCart) {
-        //     this.cart = JSON.parse(localStorage.purchasesCart)
-        // }
+        if (localStorage.purchasesCart) {
+            this.cart = JSON.parse(localStorage.purchasesCart)
+        }
+        
     },
-    mounted(){
+    mounted() {
         this.addProductShow = false
     },
     data() {
@@ -113,7 +112,7 @@ export default {
             product: {},
             cartItem: {},
             index: "",
-            addProductShow:false,
+            addProductShow: false,
             CartTotalAmount: 0,
             productHash: new Set(),
         }
@@ -123,13 +122,14 @@ export default {
         this.product = {};
         this.product.quantity = ""
         this.form.reset();
-        this.$emit('closingAddPurchaseCart')
-        window.dispatchEvent(new Event('close_sidebar_min'))
-
-            if (this.cart.length > 0) {
-                console.log('this.cart', this.cart)
-                // localStorage.purchasesCart = JSON.stringify(this.cart)
+        if (this.cart.length > 0) {
+            localStorage.purchasesCart = JSON.stringify(this.cart)
         }
+
+        // this.$emit('closingAddPurchaseCart')
+        window.dispatchEvent(new Event('close_sidebar_min'))
+        this.$refs.closeButtonPurchase.click();
+
 
 
     },
@@ -146,7 +146,7 @@ export default {
     },
     watch: {
         name() {
-             this.search()
+            this.search()
             this.product = {}
             this.cartItem = {}
             if (this.name == "") {
@@ -164,6 +164,7 @@ export default {
                     this.cartItem.category = item.category
                     this.cartItem.pku = item.unit
                     this.cartItem.product = item.name
+                    this.cartItem.name = item.product
                     this.cartItem.pku = item.unit
                     this.cartItem.sale_price = item.price
                     this.index = index
@@ -180,8 +181,9 @@ export default {
     },
     methods: {
         add() {
+            
             this.cartItem.amount = this.amount
-            this.cartItem.price =  this.product.price
+            this.cartItem.price = this.product.price
             this.cart.unshift(this.cartItem)
             this.cartItem = {}
             this.name = ""
@@ -192,15 +194,19 @@ export default {
             this.$emit('load_products')
         },
         closeComponent() {
-                if (this.cart.length > 0) {
-            this.$root.alert('warning', 'CAUTION', "You have some items in the purchase cart")
-        }
-        this.addProductShow = false
+            if (this.cart.length > 0) {
+                this.$root.alert('warning', 'CAUTION', "You have some items in the purchase cart")
+                localStorage.purchasesCart = JSON.stringify(this.cart)
+
+
+            }
+
             this.name = ""
             this.product = {};
             this.form.reset();
             this.$refs.closeButtonPurchase.click();
             this.$emit('closingAddPurchaseCart')
+            this.addProductShow = false
         },
         editItemOnCart(e, item, index, type, productIndex) {
             this.$Progress.start();
@@ -249,40 +255,36 @@ export default {
 
             this.$Progress.finish()
         },
-        emptyCart(data){
+        emptyCart(data) {
             this.cart = data
             localStorage.removeItem("purchaseCart")
         },
         processCheckout() {
-            this.addProductShow = true
-            // this.$Progress.start();
-            // this.$swal({
-            //         title: 'Checkout Bill',
-            //         text: "Do you want to proceed to Checkout",
-            //         type: 'warning',
-            //         showCancelButton: true,
-            //         confirmButtonColor: '#3085d6',
-            //         cancelButtonColor: '#d33',
-            //         confirmButtonText: 'Yes, Checkout!'
-            //     })
-            //     .then((result) => {
-            //         if (result.value) {
-            //             // this.$emit('checkout', this.cart)
-            //             // this.$refs.closeButtonPurchase.click();
-            //             this.addProductShow = true
-            //             return true
-            //             // localStorage.removeItem('purchaseCart') 
-            //             // this.closeComponent()
-            //             this.$root.alert('success', 'success', 'proceeding to checkout')
-            //         }
-            //         else{
-            //             this.$refs.closeButtonPurchase.click();
-            //             this.addProductShow = false
-            //         }
-            //         this.$Progress.finish()
 
-            //     })
-            // this.$Progress.finish()
+            this.$Progress.start();
+            this.$swal({
+                    title: 'Checkout Bill',
+                    text: "Do you want to proceed to Checkout",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Checkout!'
+                })
+                .then((result) => {
+                    if (result.value) {
+
+                        this.$root.PurchaseCart = this.cart
+                        this.$root.alert('success', 'success', 'proceeding to checkout')
+                        this.$router.push("/Billingpurchase")
+                    } else {
+                        this.$refs.closeButtonPurchase.click();
+                        this.addProductShow = false
+                    }
+                    this.$Progress.finish()
+
+                })
+            this.$Progress.finish()
         },
         search() {
             var datalist = this.$refs.datalist
@@ -294,15 +296,15 @@ export default {
             }
             for (var item of this.productsRevised) {
 
-                    if (item.product.toLowerCase().includes(term.trim().toLowerCase())) {
-                        let option = document.createElement("option")
-                        option.value = item.product
-                        option.innerHTML = "Remaining " + item.stock
-                        frag.appendChild(option)
-                        found++
-                    }
+                if (item.product.toLowerCase().includes(term.trim().toLowerCase())) {
+                    let option = document.createElement("option")
+                    option.value = item.product
+                    option.innerHTML = "Remaining " + item.stock
+                    frag.appendChild(option)
+                    found++
+                }
 
-                if (found == 7) break
+                if (found == 10) break
 
             }
             datalist.appendChild(frag)

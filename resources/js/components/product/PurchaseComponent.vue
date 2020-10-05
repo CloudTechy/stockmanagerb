@@ -2,7 +2,7 @@
     <div>
         <nav-component></nav-component>
         <sidebar-component></sidebar-component>
-        <div class="modal fade" v-if="addProductShow" id="addProductComponent">
+        <div class="modal fade" v-if="addProductShow" @closingAddProductCart="closeAddProduct" id="addProductComponent">
             <add-product-component v-if="addProductShow"></add-product-component>
         </div>
         <div class="modal fade" v-if="showAddPurchase" @closingAddPurchaseCart="closeAddPurchase" id="addPurchaseComponent">
@@ -67,7 +67,7 @@
                                         </div>
                                         <div class="clearfix"> </div>
                                         <ul class="products-list product-list-in-card pl-2 pr-2">
-                                            <li ref='product' v-if="loading == false" v-for="product in  $root.myFilter(products,search).slice(0,5)" class="item">
+                                            <li ref='product' v-if="loading == false && products" v-for="product in  $root.myFilter(products,search).slice(0, products.length > 5?5:products.length)" class="item">
                                                 <div class="product-img">
                                                     <img v-bind:src=" 'img/' + product.image" alt="img" class="img-size-50">
                                                 </div>
@@ -77,13 +77,14 @@
                                                     <span class="product-description small">
                                                         {{ product.category + ", " + product.brand + ", " + product.size + ", " + product.unit}}.
                                                     </span>
-                                                    <span v-bind:class="{badge: true,small : true,'badge-success' :product.stock > 0, 'badge-danger': product.stock == 0, 'float-right' : true}"> {{ product.stock }}</span>
+                                                    <span v-bind:class="{badge:true, 'badge-warning':product.stock < 100, 'badge-danger':product.stock <= 50,  'badge-success' : product.stock >= 100 }">{{ product.stock }}
+                                                    </span>
                                                     <span class="text-primary product-description small">Quantity
                                                     </span>
                                                     <h3 href="javascript:void(0)" class="users-list-name font-weight-bold"> {{'Product ID: ' + product.id }} </h3>
                                                 </div>
                                             </li>
-                                            <li class="p-4 m-3 border border-info" v-if="loading == false && $root.myFilter(products,search).length == 0">
+                                            <li class="p-4 m-3 border border-info" v-if="loading == false && products.length > 0 && $root.myFilter(products,search).length == 0">
                                                 <h4 class="text-center small text-secondary">products Not Found</h4>
                                             </li>
                                         </ul>
@@ -96,13 +97,16 @@
             </div>
         </div>
         <div style="position: fixed; bottom: 25px; right: 25px">
-            <button type="button" @click="addPurchaseComponent" class="btn btn-success  rounded-circle" title="Add new product" id="add" data-toggle="modal" data-target="#addPurchaseComponent"><i class="fa fa-plus"></i> </button>
+            <button type="button" @click="addProductComponent" class="btn btn-success  rounded-circle" title="Add new product" id="add" data-toggle="modal" data-target="#addProductComponent"><i class="fa fa-plus"></i> </button>
+            <button type="button" @click="addPurchaseComponent" class="btn btn-success " title="supplier billing" id="add" data-toggle="modal" data-target="#addPurchaseComponent">Top Up </button>
         </div>
     </div>
 </template>
 <script>
     export default {
         mounted() {
+        localStorage.removeItem('products')
+        localStorage.removeItem('productStats')
           if(localStorage.products){
             this.products = JSON.parse(localStorage.products)
             this.loading = false
@@ -171,8 +175,17 @@
                 .then (response =>{
                   if(response.data.status == true){
                     this.loading = false;
-                      this.products = response.data.data.item;
-                      localStorage.products = JSON.stringify(this.products)
+                      // this.products = response.data.data.item;
+                      // localStorage.products = JSON.stringify(this.products)
+                      var prod = response.data.data.item
+                    if (prod) {
+                        this.products =  prod;
+                        localStorage.products = JSON.stringify(this.products)
+                    }
+                    else {
+                        this.products = []
+                        localStorage.removeItem("products")
+                    }
                   }
                   else{
                     console.log("load supplier did not return positive response");
@@ -180,7 +193,7 @@
                     
                 })
                 .catch (error => {
-                    this.error = error.response.data.error;
+                    this.error = error.response ? error.response.data.error : error;
                     console.log(error);
                 }); 
             },
@@ -189,8 +202,12 @@
               .then (response =>{
                   if(response.data.status == true){
                     this.loading = false;
-                    this.productStat = response.data.data.item[0];
-                    localStorage.productStats = JSON.stringify(this.productStat)
+                    var stat = response.data.data.item[0]
+                    if (stat) {
+                        this.productStat =  stat;
+                        localStorage.productStats = JSON.stringify(this.productStat)
+                    }
+                        
                   }
                   else{
                     console.log(response.data);
@@ -205,8 +222,15 @@
               //load show add purchase component here
               this.showAddPurchase = true
             },
+            addProductComponent(){
+              //load show add product component here
+              this.addProductShow = true
+            },
             closeAddPurchase(){
               this.showAddPurchase = false
+            },
+            closeAddProduct(){
+              this.addProductShow = false
             },
             checkOutPurchase(cart){
               console.log(cart)

@@ -10,7 +10,7 @@ class Transaction extends Model
 {
     use HasUUID;
     protected $uuidFieldName = 'id';
-    protected $fillable = ['invoice_id', 'user_id', 'staff', 'updated_by', 'amount', 'cost', 'payment', 'status', 'due_date'];
+    protected $fillable = ['invoice_id', 'user_id', 'staff','payment_mode', 'updated_by', 'amount', 'cost', 'payment', 'status', 'due_date'];
     public $incrementing = false;
     protected $appends = array('due');
 

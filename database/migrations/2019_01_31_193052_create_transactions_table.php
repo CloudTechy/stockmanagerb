@@ -20,6 +20,7 @@ class CreateTransactionsTable extends Migration
             $table->decimal('amount', 60, 4)->default(0);
             $table->decimal('payment', 60, 4)->default(0);
             $table->string('status')->index()->default('pending');
+            $table->string('payment_mode')->index()->default('cash');
             $table->date('due_date')->nullable();
             $table->string('staff')->index();
             $table->integer('user_id')->unsigned()->index();

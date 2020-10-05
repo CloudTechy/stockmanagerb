@@ -234,6 +234,7 @@
                 }
             },
             pageLoader(pageNumber){
+                
                 if(this.pages > 6){
                     this.$refs.prev.classList.remove('disabled')
                     this.$refs.next.classList.remove('disabled')
@@ -243,7 +244,7 @@
                 var data = this.$root.myFilter(this.suppliers,this.search)
                 this.length = data.length;
                 this.pages =  Math.ceil(data.length / this.rowsPerPage);
-                return data.slice(this.start,this.end);
+                return data.length > 0 ? data.slice(this.start,this.end) : [];
             },
             pageLoaderB(amount){
                 if(this.current_page <= 1 && amount == -1){
@@ -269,9 +270,31 @@
             },
             createPurchase(id,index){
                 this.$root.purchaseSupplierID = id;
+                this.$root.purchaseSupplierId = id;
                 this.$router.push('/products')
 
             },
+            getsupplierOrders(supplier_id) {
+            this.form.get('./api/purchases?pageSize=10000000&supplier_id=' + supplier_id)
+                .then(response => {
+                    if (response.data.status == true) {
+                        this.$root.addTransactionComponent(response.data.data.item, 'purchase')
+                    } else {
+                        this.$root.alert('error', 'error', 'could not fetch orders, refresh this page and try again')
+                        return []
+                    }
+                })
+                .catch(error => {
+                    this.$Progress.fail()
+                    if (error.response) {
+                        var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message
+                        this.$root.alert('error', 'error', message)
+                        console.log(error.response.data.error)
+                    } else {
+                        console.log(error.response);
+                    }
+                });
+        },
             deleteSupplier(id,index){
             this.$swal({
                     title: 'Are you sure?',

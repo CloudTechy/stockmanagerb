@@ -85,7 +85,7 @@ class PurchaseController extends Controller
             return $this->exception($bug, 'unknown error', 500);
         }
 
-        return Helper::validRequest(new PurchaseDetailsResource($purchase), 'Purchase was sent successfully', 200);
+        return Helper::validRequest(new PurchaseResource($purchase), 'Purchase was sent successfully', 200);
     }
 
     /**

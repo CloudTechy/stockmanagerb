@@ -2,8 +2,8 @@
     <div>
         <nav-component></nav-component>
         <sidebar-component></sidebar-component>
-        <div class="modal fade" v-if="addView" id="addSupplierComponent">
-            <add-supplier-component v-if="addView"></add-supplier-component>
+        <div class="modal fade"  id="addSupplierComponent">
+            <add-supplier-component ></add-supplier-component>
         </div>
         <div class="content-wrapper" style="min-height: 606px;">
             <div class="content-header">
@@ -253,13 +253,20 @@
             },
             addSupplierComponent(event){
               window.dispatchEvent(new Event('sidebar_min'))
+              this.addView = true
               return true;
             },
             loadOwed(){
               this.form.get('./api/statistics/suppliers?owed')
               .then(response  => {
-              this.owed = numeral(response.data.data.item[0].owed).format('0,0');
-              localStorage.owed = this.owed
+                if(response.data.data.item[0]){
+                  this.owed = numeral(response.data.data.item[0].owed).format('0,0');
+                  localStorage.owed = this.owed
+                }
+                else{
+                   this.owed = 0
+                }
+              
           })
           .catch( error => {
            this.error = error.response.data.error;

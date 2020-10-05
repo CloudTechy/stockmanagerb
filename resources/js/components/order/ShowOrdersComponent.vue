@@ -48,8 +48,8 @@
                                     {{ $root.numeral(product.price) }}
                                 </td>
                                 <td class="text-capitalize">
-                                    <span v-bind:class="{badge:true, 'badge-warning':product.stock < 50, 'badge-danger':product.stock <= 10,  'badge-success' : product.stock >= 50 }">{{ product.stock }}
-                                    </span>
+                                    <span v-bind:class="{badge:true, 'badge-warning':product.stock < 100, 'badge-danger':product.stock <= 50,  'badge-success' : product.stock >= 100 }">{{  product.stock }}
+                                </span>
                                 </td>
                                 <td class="text-center">
                                     <div class="text-center">
@@ -123,17 +123,16 @@
 <script>
 export default {
     mounted() {
-        // localStorage.removeItem('cart')
         window.dispatchEvent(new Event('sidebar_min'))
         window.scrollTo(0, 200)
+
         if (localStorage.cart) {
             this.cart = JSON.parse(localStorage.cart)
         }
         if (localStorage.productCart) {
             this.products = JSON.parse(localStorage.productCart)
-        } else if (localStorage.products) {
-            this.products = JSON.parse(localStorage.products)
-        }
+        } 
+        
 
     },
     data() {
@@ -262,6 +261,7 @@ export default {
             }
         },
         pageLoader(pageNumber) {
+            
             if (this.pages > 6) {
                 this.$refs.prev.classList.remove('disabled')
                 this.$refs.next.classList.remove('disabled')
@@ -271,7 +271,7 @@ export default {
             var data = this.$root.myFilter(this.products, this.search)
             this.length = data.length;
             this.pages = Math.ceil(data.length / this.rowsPerPage);
-            return data.slice(this.start, this.end);
+           return data.length > 0 ? data.slice(this.start,this.end) : [];
         },
         pageLoaderB(amount) {
             if (this.current_page <= 1 && amount == -1) {

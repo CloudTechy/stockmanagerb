@@ -38,9 +38,10 @@
                             <table  class="table table-bordered table-small table-hover table-striped dataTable" >
                                 <thead class="text-center ">
                                     <tr role="row" class="text-center">
-                                        <th>Operator</th>
+                                        <th>Cashier</th>
                                             <th>Amount <br> (<span style="text-decoration: line-through">N</span>)</th>
                                             <th>Payment <br> (<span style="text-decoration: line-through">N</span>)</th>
+                                           <th>Payment mode</th>
                                             <th>Status</th>
                                             <th>Date</th>
                                             
@@ -51,6 +52,7 @@
                                         <td>{{ transaction.user }}</td>
                                         <td>{{numeral(transaction.amount) }}</td>
                                         <td>{{numeral(transaction.payment) }}</td>
+                                        <td>{{ transaction.payment_mode }}</td>
                                         <td class="p-sm-1 text-center" v-if = "transaction.status == 'paid'">
                                            <span class="badge badge-success">{{ transaction.status }}</span>
                                         </td>

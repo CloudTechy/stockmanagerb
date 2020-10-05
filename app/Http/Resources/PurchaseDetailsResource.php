@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Transaction;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+
 class PurchaseDetailsResource extends JsonResource
 {
     /**
@@ -29,7 +30,7 @@ class PurchaseDetailsResource extends JsonResource
             'user_id' => $this->user_id,
             'invoice_id' => $this->invoiceID,
             'transaction_id' => empty($transaction) ? null : $transaction->id,
-            'purchaseDetails' => purchaseDetailResource::collection($this->purchaseDetails),
+            'purchaseDetails' => PurchaseDetailResource::collection($this->purchaseDetails),
             'Total_amount' => $this->amount,
             'Total_quantity' => $this->quantity,
 

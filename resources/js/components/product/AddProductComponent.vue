@@ -129,17 +129,14 @@
 </template>
 <script>
 export default {
-    mounted() {
+    created() {
         this.loadSuppliers();
         this.loadBrands();
         this.loadUnits();
         this.loadSizes();
         this.loadCategories();
 
-        if (this.$root.purchaseSupplierID) {
-            this.supplierID = this.$root.purchaseSupplierID;
-
-        }
+        
 
         // Echo.channel('brand')
         // .listen('UpdateBrand', (e) => {
@@ -162,7 +159,17 @@ export default {
         //     this.loadSuppliers();
         // });
     },
-    props: ['cart'],
+    mounted(){
+        if (this.$root.purchaseSupplierID) {
+            this.supplierID = this.$root.purchaseSupplierID;
+
+        }
+        if (this.$root.purchaseSupplierId) {
+            this.supplierID = this.$root.purchaseSupplierId;
+
+        }
+    },
+    props: [],
     data() {
 
         return {
@@ -202,10 +209,10 @@ export default {
         //     })
         // },
         supplierID() {
-            if(this.supplierID){
+            if (this.supplierID) {
                 this.loadSupplierDetails();
             }
-            
+
         },
         suppliers() {
             if (this.supplierID) {
@@ -232,16 +239,13 @@ export default {
                 .then(response => {
                     this.$Progress.start();
                     this.suppliers = response.data.data.item
+                    if(this.suppliers.length == 0){
+                        this.$root.alert('warning', 'Caution', 'you have not registered any supplier yet')
+                    }
                 })
         },
         nextStep() {
 
-            if (this.cart) {
-                this.$Progress.start();
-                this.form.supplier_id = this.supplierID;
-                this.getPurchase(this.supplierID);
-                return
-            }
             this.supplierStatus = true;
             this.form.supplier_id = this.supplierID;
             this.getPurchase(this.supplierID);
@@ -252,16 +256,12 @@ export default {
                 .then(response => {
                     this.$Progress.finish();
                     this.purchase = response.data.data
-                    if (this.cart) {
-                        var cart = this.cart.map(obj => ({ ...obj, purchase_id: this.purchase.id  }))
-                        this.form.purchaseDetails = cart
-                        this.add()
-
-                    }
                     this.form.purchaseDetails[0].purchase_id = this.purchase.id
-
                 })
-                .catch(err => console.log(err))
+                .catch(err => {
+                    console.log(err)
+                    console.log(err.response)
+                })
         },
         loadBrands() {
             this.form.get('./api/attributes/')
@@ -290,21 +290,12 @@ export default {
         add() {
 
             this.$Progress.start();
+            this.form.purchaseDetails[0].purchase_id = this.purchase.id
             this.form.purchaseDetails[0].product = this.form.purchaseDetails[0].product.toLowerCase();
             this.form.post('./api/purchasedetails')
                 .then(response => {
                     this.$Progress.finish()
                     if (response.data.status == true) {
-                        if(this.cart){
-                            this.$emit("purchaseComplete", [])
-                            localStorage.removeItem("purchaseCart")
-                            this.form.reset()
-                            this.$root.alert('success', 'success', 'product added, redirecting to payment')
-                            this.$root.purchaseId = this.purchase.id
-                            this.$router.push('/payment')
-                            return
-
-                        }
                         Fire.$emit('product_created', response.data.data)
                         this.form.purchaseDetails[0].quantity = ""
                         this.form.purchaseDetails[0].sale_price = ""
@@ -330,6 +321,7 @@ export default {
             this.supplierStatus = false;
             this.supplierID = '';
             this.supplier_details = ''
+            this.$emit('closingAddProductCart')
         },
         loadBanks() {
             this.form.get('./api/banks/')
@@ -348,17 +340,7 @@ export default {
             var data = []
             if (this.supplierID) {
                 data = this.suppliers.filter((item) => {
-                    var keys = Object.values(item)
-                    var boolean = false
-                    if (item == undefined) {
-                        return false
-                    }
-                    var bool = keys.forEach((key) => {
-                        if (key != null && key == this.supplierID) {
-                            boolean = true
-                        }
-                    })
-                    return boolean
+                    return item.id == this.supplierID
                 })
             } else {
                 data = ""

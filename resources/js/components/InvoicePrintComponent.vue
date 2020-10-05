@@ -17,6 +17,7 @@
         <div class="row invoice-info">
             <div class="col-sm-4 invoice-col">
                 <b class="">Payment status:  </b> <span class="text-uppercase">{{  invoice.status }}</span><br>
+                <span v-if = "invoice.status != 'not-paid'"><b class="">Paid by:  </b> <span class="text-uppercase font-weight-bold">{{  invoice.payment_mode }}</span></span><br>
                 <b>Invoice no: </b> <span class="small">{{ invoice.id }}</span>
                 <br>
                 <span v-if="invoice.status != 'not-paid'"><b>Payment date: </b> {{ invoice.transaction_updated || "N/A"}}<br></span><br>
@@ -30,7 +31,7 @@
                     Big Star IND CO LTD<br>
                     <span class="small">Zone 15 NO 76, New Motorcycle Spare Parts Nnewi</span><br>
                     <span class="small">08039303292</span><br>
-                    <b>Operator:</b> {{ $root.$session.get('user').username || "N/A" }}<br>
+                    <b>Cashier:</b> {{ $root.$session.get('user').names || "N/A" }}<br>
                 </address>
             </div>
             <!-- /.col -->
@@ -90,6 +91,12 @@
                             <td class="font-weight-bold">Payment: </td>
                             <td>
                                 <span class="" style="text-decoration: line-through">N</span>{{ $root.numeral(invoice.payment) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Change: </td>
+                            <td>
+                                <span class="" style="text-decoration: line-through">N</span>{{ $root.numeral(invoice.balance) }}
                             </td>
                         </tr>
                     </tbody>

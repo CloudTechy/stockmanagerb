@@ -7,6 +7,7 @@ use App\AttributeProduct;
 use App\Helper;
 use App\Http\Requests\ValidatePurchaseDetailRequest;
 use App\Http\Resources\PurchaseDetailResource;
+use App\Http\Resources\PurchaseDetailsResource;
 use App\Jobs\ProcessPurchase;
 use App\Product;
 use App\Purchase;

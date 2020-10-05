@@ -31,7 +31,7 @@ class TransactionResource extends JsonResource
             'tku' =>  $this->updated_at->format('Y-m-d H:i:s'),
             'amount' => $this->amount,
             'payment' => $this->payment,
-            'status' => $this->status,
+            'payment_mode' => $this->payment_mode,
             // 'type' => $this->invoice->type,
             'user' => $this->staff,
             'due' => $this->due,
