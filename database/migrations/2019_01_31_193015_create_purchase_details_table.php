@@ -33,7 +33,7 @@ class CreatePurchaseDetailsTable extends Migration
             // $table->bigInteger('sale_price')->default(0);
             // $table->string('pku')->index();
             // $table->string('category')->index();
-            $table->string('size')->index();
+            // $table->string('size')->index();
 
             $table->timestamps();
             $table->foreign('category')->references('name')->on('categories');
