@@ -6,12 +6,12 @@
                     <h5 class=" text-center login100-form-title">My StockManager</h5>
                     <img :src="'../img/img-01.png'" alt="IMG">
                 </div>
-                <form class="" role="form" name="form" id="form" ref="form" @keydown="form.onKeydown($event)" @submit.prevent='loginUser'>
+                <form class="" role="form" name="form" id="form" ref="form" @submit.prevent='loginUser'>
                     <span class="text-success login100-form-title">
                         User Login
                     </span>
                     <div class="wrap-input100">
-                        <input v-model="form.email" required="" class="input100 is-invalid" type="email" ref="email" name="email" placeholder="Email">
+                        <input v-model="email" required="" class="input100 is-invalid" type="email" ref="email" name="email" placeholder="Email">
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -24,7 +24,7 @@
                         </span>
                     </div>
                     <div class="wrap-input100">
-                        <input class="input100" v-model="form.password" required="" ref="password" type="password" name="pass" placeholder="Password">
+                        <input class="input100" v-model="password" required="" ref="password" type="password" name="pass" placeholder="Password">
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-lock" aria-hidden="true"></i>
@@ -37,7 +37,7 @@
                         </span>
                     </div>
                     <div class="container-login100-form-btn">
-                        <button type="submit" :disabled="form.busy" class="login100-form-btn">
+                        <button type="submit" :disabled="false" class="login100-form-btn">
                             Login
                         </button>
                     </div>
@@ -58,7 +58,7 @@
       AlertErrors, 
       AlertSuccess
     } from 'vform'
-     
+    import Vue from 'vue'
     Vue.component(HasError.name, HasError)
     Vue.component(AlertError.name, AlertError)
     Vue.component(AlertErrors.name, AlertErrors)
@@ -71,12 +71,13 @@
         data() { 
            
             return {
-                form : new Form({
-                    email: '',
-                    password: '',
-                }),
-                error : '',
-                path : '/orders'
+                form: new Form(),
+                email: null,
+                password: null,
+                success: false,
+                has_error: false,
+                error: '',
+                name : 'dashboard',
             }
 
         },
@@ -90,96 +91,45 @@
         }, 
         methods: {
             loginUser(){
-                var email =  this.form.email;
-                this.$Progress.start();
-                this.form.post('./api/login')
-                .then(response => {
-                    if(response.data.status == true){
-                        this.form.reset()
-                        var token = response.data.data.token
-                        window.axios.defaults.headers.common['Authorization'] = 'Bearer '+ token;
-                        this.token = token;
-                        this.$session.start()
-                        this.$session.set('token',token)
-                        localStorage.token = 'Bearer '+ token
-                        this.$Progress.finish()
-                        if(window.axios.defaults.headers.common['Authorization'] =='Bearer '+ token){
-                        console.log('user logged in')
-                        this.loadUser(email)
-                        //Fire.$emit('user_login', email)
-                        }
-                        else{
-                            console.log('user not logged in');
-                        }
-                    }
-                    else{
-                        this.$Progress.fail()
-                        this.$root.alert('error','error','An unexpected error occured, Try again Later')
-                        
-                    }
+                let loader = this.$loading.show({});
+        // get the redirect object
+                var redirect = this.$auth.redirect()
+                var app = this
+                this.$auth.login({
+                  data: {
+                    email: app.email,
+                    password: app.password
+                  },
+                  success: function() {
+                    // handle redirection
+                    loader.hide();
+                    app.success = true
+                    this.$router.push({name: app.name})
+                  },
+                  error: function(res) {
+                    loader.hide();
+                    app.has_error = true
+                    app.error = res.response.data.error
+                    console.log(app.error)
+                    // if(res.response){
+                    //     app.$root.alert('error','error',res.response.data.message)
+                    //     console.log(error);
+                    //     if(app.error.email){
+                    //         app.$refs.email.classList.add('is-invalid');
+                    //     }
+                    //     if (app.error.description) {
+                    //         app.$refs.password.classList.add('is-invalid');
+                    //     }
+                    // }
+                    // else {
+                    //     console.log(app.error)
+                    //    app.$root.alert('error','error','Server is not running');
+                    // }
+                  },
+                  rememberMe: true,
+                  fetchUser: true
                 })
-                .catch( error => {
-                    this.$Progress.fail()
-                    if(error.response){
-                        this.$root.alert('error','error',error.response.data.message)
-                        var error = error.response.data.error;
-                        this.error = error
-                        console.log(error);
-                        if(error.email){
-                            this.$refs.email.classList.add('is-invalid');
-                        }
-                        if (error.description) {
-                            this.$refs.password.classList.add('is-invalid');
-                        }
-                    }
-                    else {
-                        console.log(error)
-                       this.$root.alert('error','error','Server is not running');
-                    }
-                }); 
-            },
-            loadUser(email){
-                this.$Progress.start()
-                this.form.get('./api/users/?email='+email)
-                .then(response => {
-                    if(response.data.status == true){
-                        var user = response.data.data.item[0];
-                        if(user.activated == 0){
-                            console.log("user not activated")
-                        window.axios.defaults.headers.common['Authorization'] = '';
-                        this.$root.alert('error','error','Account deactivated')
-                        localStorage.removeItem("token")
-                      }
-                      else{
-                        this.$session.start()
-                        this.$session.set('user',user)
-                        localStorage.user = JSON.stringify(user)
-                        this.$root.alert('success','success','logged in')
-                       //Fire.$emit('user_login_confirmed',response.data.data.item[0])
-
-                        this.$router.push(this.path) 
-                        
-                      }
-                    }
-                    else{
-                      this.$Progress.fail()
-                      this.$root.alert('error','error','An unexpected error occured, Try again Later')
-                    }
-                })
-                .catch( error => {
-
-                    if(error.response){
-                        this.$Progress.fail()
-                        this.$root.alert('error','error',error.response.data.message)
-                        var error = error.response.data.error;
-                        console.log(error);
-                    }
-                    else{
-                        console.log(error);
-                        this.$root.alert('error','error','Server is not running');
-                    }
-                }); 
-         },
+            }
 
         }
     }

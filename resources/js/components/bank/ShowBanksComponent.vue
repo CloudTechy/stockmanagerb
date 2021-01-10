@@ -171,7 +171,7 @@
             loadBanks(){
                 this.$Progress.start();
                 var form = new Form()
-                form.get('./api/banks?pageSize=1000000')
+                form.get('./banks?pageSize=1000000')
                 .then( response => {
                     if(response.data.status == true){
                         this.$Progress.finish()
@@ -242,7 +242,7 @@
                 .then((result) => {
                     if (result.value) {
                         this.$Progress.start();
-                        this.form.delete('./api/banks/'+name)
+                        this.form.delete('./banks/'+name)
                         .then(response => {
                             if(response.data.status == true){
                                 Fire.$emit('bank_deleted', response.data.data)

@@ -171,7 +171,7 @@ export default {
             this.loading = true
         },
         loadCustomers() {
-            this.form.get('./api/customers/')
+            this.form.get('./customers/')
                 .then(response => {
                     this.customers = response.data.data.item
                 })
@@ -209,7 +209,7 @@ export default {
         },
         getOrders() {
             this.$Progress.start();
-            this.form.post('./api/orders')
+            this.form.post('./orders')
                 .then(response => {
                     this.$Progress.finish();
                     this.orders = response.data.data
@@ -268,7 +268,7 @@ export default {
             this.form.orderDetails = this.orderdetails;
             this.form.order_id = this.orderID;
 
-            this.form.post('./api/orderdetails')
+            this.form.post('./orderdetails')
                 .then(response => {
                     this.$Progress.finish();
                     if (response.data.status) {
@@ -298,7 +298,7 @@ export default {
         },
         loadPayment() {
             this.$Progress.start();
-            this.form.get('./api/orders/' + this.orderID)
+            this.form.get('./orders/' + this.orderID)
                 .then(response => {
                     this.$Progress.finish();
                     this.invoice_id = response.data.data.invoice_id
@@ -318,7 +318,7 @@ export default {
         },
         loadTransactionId() {
             this.$Progress.start();
-            this.form.get('./api/invoices/' + this.invoice_id)
+            this.form.get('./invoices/' + this.invoice_id)
                 .then(response => {
                     this.$Progress.finish();
                     this.transaction_id = response.data.data.transaction_id
@@ -340,7 +340,7 @@ export default {
         getTransaction() {
             this.$Progress.start();
             this.loading = false
-            this.form.get('./api/transactions/' + this.transaction_id)
+            this.form.get('./transactions/' + this.transaction_id)
                 .then(response => {
                     this.$Progress.finish()
                     this.transaction = response.data.data;

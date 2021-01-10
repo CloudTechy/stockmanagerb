@@ -173,7 +173,7 @@
             loadSizes(){
                 this.$Progress.start();
                 var form = new Form()
-                form.get('./api/sizes?pageSize=1000000')
+                form.get('./sizes?pageSize=1000000')
                 .then( response => {
                     if(response.data.status == true){
                         this.$Progress.finish()
@@ -244,7 +244,7 @@
                 .then((result) => {
                     if (result.value) {
                         this.$Progress.start();
-                        this.form.delete('./api/sizes/'+name)
+                        this.form.delete('./sizes/'+name)
                         .then(response => {
                             if(response.data.status == true){
                                 Fire.$emit('size_deleted', response.data.data)

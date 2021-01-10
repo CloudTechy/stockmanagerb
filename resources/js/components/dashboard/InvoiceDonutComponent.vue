@@ -64,7 +64,7 @@
         },
         methods: {
             loadPendingInvoices(){                
-                this.form.get('./api/statistics/transactions?status=pending&day='+this.day+'&year='+this.year)
+                this.form.get('./statistics/transactions?status=pending&day='+this.day+'&year='+this.year)
                 .then(response => {
                     
                     if(response.data.status == true){
@@ -78,7 +78,7 @@
                 }); 
             },
             loadPaidInvoices(){
-                this.form.get('./api/statistics/transactions?status=paid&day='+this.day+'&year='+this.year)
+                this.form.get('./statistics/transactions?status=paid&day='+this.day+'&year='+this.year)
                 .then(response => {
                     
                     if(response.data.status == true){
@@ -91,7 +91,7 @@
                 }); 
             },
             loadNotPaidInvoices(){
-                this.form.get('./api/statistics/transactions?status=not-paid&day='+this.day+'&year='+this.year)
+                this.form.get('./statistics/transactions?status=not-paid&day='+this.day+'&year='+this.year)
                 .then(response => {
                     
                     if(response.data.status == true){

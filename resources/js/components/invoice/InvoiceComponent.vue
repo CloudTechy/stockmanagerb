@@ -191,7 +191,7 @@
               this.$Progress.start()
               this.loadind = true
               this.search = id;
-              this.form.get('./api/invoices/' + id)
+              this.form.get('./invoices/' + id)
                 .then(response => {
                   window.dispatchEvent(new Event('sidebar_min'))
                   this.$Progress.finish()
@@ -209,7 +209,7 @@
             loadinvoices(){
               this.$Progress.start()
                 this.loading = true
-                this.form.get('./api/invoices')
+                this.form.get('./invoices')
                 .then (response =>{
                   this.$Progress.finish()
                   if(response.data.status == true){
@@ -261,7 +261,7 @@
             },
              makeTransaction(invoice){
               this.$Progress.start()
-                this.form.get('./api/transactions/'+invoice.transaction_id)
+                this.form.get('./transactions/'+invoice.transaction_id)
                 .then(response => {
                     this.transaction = response.data.data;
                     this.$root.addTransactionComponent(this.transaction)

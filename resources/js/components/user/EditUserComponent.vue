@@ -100,7 +100,7 @@
         methods: {
             add(){
                 this.$Progress.start();
-                this.form.patch('./api/users/'+this.user.id)
+                this.form.patch('./users/'+this.user.id)
                 .then(response => {
                     this.$refs.closeButton.click()
                     window.dispatchEvent(new Event('close_sidebar_min'));

@@ -224,7 +224,7 @@
         },
         methods: {
             loadSuppliers(){
-                this.form.get('./api/suppliers')
+                this.form.get('./suppliers')
                 .then (response =>{
                   if(response.data.status == true){
                     this.loading = false;
@@ -257,7 +257,7 @@
               return true;
             },
             loadOwed(){
-              this.form.get('./api/statistics/suppliers?owed')
+              this.form.get('./statistics/suppliers?owed')
               .then(response  => {
                 if(response.data.data.item[0]){
                   this.owed = numeral(response.data.data.item[0].owed).format('0,0');

@@ -65,7 +65,7 @@
         methods: {
             editSizeAxios(){
             	this.$Progress.start();
-                this.form.patch('./api/sizes/'+this.size.name)
+                this.form.patch('./sizes/'+this.size.name)
                 .then(response => {
                     this.$refs.closeButton.click()
                     if(response.data.status == true){

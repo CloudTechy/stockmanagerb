@@ -37,7 +37,7 @@
         },
         methods: {
             loadOrders(){
-                this.form.get('./api/statistics/transactions?status=pending&day='+this.day+'&year='+this.year)
+                this.form.get('./statistics/transactions?status=pending&day='+this.day+'&year='+this.year)
                 .then(response => {
                     if(response.data.status == true){
                         this.loading = false;

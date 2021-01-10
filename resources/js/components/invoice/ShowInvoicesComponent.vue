@@ -172,7 +172,7 @@ export default {
             this.refresh = true
             this.$Progress.start();
             var form = new Form()
-            form.get('./api/invoices')
+            form.get('./invoices')
                 .then(response => {
                     this.refresh = false
                     if (response.data.status == true) {
@@ -257,7 +257,7 @@ export default {
                 .then((result) => {
                     if (result.value) {
                         this.$Progress.start();
-                        this.form.delete('./api/invoices/' + id)
+                        this.form.delete('./invoices/' + id)
                             .then(response => {
                                 if (response.data.status == true) {
                                     Fire.$emit('invoice_deleted', response.data.data)
@@ -285,7 +285,7 @@ export default {
                 })
         },
         makeTransaction(invoice) {
-            this.form.get('./api/transactions/' + invoice.transaction_id)
+            this.form.get('./transactions/' + invoice.transaction_id)
                 .then(response => {
                     this.transaction = response.data.data;
                     this.$root.addTransactionComponent(this.transaction)

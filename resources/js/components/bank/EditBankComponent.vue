@@ -59,7 +59,7 @@
             
             editBankAxios(){
                 this.$Progress.start();
-                    this.form.patch('./api/banks/'+this.bank.name)
+                    this.form.patch('./banks/'+this.bank.name)
                     .then(response => {
                         this.$refs.closeButton.click()
 

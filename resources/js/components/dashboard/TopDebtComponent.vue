@@ -103,7 +103,7 @@
         
         methods: {
             loadDebt(){
-                this.form.get('./api/statistics/suppliers?amount&year='+this.year)
+                this.form.get('./statistics/suppliers?amount&year='+this.year)
                 .then(response =>  {
                     if(response.data.status == true){
                         this.$Progress.finish();

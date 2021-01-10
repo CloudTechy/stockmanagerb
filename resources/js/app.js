@@ -3,59 +3,39 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+import './bootstrap'
+import Vue from 'vue'
+import Index from './index'
 
-require('./bootstrap');
+window.Vue = Vue;
 
-window.Vue = require('vue');
-
+import VueAuth from '@websanova/vue-auth'
+import VueAxios from 'vue-axios'
 import VueRouter from 'vue-router'
-
+import auth from './auth'
+import router from './router'
+import axios from 'axios'
+import jQuery from 'jquery'
+import bootstrap from 'bootstrap'
+import popper from 'popper.js'
+Vue.router = router
 Vue.use(VueRouter)
 
-let routes = [
-    { path: '/users', component: require('./components/user/UserSummaryComponent.vue').default },
-    { path: '/sizes', component: require('./components/size/SizeComponent.vue').default },
-    { path: '/dashboard', component: require('./components/dashboard/DashboardComponent.vue').default },
-    { path: '/units', component: require('./components/unit/UnitComponent.vue').default },
-    { path: '/brands', component: require('./components/brand/BrandComponent.vue').default },
-    { path: '/banks', component: require('./components/bank/BankComponent.vue').default },
-    { path: '/categories', component: require('./components/category/CategoryComponent.vue').default },
-    { path: '/', component: require('./components/order/OrderComponent.vue').default },
-    // { path: '/', component: require('./components/dashboard/DashboardComponent.vue').default },
-    { path: '/login', name:"login", component: require('./components/login/LoginComponent.vue').default },
-    { path: '/customers', component: require('./components/customer/CustomerComponent.vue').default },
-    { path: '/suppliers', component: require('./components/supplier/SupplierComponent.vue').default },
-    { path: '/invoices', component: require('./components/invoice/InvoiceComponent.vue').default },
-    { path: '/print_invoice', component: require('./components/InvoicePrintComponent.vue').default },
-    { path: '/transactions', component: require('./components/transaction/TransactionComponent.vue').default },
-    { path: '/payment', component: require('./components/transaction/AddTransactionComponent.vue').default },
-    { path: '/products', component: require('./components/product/PurchaseComponent.vue').default },
-    { path: '/BillingPurchase', name:"purchaseBilling", component: require('./components/product/AddProductBilling.vue').default },
-    { path: '/orders', component: require('./components/order/OrderComponent.vue').default },
-    { path: '/statistics', component: require('./components/statistic/StatisticComponent.vue').default },
-
-]
-const router = new VueRouter({
-    mode: 'history',
-    routes,
-    scrollBehavior:(to, from, savedPosition) => {
-        if(savedPosition){
-            return savedPosition
-        }else if(to.hash){
-            return{
-                selector : to.hash
-            }
-        }else {
-            return {x:0,y:100}
-        }
-    }
-})
+Vue.use(VueAxios, axios)
+axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api/`
+Vue.use(VueAuth, auth)
 
 
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
+Vue.use(Loading, {
+  canCancel: false,
+  color: "orange", //28a745
+  backgroundColor: "#fff",
+  loader: "dots" // spinner, dots, bars
+});
 
-window.Fire = new Vue()
-
-
+Vue.component('index', Index)
 
 window.numeral = require('numeral');
 import Raphael from 'raphael/raphael'
@@ -76,7 +56,7 @@ const options = {
     location: 'top',
     inverse: false
 }
-
+window.Fire = new Vue()
 Vue.use(VueProgressBar, options)
 
 import VueSweetalert2 from 'vue-sweetalert2';
@@ -101,19 +81,6 @@ Vue.use(VueSession, { persist: true })
 const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-// router.beforeEach((to, from, next) => {
-   
-//     var form = new Form()
-//         axios.get('./api/banks',{headers:{Authorization:JSON.stringify(localStorage.token) }})
-//             .then(response => {
-//                 next()    
-//             })
-//             .catch((error) => {
-//                 if (error.response.status == 401) {
-//                      next({name: "login",  query:{to:to.path}})
-//                 }
-//             })
-// })
 
 
 Array.prototype.sum = function(prop) {
@@ -125,7 +92,7 @@ Array.prototype.sum = function(prop) {
 }
 
 const app = new Vue({
-    el: '#dashboard',
+    el: '#myDiv',
     router,
     data: {
         respond: '',
@@ -151,7 +118,7 @@ const app = new Vue({
 //             window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$session.get('token')
 //         }
 //         var form = new Form()
-//         form.get('./api/users/?id=1')
+//         form.get('./users/?id=1')
 //             .then(response => {
 //                 this.$Progress.finish()
 //             })
@@ -182,15 +149,6 @@ const app = new Vue({
         this.$router.afterEach((to, from) => {
             this.$Progress.finish()
         })
-
-        // if (!this.$session.exists() || window.axios.defaults.headers.common['Authorization'] != 'Bearer ' + this.$session.get('token')) {
-        //     this.$router.push('/login')
-        // }
-
-        //window.axios.defaults.headers.common['Authorization'] = 'Bearer '+ this.$session.get('token')
-        // window.addEventListener('beforeunload', () => {
-        //   this.$session.destroy()
-        //   this.$root.alert('info','leaving?','see you soon')
         // })
         Fire.$on('user_login', (data) => {
             // this.loadUser(data);

@@ -59,45 +59,18 @@ Stockmanager Web Application by Spacehub Technologies
 }
 </style>
 </head>
-<div id = "loader"  id="" >
+<!-- <div id = "loader"  id="" >
    <img src="{{ asset( 'img/medium2.png')}}" class=" " alt="User Image">
   <div style="width: 300px; margin-left: -60px" class="p-4 m-4 text-secondary font-weight-bold">
    <i class="fas fa-cog fa-spin"></i> loading app...
 </div>
-</div>
+</div> -->
 
 <body id="body" class="hold-transition sidebar-mini m-0 p-0"  style="height: auto;" onload="myFunction()">
 
-  <div  id = "myDiv" style="display:none;">
-    <div class="wrapper" id="dashboard" class="animate-bottom">
-
-              <router-view :token = 'token'></router-view>
-              <vue-progress-bar></vue-progress-bar>
-
-
-      <!-- Control Sidebar -->
-      <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-        <div class="p-3">
-          <h5>Title</h5>
-          <p>Sidebar content</p>
-        </div>
-      </aside>
-      <!-- /.control-sidebar -->
-
-      <!-- Main Footer -->
-      <footer class="main-footer no-print text-left">
-        <!-- To the right -->
-        <div class="float-right d-none d-sm-inline">
-         Version 0.1.1
-        </div>
-        <!-- Default to the left -->
-        <strong>Copyright &copy; {{ date('y') }} <span>SpaceHub Technologies</span>.</strong> All rights reserved.
-      </footer>
-
-    </div>
-    <!-- ./wrapper -->
-    </div>
+  <div  id = "myDiv" style="display:block;">
+    <index></index>
+  </div>
 
 <!-- REQUIRED SCRIPTS -->
 <script type="text/javascript" src= "{{ asset('js/app.js') }}"></script>
@@ -130,7 +103,7 @@ Stockmanager Web Application by Spacehub Technologies
 var myVar;
 
 function myFunction() {
-  myVar = setTimeout(showPage, 0);
+  // myVar = setTimeout(showPage, 0);
 }
 
 function showPage() {

@@ -59,7 +59,7 @@
         methods: {
             editUnitAxios(){
             	this.$Progress.start();
-                    this.form.patch('./api/units/'+this.unit.name)
+                    this.form.patch('./units/'+this.unit.name)
                     .then(response => {
                         this.$refs.closeButton.click()
 

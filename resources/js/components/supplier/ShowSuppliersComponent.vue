@@ -191,7 +191,7 @@
             loadSuppliers(){
                 this.$Progress.start();
                 var form = new Form()
-                form.get('./api/suppliers')
+                form.get('./suppliers')
                 .then( response => {
                     if(response.data.status == true){
                         this.$Progress.finish()
@@ -275,7 +275,7 @@
 
             },
             getsupplierOrders(supplier_id) {
-            this.form.get('./api/purchases?pageSize=10000000&supplier_id=' + supplier_id)
+            this.form.get('./purchases?pageSize=10000000&supplier_id=' + supplier_id)
                 .then(response => {
                     if (response.data.status == true) {
                         this.$root.addTransactionComponent(response.data.data.item, 'purchase')
@@ -308,7 +308,7 @@
                 .then((result) => {
                     if (result.value) {
                         this.$Progress.start();
-                        this.form.delete('./api/suppliers/'+id)
+                        this.form.delete('./suppliers/'+id)
                         .then(response => {
                             if(response.data.status == true){
                                 Fire.$emit('supplier_deleted', response.data.data)

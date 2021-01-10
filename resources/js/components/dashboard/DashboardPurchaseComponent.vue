@@ -159,7 +159,7 @@ export default {
     methods: {
 
         loadPurchaseDetails() {
-            this.form.get('./api/purchases')
+            this.form.get('./purchases')
                 .then(response => {
                     if (response.data.status == true) {
                         this.purchasedetails = response.data.data.item.length != 0 ? response.data.data.item : [];

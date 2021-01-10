@@ -31,7 +31,7 @@
 				var form = new Form();
                 this.$Progress.start();
                 console.log('printing');
-                form.get('./api/print/'+this.invoice.id+'/'+this.user.id)
+                form.get('./print/'+this.invoice.id+'/'+this.user.id)
                 .then(response => {
                     this.$Progress.finish()
                     if(response.data.status == true){

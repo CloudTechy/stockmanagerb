@@ -183,7 +183,7 @@ export default {
     },
     methods: {
         getCustomerOrders(customer_id) {
-            this.form.get('./api/orders?pageSize=10000000&customer_id=' + customer_id)
+            this.form.get('./orders?pageSize=10000000&customer_id=' + customer_id)
                 .then(response => {
                     if (response.data.status == true) {
                         this.$root.addTransactionComponent(response.data.data.item, 'order')
@@ -208,7 +208,7 @@ export default {
             this.refresh = true
             this.$Progress.start();
             var form = new Form()
-            form.get('./api/customers?pageSize=10000000')
+            form.get('./customers?pageSize=10000000')
                 .then(response => {
                     this.refresh = false
                     if (response.data.status == true) {
@@ -301,7 +301,7 @@ export default {
                 .then((result) => {
                     if (result.value) {
                         this.$Progress.start();
-                        this.form.delete('./api/customers/' + id)
+                        this.form.delete('./customers/' + id)
                             .then(response => {
                                 if (response.data.status == true) {
                                     Fire.$emit('customer_deleted', response.data.data)

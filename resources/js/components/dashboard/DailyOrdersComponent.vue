@@ -36,7 +36,7 @@
         },
         methods: {
             loadOrders(){
-                axios.get('./api/statistics/transactions?type=order&day='+this.day+'&year='+this.year)
+                axios.get('./statistics/transactions?type=order&day='+this.day+'&year='+this.year)
                 .then( response => {
                     
                     if(response.data.status == true){

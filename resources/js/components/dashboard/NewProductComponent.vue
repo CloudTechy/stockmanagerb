@@ -102,7 +102,7 @@
         },
         methods: {
             loadProducts(){
-                this.form.get('./api/attributeproducts?year='+this.year)
+                this.form.get('./attributeproducts?year='+this.year)
                 .then(response => {
                     this.loading = false;
                     this.products = response.data.data.item;

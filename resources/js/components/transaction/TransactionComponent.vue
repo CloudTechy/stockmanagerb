@@ -128,7 +128,7 @@
         },
         methods: {
             loadTransactions(){
-                this.form.get('./api/transactions')
+                this.form.get('./transactions')
                 .then (response =>{
                   if(response.data.status == true){
                     this.loading = false;
@@ -158,7 +158,7 @@
             },
               
         loadStatOrder(){
-                this.form.get('./api/statistics/invoices?type=order')
+                this.form.get('./statistics/invoices?type=order')
                 .then(response  => {
                   this.orderCount = response.data.data.total
                 })

@@ -57,7 +57,7 @@
         methods: {
             addBank(){
                 this.$Progress.start();
-                this.form.post('./api/banks')
+                this.form.post('./banks')
                 .then(response => {
                     this.$refs.closeButton.click()
                     if(response.data.status == true){

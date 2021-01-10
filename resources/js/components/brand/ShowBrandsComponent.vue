@@ -178,7 +178,7 @@
             loadBrands(){
                 this.$Progress.start();
                 var form = new Form()
-                form.get('./api/attributes?pageSize=1000000')
+                form.get('./attributes?pageSize=1000000')
                 .then( response => {
                     if(response.data.status == true){
                         this.$Progress.finish()
@@ -249,7 +249,7 @@
                 .then((result) => {
                     if (result.value) {
                         this.$Progress.start();
-                        this.form.delete('./api/attributes/'+id)
+                        this.form.delete('./attributes/'+id)
                         .then(response => {
                             if(response.data.status == true){
                                 Fire.$emit('brand_deleted', response.data.data)

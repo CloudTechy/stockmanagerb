@@ -105,7 +105,7 @@
         },
         methods: {
             loadProductDetails(){
-                axios.get('./api/statistics/orders?products&year='+this.year+'&pageSize=5')
+                axios.get('./statistics/orders?products&year='+this.year+'&pageSize=5')
                 .then( response => {
                      if(response.data.status == true){
                         this.products = response.data.data.item.length !=0 ? response.data.data.item : [];

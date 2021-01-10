@@ -103,7 +103,7 @@
         },
         methods: {
             loadDebtor(){
-                axios.get('./api/statistics/customers?amount&year='+this.year)
+                axios.get('./statistics/customers?amount&year='+this.year)
                 .then(response => {
                     if(response.data.status == true){
                         this.debtors = response.data.data.item.length !=0 ? response.data.data.item : [];

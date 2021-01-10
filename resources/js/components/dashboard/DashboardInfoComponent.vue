@@ -122,7 +122,7 @@
 			this.loadOwing();
 		   },
 	    loadOrderDetails(){
-	    	this.form.get('./api/statistics/transactions?order_revenue&month='+this.month+'&year='+this.year)
+	    	this.form.get('./statistics/transactions?order_revenue&month='+this.month+'&year='+this.year)
 		  .then(response  => {
         this.orderDetails = response.data.data.item.length !=0 ? response.data.data.item[0] :'';
         localStorage.orderDetailsStat = JSON.stringify(this.orderDetails)
@@ -132,7 +132,7 @@
 		    }); 
 	    },
 	    loadStock(){
-	    	this.form.get('./api/statistics/products?total')
+	    	this.form.get('./statistics/products?total')
 		  .then(response  => {
 		    	this.stock = response.data.data.item[0];
           localStorage.stockStat = JSON.stringify(this.stock)
@@ -142,7 +142,7 @@
 		    });  
 	    },
 	    loadOrders(){
-	    	this.form.get('./api/statistics/transactions?type=order&month='+this.month+'&year='+this.year)
+	    	this.form.get('./statistics/transactions?type=order&month='+this.month+'&year='+this.year)
 		  .then(response  => {
          this.orders = response.data.data.item.length !=0 ? response.data.data.item[0] :{count:0};
          localStorage.ordersInfoStat = JSON.stringify(this.orders)
@@ -152,7 +152,7 @@
 		    }); 
 	    },
 	    loadOwing(){
-	    	this.form.get('./api/statistics/customers?owing')
+	    	this.form.get('./statistics/customers?owing')
 		  	.then(response  => {
     			this.owed = numeral(response.data.data.item.length > 0 ? response.data.data.item[0].owing : 0).format('0,0.00');
           localStorage.owedStat = JSON.stringify(this.owed)

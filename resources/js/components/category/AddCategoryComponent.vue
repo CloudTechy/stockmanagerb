@@ -64,7 +64,7 @@
         methods: {
             addCategory(){
                 this.$Progress.start();
-                this.form.post('./api/categories')
+                this.form.post('./categories')
                 .then(response => {
                     this.$refs.closeButton.click()
                     if(response.data.status == true){

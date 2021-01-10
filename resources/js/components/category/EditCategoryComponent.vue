@@ -66,7 +66,7 @@
         methods: {
             editCategoryAxios(){
             	this.$Progress.start();
-                    this.form.patch('./api/categories/'+this.category.name)
+                    this.form.patch('./categories/'+this.category.name)
                     .then(response => {
                         this.$refs.closeButton.click()
 

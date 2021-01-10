@@ -208,7 +208,7 @@
         methods: {
             loadTransactions(){
                
-                this.form.get('./api/transactions/?pageSize=1000000')
+                this.form.get('./transactions/?pageSize=1000000')
                 .then( response => {
                     if(response.data.status == true){
                         this.transactions = response.data.data.item.length !=0 ? response.data.data.item : [];

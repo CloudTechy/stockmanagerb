@@ -66,7 +66,7 @@
             
             editBrandAxios(){
                 this.$Progress.start();
-                    this.form.patch('./api/attributes/'+this.brand.id)
+                    this.form.patch('./attributes/'+this.brand.id)
                     .then(response => {
                         this.$refs.closeButton.click()
 

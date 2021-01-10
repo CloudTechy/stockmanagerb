@@ -213,7 +213,7 @@ export default {
     },
     methods: {
         loadCustomers() {
-            this.form.get('./api/customers')
+            this.form.get('./customers')
                 .then(response => {
                     if (response.data.status == true) {
                         this.loading = false;
@@ -241,7 +241,7 @@ export default {
             return true;
         },
         loadOwing() {
-            this.form.get('./api/statistics/customers?owing')
+            this.form.get('./statistics/customers?owing')
                 .then(response => {
                     this.owing = numeral(response.data.data.item[0].owing).format('0,0');
                     localStorage.owing = this.owing

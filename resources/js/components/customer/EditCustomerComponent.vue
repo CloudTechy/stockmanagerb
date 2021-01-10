@@ -98,7 +98,7 @@
         methods: {
             add(){
                 this.$Progress.start();
-                this.form.patch('./api/customers/'+this.customer.id)
+                this.form.patch('./customers/'+this.customer.id)
                 .then(response => {
                     this.$refs.closeButton.click()
                     window.dispatchEvent(new Event('close_sidebar_min'));

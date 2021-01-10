@@ -160,7 +160,7 @@
             loadUsers(){
                 this.$Progress.start();
                 var form = new Form()
-                form.get('./api/users?pageSize=1000000&activated=1')
+                form.get('./users?pageSize=1000000&activated=1')
                 .then( response => {
                     if(response.data.status == true){
                         this.$Progress.finish()
@@ -238,7 +238,7 @@
                 .then((result) => {
                     if (result.value) {
                         this.$Progress.start();
-                        this.form.delete('./api/users/'+id)
+                        this.form.delete('./users/'+id)
                         .then(response => {
                             if(response.data.status == true){
                                 Fire.$emit('user_deleted', response.data.data)

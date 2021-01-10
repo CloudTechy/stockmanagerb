@@ -117,7 +117,7 @@
         methods: {
             add(){
                 this.$Progress.start();
-                this.form.patch('./api/attributeproducts/'+this.product.id)
+                this.form.patch('./attributeproducts/'+this.product.id)
                 .then(response => {
                     this.$refs.closeButton.click()
                     window.dispatchEvent(new Event('close_sidebar_min'));
@@ -144,25 +144,25 @@
                 return true;
             },
             loadBrands(){
-                this.form.get('./api/attributes/')
+                this.form.get('./attributes/')
                 .then(response => {
                     this.brands =  response.data.data.item
                 })
             },
             loadCategories(){
-                this.form.get('./api/categories/')
+                this.form.get('./categories/')
                 .then(response => {
                     this.categories =  response.data.data.item
                 })
             },
             loadSizes(){
-                this.form.get('./api/sizes/')
+                this.form.get('./sizes/')
                 .then(response => {
                     this.sizes =  response.data.data.item
                 })
             },
             loadUnits(){
-                this.form.get('./api/units/')
+                this.form.get('./units/')
                 .then(response => {
                     this.units =  response.data.data.item
                 })

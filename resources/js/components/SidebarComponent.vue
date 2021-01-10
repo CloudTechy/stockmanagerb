@@ -14,8 +14,8 @@
             <div class="image">
               <img v-bind:src="'../img/users.png'" class="img-circle elevation-2" alt="User Image">
             </div>
-            <div v-if = "user.names != undefined" class="info">
-              <a href="#" class="d-block small text-capitalize">{{ user.names }}</a>
+            <div v-if = "$auth.user().names != undefined" class="info">
+              <a href="#" class="d-block small text-capitalize">{{ $auth.user().names }}</a>
             </div>
           </div>
           <nav class="mt-2">
@@ -180,7 +180,7 @@
             </li> -->
 
             <li class="nav-item">
-               <a href="#" @click.prevent = "logout" class="nav-link">
+               <a href="#"  @click.prevent="$auth.logout()" class="nav-link">
                 <i class="fas fa-sign-out-alt"></i>
                 <p>
                   Logout
@@ -203,26 +203,11 @@
       }
     },
     methods : {
-      logout () {
-      this.$session.destroy()
-      localStorage.removeItem("token")
-      this.$router.push('/login')
-      this.$root.alert('success','success','Logged out')
-      }
     },
     created(){
-     // Fire.$on('user_login_confirmed', (user)=>{this.user = user})
     },
     computed : {
-      user(){
-        if (this.$session.get('user')) {
-              return this.$session.get('user');
-          }
-          else{
-            window.axios.defaults.headers.common['Authorization'] = '';
-            this.$router.push('/login')
-          }
-      }
+      // 
     }
   }
 </script>

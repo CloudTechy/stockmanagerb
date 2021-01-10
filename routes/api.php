@@ -15,12 +15,18 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+}); 
+
+Route::prefix('auth')->group(function () {
+// Below mention routes are public, user can access those without any restriction.
+    Route::post('register', 'AuthController@register')->name('register');
+    Route::post('login', 'AuthController@login')->name('login');
+    Route::get('refresh', 'AuthController@refresh');
 });
-
-Route::post('login', 'PassportController@login')->name('login');
-Route::post('register', 'PassportController@register');
-
+// Below mention routes are public, user can access those without any restriction.
 Route::middleware('auth:api')->group(function () {
+    Route::get('user', 'AuthController@user');
+    Route::post('logout', 'AuthController@logout');
     Route::resource('users', 'UserController');
     Route::resource('transactions', 'TransactionController');
     Route::resource('invoices', 'InvoiceController');

@@ -175,7 +175,7 @@
             loadUnits(){
                 this.$Progress.start();
                 var form = new Form()
-                form.get('./api/units?pageSize=1000000')
+                form.get('./units?pageSize=1000000')
                 .then( response => {
                     if(response.data.status == true){
                         this.$Progress.finish()
@@ -246,7 +246,7 @@
                 .then((result) => {
                     if (result.value) {
                         this.$Progress.start();
-                        this.form.delete('./api/units/'+name)
+                        this.form.delete('./units/'+name)
                         .then(response => {
                             if(response.data.status == true){
                                 Fire.$emit('unit_deleted', response.data.data)

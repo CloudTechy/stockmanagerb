@@ -171,7 +171,7 @@
         methods: {
             loadProducts(){
               window.dispatchEvent(new Event('sidebar_min'))
-                this.form.get('./api/attributeproducts')
+                this.form.get('./attributeproducts')
                 .then (response =>{
                   if(response.data.status == true){
                     this.loading = false;
@@ -198,7 +198,7 @@
                 }); 
             },
             loadProductStat(){
-              this.form.get('./api/statistics/products?count')
+              this.form.get('./statistics/products?count')
               .then (response =>{
                   if(response.data.status == true){
                     this.loading = false;

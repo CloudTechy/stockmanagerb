@@ -125,7 +125,7 @@
         },
         methods: {
             loadStat(){
-                this.form.get('./api/statistics/transactions?date=month&transactionType=order&year='+this.year)
+                this.form.get('./statistics/transactions?date=month&transactionType=order&year='+this.year)
                 .then( response => {
                     if(response.data.status == true){
                         this.statistics = response.data.data.item.length !=0 ? response.data.data.item : [];
@@ -140,7 +140,7 @@
                 }); 
             },
             loadRevenueStat(){
-                this.form.get('./api/statistics/transactions?order_revenue&year='+this.year+'&month='+this.month)
+                this.form.get('./statistics/transactions?order_revenue&year='+this.year+'&month='+this.month)
                 .then( response => {
                     if(response.data.status == true){
                         this.revenueStat = response.data.data.item.length !=0 ? response.data.data.item[0] : [];

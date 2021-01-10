@@ -182,7 +182,7 @@
         },
         methods: {
             loadOrders(){
-                this.form.get('./api/orders?pageSize=1000000')
+                this.form.get('./orders?pageSize=1000000')
                 .then( response => {
                     if(response.data.status == true){
                         this.orders = response.data.data.item.length !=0 ? response.data.data.item : [];

@@ -156,7 +156,7 @@
             loadData(){
                 this.$Progress.start();
                 var form = new Form()
-                form.get('./api/transactions')
+                form.get('./transactions')
                 .then( response => {
                     if(response.data.status == true){
                         this.$Progress.finish()
@@ -239,7 +239,7 @@
                 .then((result) => {
                     if (result.value) {
                         this.$Progress.start();
-                        this.form.delete('./api/transactions/'+id)
+                        this.form.delete('./transactions/'+id)
                         .then(response => {
                             if(response.data.status == true){
                                 Fire.$emit('transaction_deleted', response.data.data)

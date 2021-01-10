@@ -101,7 +101,7 @@
         methods: {
             add(){
                 this.$Progress.start();
-                this.form.post('./api/users')
+                this.form.post('./users')
                 .then(response => {
                     this.$refs.closeButton.click()
                     window.dispatchEvent(new Event('close_sidebar_min'));

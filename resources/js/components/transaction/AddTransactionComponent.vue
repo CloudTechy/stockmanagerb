@@ -233,7 +233,7 @@ export default {
     methods: {
         add() {
             this.$Progress.start();
-            this.form.put('./api/transactions/' + this.transaction.id)
+            this.form.put('./transactions/' + this.transaction.id)
                 .then(response => {
                     this.$Progress.finish()
                     if (response.data.status == true) {
@@ -271,7 +271,7 @@ export default {
         },
         loadInvoice(invoice_id) {
             this.$Progress.start();
-            this.form.get('./api/invoices/' + this.transaction.invoice_id)
+            this.form.get('./invoices/' + this.transaction.invoice_id)
                 .then(response => {
                     this.$Progress.finish()
                     if (response.data.status == true) {
@@ -308,11 +308,11 @@ export default {
             } else if (this.transaction_type != '' || this.form_typeid != '') {
 
                 this.idTypes = '';
-                this.form.get('./api/' + this.transaction_type + '/' + this.form_typeid)
+                this.form.get('./' + this.transaction_type + '/' + this.form_typeid)
                     .then(response => {
                         if (response.data.status == true) {
                             var invoice_id = response.data.data.invoice_id
-                            this.form.get('./api/transactions/?invoice_id=' + invoice_id)
+                            this.form.get('./transactions/?invoice_id=' + invoice_id)
                                 .then(response => {
                                     this.$Progress.finish()
                                     if (response.data.status == true) {
@@ -348,7 +348,7 @@ export default {
         },
         load(type) {
             this.$Progress.start();
-            this.form.get('./api/' + type)
+            this.form.get('./' + type)
                 .then(response => {
                     if (response.data.status == true) {
                         this.idTypes = response.data.data.item
@@ -364,7 +364,7 @@ export default {
         },
         loadTransaction(id) {
             this.$Progress.start();
-            this.form.get('./api/transactions/' + id)
+            this.form.get('./transactions/' + id)
                 .then(response => {
                     this.$Progress.finish()
                     if (response.data.status == true) {

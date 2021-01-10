@@ -174,7 +174,7 @@
             loadCategories(){
                 this.$Progress.start();
                 var form = new Form()
-                form.get('./api/categories?pageSize=1000000')
+                form.get('./categories?pageSize=1000000')
                 .then( response => {
                     if(response.data.status == true){
                         this.$Progress.finish()
@@ -245,7 +245,7 @@
                 .then((result) => {
                     if (result.value) {
                         this.$Progress.start();
-                        this.form.delete('./api/categories/'+name)
+                        this.form.delete('./categories/'+name)
                         .then(response => {
                             if(response.data.status == true){
                                 Fire.$emit('category_deleted', response.data.data)

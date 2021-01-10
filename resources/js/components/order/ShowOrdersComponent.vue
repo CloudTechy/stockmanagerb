@@ -213,7 +213,7 @@ export default {
             }
             this.refresh = true
             this.$Progress.start();
-            this.form.get('./api/attributeproducts')
+            this.form.get('./attributeproducts')
                 .then(response => {
                     this.refresh = false
                     this.$Progress.finish()
@@ -364,7 +364,7 @@ export default {
                 .then((result) => {
                     if (result.value) {
                         this.$Progress.start();
-                        this.form.delete('./api/products/' + id)
+                        this.form.delete('./products/' + id)
                             .then(response => {
                                 if (response.data.status == true) {
                                     Fire.$emit('product_deleted', response.data.data)

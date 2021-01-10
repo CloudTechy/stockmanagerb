@@ -62,7 +62,7 @@
             
             addBrand(){
                 this.$Progress.start();
-                this.form.post('./api/attributes')
+                this.form.post('./attributes')
                 .then(response => {
                     this.$refs.closeButton.click()
                     if(response.data.status == true){

@@ -215,7 +215,7 @@ export default {
     },
     watch: {
         // supplierID(){
-        //     this.form.get('./api/suppliers/'+ this.supplierID)
+        //     this.form.get('./suppliers/'+ this.supplierID)
         //     .then(response => {
         //         this.supplier_details = response.data.data
         //     })
@@ -240,7 +240,7 @@ export default {
 
         loadSuppliers() {
             this.$Progress.start();
-            this.form.get('./api/suppliers/')
+            this.form.get('./suppliers/')
                 .then(response => {
                     this.$Progress.start();
                     this.suppliers = response.data.data.item
@@ -261,7 +261,7 @@ export default {
         },
         getPurchase(id) {
             this.$Progress.start();
-            this.form.post('./api/purchases')
+            this.form.post('./purchases')
                 .then(response => {
                     this.$Progress.finish();
                     this.purchase = response.data.data
@@ -276,7 +276,7 @@ export default {
             this.$Progress.start();
             // this.form.purchaseDetails[0].purchase_id = this.purchase.id
             // this.form.purchaseDetails[0].product = this.form.purchaseDetails[0].product.toLowerCase();
-            this.form.post('./api/purchasedetails')
+            this.form.post('./purchasedetails')
                 .then(response => {
                     this.$Progress.finish()
                     if (response.data.status == true) {
@@ -307,7 +307,7 @@ export default {
            
         },
         loadBanks() {
-            this.form.get('./api/banks/')
+            this.form.get('./banks/')
                 .then(response => {
                     if (response.data.status == true) {
                         this.banks = response.data.data.item
