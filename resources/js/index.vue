@@ -6,7 +6,7 @@
         <div class="float-right d-none d-sm-inline">
          Version 0.1.1
         </div>
-        <strong>Copyright &copy;<!--  {{ date('y') }} --> <span>SpaceHub Technologies</span>.</strong> All rights reserved.
+        <strong>Copyright &copy; <span>SpaceHub Technologies</span>.</strong> All rights reserved.
       </footer>
   </div> 
 </template>
