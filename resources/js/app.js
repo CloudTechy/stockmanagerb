@@ -22,8 +22,8 @@ Vue.router = router
 Vue.use(VueRouter)
 
 Vue.use(VueAxios, axios)
-// axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api/`
-axios.defaults.baseURL = "http://spacehubtech-stockmanager.herokuapp.com/api"
+axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api/`
+// axios.defaults.baseURL = "http://spacehubtech-stockmanager.herokuapp.com/api"
 Vue.use(VueAuth, auth)
 
 
@@ -36,7 +36,7 @@ Vue.use(Loading, {
   loader: "dots" // spinner, dots, bars
 });
 
-Vue.component('index', Index)
+// Vue.component('index', Index)
 
 window.numeral = require('numeral');
 import Raphael from 'raphael/raphael'
@@ -51,7 +51,7 @@ const options = {
     transition: {
         speed: '0.1s',
         opacity: '0.6s',
-        termination: 36000
+        termination: 300
     },
     autoRevert: false,
     location: 'top',
@@ -106,7 +106,8 @@ const app = new Vue({
         token: '',
         user: {},
         form: new Form(),
-        transactions: ''
+        transactions: '',
+        loader : undefined
     },
 //     beforeCreate: function() {
 //         this.$Progress.start()
@@ -138,17 +139,23 @@ const app = new Vue({
         // })
     },
     created() {
+
         this.$Progress.start()
+        // this.loader = this.$loading.show({});
         this.$router.beforeEach((to, from, next) => {
             if (to.meta.progress !== undefined) {
                 let meta = to.meta.progress
                 this.$Progress.parseMeta(meta)
             }
             this.$Progress.start()
+            this.loader = this.$loading.show({});
             next()
         })
         this.$router.afterEach((to, from) => {
             this.$Progress.finish()
+            if(this.loader){
+                this.loader.hide();
+            }
         })
         // })
         Fire.$on('user_login', (data) => {

@@ -31,7 +31,7 @@
                     Big Star IND CO LTD<br>
                     <span class="small">Zone 15 NO 76, New Motorcycle Spare Parts Nnewi</span><br>
                     <span class="small">08039303292</span><br>
-                    <b>Cashier:</b> {{ $root.$session.get('user').names || "N/A" }}<br>
+                    <b>Cashier:</b> {{ $auth.user().names || "N/A" }}<br>
                 </address>
             </div>
             <!-- /.col -->

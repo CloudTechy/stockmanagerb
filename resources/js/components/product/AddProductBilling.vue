@@ -274,27 +274,31 @@ export default {
         add() {
 
             this.$Progress.start();
+            let loader = this.$loading.show({});
             // this.form.purchaseDetails[0].purchase_id = this.purchase.id
             // this.form.purchaseDetails[0].product = this.form.purchaseDetails[0].product.toLowerCase();
             this.form.post('./purchasedetails')
                 .then(response => {
                     this.$Progress.finish()
                     if (response.data.status == true) {
-                            localStorage.removeItem("purchasesCart")
-                            this.form.reset()
-                            this.$root.alert('success', 'success', 'product added, redirecting to payment')
-                            this.$root.purchaseId = this.purchase.id
-                            this.$router.push('/payment')
-                            return
+                        loader.hide()
+                        localStorage.removeItem("purchasesCart")
+                        this.form.reset()
+                        this.$root.alert('success', 'success', 'product added, redirecting to payment')
+                        this.$root.purchaseId = this.purchase.id
+                        this.$router.push('/payment')
+                        return
                         
                     } else {
                         this.$Progress.fail()
+                        loader.hide()
                         this.$root.alert('error', 'error', 'An unexpected error occured, Try again Later')
                         console.log(response.data);
                     }
                 })
                 .catch(error => {
                     this.$Progress.fail()
+                    loader.hide()
                     if(error.response){
                         this.$root.alert('error', 'error', error.response.data.message)
                     }

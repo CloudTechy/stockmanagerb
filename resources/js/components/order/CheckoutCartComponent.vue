@@ -298,14 +298,17 @@ export default {
         },
         loadPayment() {
             this.$Progress.start();
+            let loader = this.$loading.show({});
             this.form.get('./orders/' + this.orderID)
                 .then(response => {
                     this.$Progress.finish();
                     this.invoice_id = response.data.data.invoice_id
                     this.loadTransactionId()
+                    loader.hide()
                 })
                 .catch(error => {
                     this.$Progress.fail();
+                    loader.hide()
                     if (error.response) {
                         this.$Progress.fail()
                         console.log(error.response)
@@ -318,9 +321,11 @@ export default {
         },
         loadTransactionId() {
             this.$Progress.start();
+            let loader = this.$loading.show({});
             this.form.get('./invoices/' + this.invoice_id)
                 .then(response => {
                     this.$Progress.finish();
+                    loader.hide()
                     this.transaction_id = response.data.data.transaction_id
                     this.getTransaction();
                 })
@@ -328,6 +333,7 @@ export default {
                     this.$Progress.fail();
                     if (error.response) {
                         this.$Progress.fail()
+                        loader.hide()
                         console.log(error.response)
                         this.$root.alert('error', 'error', error.response.data.message)
                     } else {

@@ -13,12 +13,12 @@
                         <div class="form-group">
                             <label for="brand_name" class="text-capitalize">Brand Name</label>
                             <input type="text" v-model="form.type" required="" class="form-control" ref="brand_name" placeholder="Enter brand name">
-                            <has-error :form="form" field="type"></has-error>
+                            <p v-if="errors.type" v-for="error in errors.type" class="text-danger m-0 p-2">{{error}}</p>
                         </div>
                         <div class="form-group">
                             <label for="brand_description" class="text-capitalize">Brand Description</label>
                             <input v-model = "form.description" type="text" class="form-control" ref="brand_description" placeholder="Enter brand description">
-                            <has-error :form="form" field="description"></has-error>
+                            <p v-if="errors.description" v-for="error in errors.description" class="text-danger m-0 p-2">{{error}}</p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -55,7 +55,8 @@
                     description:'No Description Yet',
                     id:''
                 }),
-                brand: ''
+                brand: '',
+                errors : {}
             }
         },
         beforeDestroy(){
@@ -88,6 +89,7 @@
                         this.$Progress.fail()
                         this.$root.alert('error','error',error.response.data.message)
                         var error = error.response.data.error;
+                        this.errors = error
                         console.log(error);
                         if(error.type){
                             this.$refs.brand_name.classList.add('is-invalid');

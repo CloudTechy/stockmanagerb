@@ -198,7 +198,7 @@
   export default {
     data() {
       return{
-        //user: this.$root.user,
+        //user: this.$auth.user(),
 
       }
     },

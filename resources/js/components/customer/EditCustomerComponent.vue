@@ -18,12 +18,11 @@
                                             <div class="form-group">
                                                 <label for="name">Full Names</label>
                                                 <input type="text" v-model="form.name" required="" class="form-control" ref="name" placeholder="Enter name">
-                                                <has-error :form="form" field="name"></has-error>
+                                                <p v-if="errors.name" v-for="error in errors.name" class="text-danger m-0 p-2">{{error}}</p>
                                             </div>
                                             <div class="form-group">
                                                 <label for="number">Number</label>
-                                                <input type=text v-model="form.number" required="" class="form-control" ref="number" placeholder="Enter number">
-                                                <has-error :form="form" field="number"></has-error>
+                                                <input type=text v-model="form.number" required="" class="form-control" ref="number" placeholder="Enter number"><p v-if="errors.number" v-for="error in errors.number" class="text-danger m-0 p-2">{{error}}</p>
                                             </div>
 
                                         </fieldset>
@@ -35,12 +34,12 @@
                                             <div class="form-group">
                                                 <label for="email">Email </label>
                                                 <input type="email" v-model="form.email"  class="form-control" ref="email" placeholder="Enter email">
-                                                <has-error :form="form" field="email"></has-error>
+                                                <p v-if="errors.email" v-for="error in errors.email" class="text-danger m-0 p-2">{{error}}</p>
                                             </div>
                                             <div class="form-group">
                                                 <label for="note">Short Note </label>
                                                 <input type="text" max="150" v-model="form.note"  class="form-control" ref="note" placeholder="Enter note">
-                                                <has-error :form="form" field="note"></has-error>
+                                                <p v-if="errors.note" v-for="error in errors.note" class="text-danger m-0 p-2">{{error}}</p>
                                             </div>
                                         </fieldset>
                                     </div>
@@ -84,6 +83,7 @@
                     note: '',
                 }),
                 customer: '',
+                errors : {}
             }
         },
         created(){
@@ -117,6 +117,7 @@
                     this.$Progress.fail()
                     this.$root.alert('error','error',error.response.data.message)
                     var error = error.response.data.error;
+                    this.errors = error
                     console.log(error);
                     if(error.name){
                         this.$refs.name.classList.add('is-invalid');

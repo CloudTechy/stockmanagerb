@@ -32,7 +32,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="user_level_id">User Group</label>
-                                            <select v-model="form.user_level_id"  ref="user_level" class="custom-select" id="inputGroupSelect01">
+                                            <select v-model="form.user_level_id"  ref="user_level" class="custom-select" id="inputGroupSelect02">
                                                 <option selected value="1">Standard</option>
                                                 <option value="2">Administrator</option>
                                                 <option value="3">Super-Administrator</option>

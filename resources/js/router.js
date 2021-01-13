@@ -34,18 +34,26 @@ const routes = [{
     // USER ROUTES
     {
         path: '/',
-        name: 'home',
+        name: '/',
         component: Home,
         meta: {
             auth: true
         }
     },
-     {
-        path: '/404',
-        name: 'Unknown',
-        component: Unknown,
+    //  {
+    //     path: '/404',
+    //     name: 'Unknown',
+    //     component: Unknown,
+    //     meta: {
+    //         auth: undefined
+    //     }
+    // },
+    {
+        path: '/units',
+        name: 'units',
+        component: Units,
         meta: {
-            auth: undefined
+            auth: true
         }
     },
     {

@@ -12,12 +12,12 @@
                         <div class="form-group">
                             <label for="size_name" class="text-capitalize">Size Name</label>
                             <input type="text" v-model="form.name" required="" class="form-control" ref="size_name" placeholder="Enter size name">
-                            <has-error :form="form" field="name"></has-error>
+                            <p v-if="errors.name" v-for="error in errors.name" class="text-danger m-0 p-2">{{error}}</p>
                         </div>
                         <div class="form-group">
                             <label for="size_description" class="text-capitalize">Size Description</label>
                             <input v-model = "form.description" type="text" class="form-control" ref="size_description" placeholder="Enter size description">
-                            <has-error :form="form" field="description"></has-error>
+                            <p v-if="errors.description" v-for="error in errors.description" class="text-danger m-0 p-2">{{error}}</p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -53,6 +53,7 @@
                     description:'No Description Yet',
                 }),
                 size:'',
+                errors : {}
             }
         },
         created(){
@@ -86,6 +87,7 @@
                     this.$Progress.fail()
                     this.$root.alert('error','error',error.response.data.message)
                     var error = error.response.data.error;
+                    this.errors = error
                     console.log(error);
                     if(error.name){
                         this.$refs.size_name.classList.add('is-invalid');

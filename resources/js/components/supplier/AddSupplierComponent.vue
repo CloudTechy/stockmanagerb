@@ -18,17 +18,17 @@
                                             <div class="form-group">
                                                 <label for="name">Full Names</label>
                                                 <input type="text" v-model="form.name" required="" class="form-control" ref="name" placeholder="Enter name">
-                                                <has-error :form="form" field="name"></has-error>
+                                                <p v-if="errors.name" v-for="error in errors.name" class="text-danger m-0 p-2">{{error}}</p>
                                             </div>
                                             <div class="form-group">
                                                 <label for="number">Number</label>
                                                 <input type=text v-model="form.number" required="" class="form-control" ref="number" placeholder="Enter number">
-                                                <has-error :form="form" field="number"></has-error>
+                                                <p v-if="errors.number" v-for="error in errors.number" class="text-danger m-0 p-2">{{error}}</p>
                                             </div>
                                             <div class="form-group">
                                                 <label for="email">Email </label>
                                                 <input type="email" v-model="form.email" required="" class="form-control" ref="email" placeholder="Enter email">
-                                                <has-error :form="form" field="email"></has-error>
+                                                <p v-if="errors.email" v-for="error in errors.email" class="text-danger m-0 p-2">{{error}}</p>
                                             </div>
 
                                         </fieldset>
@@ -40,23 +40,23 @@
                                             <div class="form-group">
                                                 <label for="country">country </label>
                                                 <input type="country" v-model="form.country"  class="form-control" ref="country" placeholder="Enter country">
-                                                <has-error :form="form" field="country"></has-error>
+                                                <p v-if="errors.country" v-for="error in errors.country" class="text-danger m-0 p-2">{{error}}</p>
                                             </div>
                                             <div class="form-group">
                                                 <label for="city">Short city </label>
                                                 <input type="text" max="150" v-model="form.city"  class="form-control" ref="city" placeholder="Enter city">
-                                                <has-error :form="form" field="city"></has-error>
+                                                <p v-if="errors.city" v-for="error in errors.city" class="text-danger m-0 p-2">{{error}}</p>
                                             </div>
                                             <div class="form-check">
                                                 
                                               <input v-model= "form.is_stock_available" ref = "is_stock_available" class="form-check-input" type="checkbox"  id="is_stock_available">
                                               <label for="is_stock_available">Is stock available </label>
-                                              <has-error :form="form" field="is_stock_available"></has-error>
+                                              <p v-if="errors.is_stock_available" v-for="error in errors.is_stock_available" class="text-danger m-0 p-2">{{error}}</p>
                                             </div>
                                             <div class="form-group">
                                                 <label for="address">Address </label>
                                                 <input type="text" max="150" v-model="form.address"  class="form-control" ref="address" placeholder="Enter address">
-                                                <has-error :form="form" field="address"></has-error>
+                                                <p v-if="errors.address" v-for="error in errors.address" class="text-danger m-0 p-2">{{error}}</p>
                                             </div>
                                         </fieldset>
                                     </div>
@@ -69,17 +69,17 @@
                                                     <option selected>Choose...</option>
                                                     <option v-for="bank in banks" v-bind:value="bank.name"> {{ bank.name }} </option>
                                                 </select>
-                                                <has-error :form="form" field="bank_name"></has-error>
+                                                <p v-if="errors.bank_name" v-for="error in errors.bank_name" class="text-danger m-0 p-2">{{error}}</p>
                                             </div>
                                             <div class="form-group">
                                                 <label for="acc_name">Account Name </label>
                                                 <input type="text" max="150" v-model="form.acc_name"  class="form-control" ref="acc_name" placeholder="Enter account name">
-                                                <has-error :form="form" field="acc_name"></has-error>
+                                                <p v-if="errors.acc_name" v-for="error in errors.acc_name" class="text-danger m-0 p-2">{{error}}</p>
                                             </div>
                                             <div class="form-group">
                                                 <label for="acc_number">Account Number </label>
                                                 <input type="text" max="150" v-model="form.acc_number"  class="form-control" ref="acc_number" placeholder="Enter account number">
-                                                <has-error :form="form" field="acc_number"></has-error>
+                                                <p v-if="errors.acc_number" v-for="error in errors.acc_number" class="text-danger m-0 p-2">{{error}}</p>
                                             </div>
                                         </fieldset>
                                     </div>
@@ -125,6 +125,7 @@
                     }),
                 banks : '',
                 error: '',
+                errors : {}
             }
         },
         beforeDestroy(){
@@ -153,6 +154,7 @@
                     this.$Progress.fail()
                     this.$root.alert('error','error',error.response.data.message)
                     var error = error.response.data.error;
+                    this.errors = error
                     console.log(error);
                     if(error.name){
                         this.$refs.name.classList.add('is-invalid');

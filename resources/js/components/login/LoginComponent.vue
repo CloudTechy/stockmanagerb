@@ -20,7 +20,6 @@
                     <div class="text-center text-danger m-3 p-0 mt-0">
                         <span id="error" class="txt1">
                             <div class="  m-0 p-0 text-danger" v-if="error.email != undefined">{{ error.email[0] }}</div>
-                            <has-error :form="form" field="email"></has-error>
                         </span>
                     </div>
                     <div class="wrap-input100">
@@ -33,7 +32,6 @@
                     <div class="text-center text-danger p-0 mt-0">
                         <span class="txt1">
                             <div class="m-0 p-0 text-danger" v-if="error.email != undefined">{{ error.password[0] }}</div>
-                            <has-error :form="form" field="password"></has-error>
                         </span>
                     </div>
                     <div class="container-login100-form-btn">
@@ -83,16 +81,19 @@
         },
         beforeRouteEnter (to, from, next) {
             next(vm => {
-                vm.path = !from.path  ||  from.path == '/payment' ? "/orders" : from.path
-                if(vm.$route.params.to || vm.$route.query.to){
-                    vm.path = vm.$route.params.to || vm.$route.query.to
-                }
+                // vm.path = !from.path  ||  from.path == '/payment' ? "/orders" : from.path
+                // vm.name = from.path
+                // if(vm.$route.params.to || vm.$route.query.to){
+                //     vm.path = vm.$route.params.to || vm.$route.query.to
+                //     vm.name = from.path
+                // }
+                // console.log(vm.name, vm.path)
               });
         }, 
         methods: {
             loginUser(){
                 let loader = this.$loading.show({});
-        // get the redirect object
+                // get the redirect object
                 var redirect = this.$auth.redirect()
                 var app = this
                 this.$auth.login({
@@ -102,6 +103,11 @@
                   },
                   success: function() {
                     // handle redirection
+                    if (redirect) {
+                        app.name = redirect.from.name
+                    } 
+                    console.log()
+                    this.$router.push({ name: app.name })
                     loader.hide();
                     app.success = true
                     this.$router.push({name: app.name})
@@ -111,20 +117,20 @@
                     app.has_error = true
                     app.error = res.response.data.error
                     console.log(app.error)
-                    // if(res.response){
-                    //     app.$root.alert('error','error',res.response.data.message)
-                    //     console.log(error);
-                    //     if(app.error.email){
-                    //         app.$refs.email.classList.add('is-invalid');
-                    //     }
-                    //     if (app.error.description) {
-                    //         app.$refs.password.classList.add('is-invalid');
-                    //     }
-                    // }
-                    // else {
-                    //     console.log(app.error)
-                    //    app.$root.alert('error','error','Server is not running');
-                    // }
+                    if(res.response){
+                        app.$root.alert('error','error',res.response.data.message)
+                        console.log(error);
+                        if(app.error.email){
+                            app.$refs.email.classList.add('is-invalid');
+                        }
+                        if (app.error.description) {
+                            app.$refs.password.classList.add('is-invalid');
+                        }
+                    }
+                    else {
+                        console.log(app.error)
+                       app.$root.alert('error','error','Server is not running');
+                    }
                   },
                   rememberMe: true,
                   fetchUser: true

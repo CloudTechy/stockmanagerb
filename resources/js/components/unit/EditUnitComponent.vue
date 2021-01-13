@@ -12,7 +12,7 @@
                         <div class="form-group">
                             <label for="unit_name">Unit Name</label>
                             <input type="text" v-model="form.name" required="" class="form-control" ref="unit_name" placeholder="Enter unit name">
-                            <has-error :form="form" field="name"></has-error>
+                            <p v-if="errors.name" v-for="error in errors.name" class="text-danger m-0 p-2">{{error}}</p>
                         </div>
                         
                     </div>
@@ -46,7 +46,8 @@
                 form : new Form({
                     name: '',
                 }),
-                unit:''
+                unit:'',
+                errors : {}
             }
         },
         created(){
@@ -80,6 +81,7 @@
                         this.$Progress.fail()
                         this.$root.alert('error','error',error.response.data.message)
                         var error = error.response.data.error;
+                        this.errors = error
                         console.log(error);
                         if(error.name){
                             this.$refs.unit_name.classList.add('is-invalid');

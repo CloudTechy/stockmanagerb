@@ -59,17 +59,28 @@ Stockmanager Web Application by Spacehub Technologies
 }
 </style>
 </head>
-<!-- <div id = "loader"  id="" >
+<div id = "loader"  id="" >
    <img src="{{ asset( 'img/medium2.png')}}" class=" " alt="User Image">
   <div style="width: 300px; margin-left: -60px" class="p-4 m-4 text-secondary font-weight-bold">
    <i class="fas fa-cog fa-spin"></i> loading app...
 </div>
-</div> -->
+</div>
 
 <body id="body" class="hold-transition sidebar-mini m-0 p-0"  style="height: auto;" onload="myFunction()">
 
-  <div  id = "myDiv" style="display:block;">
-    <index></index>
+  <div  id = "myDiv" style="display:none;">
+    <div class="m-0 p-0 animate-bottom" id="dashboard" >
+      <div class="wrapper" style="min-height: 90vh">
+        <router-view  ></router-view>
+        <vue-progress-bar></vue-progress-bar>
+      </div>
+      <footer class="main-footer no-print text-left">
+          <div class="float-right d-none d-sm-inline">
+           Version 0.1.1
+          </div>
+          <strong>Copyright &copy; <span>SpaceHub Technologies</span>.</strong> All rights reserved.
+        </footer>
+  </div> 
   </div>
 
 <!-- REQUIRED SCRIPTS -->
@@ -103,7 +114,7 @@ Stockmanager Web Application by Spacehub Technologies
 var myVar;
 
 function myFunction() {
-  // myVar = setTimeout(showPage, 0);
+  myVar = setTimeout(showPage, 0);
 }
 
 function showPage() {

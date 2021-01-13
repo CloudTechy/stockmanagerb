@@ -55,12 +55,12 @@
 </template>
 <script>
     export default {
-      beforeCreate: function () {
-        if (!this.$session.exists()) {
-            this.$router.push('/login')
-          }
+      // beforeCreate: function () {
+      //   if (!this.$session.exists()) {
+      //       this.$router.push('/login')
+      //     }
           
-        },
+      //   },
     }
 </script>
 

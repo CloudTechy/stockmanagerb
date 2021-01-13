@@ -38,7 +38,7 @@ class PrintController extends Controller
         $user = json_decode($UserJson);
         try {
             $profile = CapabilityProfile::load("simple");
-            $connector = new WindowsPrintConnector("smb://kazzykelson/pos");
+            $connector = new WindowsPrintConnector("smb://kazzykelson/XP-pos");
             $printer = new Printer($connector, $profile);
             $print_type = $invoice->status == "not-paid" ? "SALES INVOICE" : "ORIGINAL RECEIPT";
             if ( $invoice->status == "not-paid") {

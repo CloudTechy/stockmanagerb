@@ -16,18 +16,17 @@ const config = {
   registerData: {
     url: 'auth/register', 
     method: 'POST', 
-     redirect: '/login'
+     redirect: 'login'
   },
   loginData: {
     url: 'auth/login', 
-    method: 'POST', 
-    redirect: '', 
+    method: 'POST',  
     fetchUser: true
   },
   logoutData: {
     url: 'logout', 
     method: 'POST', 
-    redirect: '/login', 
+    redirect: 'login', 
     makeRequest: true
   },
   fetchData: {
