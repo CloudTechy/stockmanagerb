@@ -79,7 +79,7 @@
                                 <tr v-if = "loading == false && pageLoader(current_page).length == 0">
                                     <td colspan="5">
                                         <h4  class="text-center m-1 p-2 border border-info small text-success">Order details not found</h4>
-                                      </td>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

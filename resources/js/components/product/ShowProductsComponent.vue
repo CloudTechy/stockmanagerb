@@ -58,8 +58,8 @@
                                 {{  $root.numeral(product.price) }}
                             </td>
                             <td class="text-capitalize">
-                                <span v-bind:class="{badge:true, 'badge-warning':product.stock < 100, 'badge-danger':product.stock <= 50,  'badge-success' : product.stock >= 100 }">{{  product.stock }}
-                                </span>
+                                <span v-bind:class="{badge:true, 'badge-warning':product.stock < 200, 'badge-danger':product.stock <= 70,  'badge-success' : product.stock >= 200 }">{{  product.stock }}
+                                    </span>
                             </td>
                             <td class="text-capitalize">{{  product.added_by }}</td>
                             <td class="text-capitalize">{{  product.date }}</td>

@@ -12,6 +12,7 @@
         "binarycabin/laravel-uuid": "^1.0",
         "calcinai/php-imagick": "^0.1.2",
         "fideloper/proxy": "^4.0",
+        "fruitcake/laravel-cors": "^2.0",
         "fzaninotto/faker": "^1.4",
         "gladcodes/keygen": "^1.1",
         "laravel/framework": "5.7.*",

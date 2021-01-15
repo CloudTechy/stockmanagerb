@@ -32,7 +32,7 @@
       <div class="info-box mb-3">
         <span class="info-box-icon bg-success elevation-1"><i class="fa fa-shopping-cart"></i></span>
         <div class="info-box-content">
-          <span class="info-box-number">{{orders.order}}</span>
+          <span class="info-box-number">{{orders.order || 0}}</span>
           <span class="info-box-text">Monthly Sales</span>
         </div>    
       </div>

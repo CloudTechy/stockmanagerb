@@ -53,24 +53,23 @@
                                         <td>{{numeral(transaction.amount) }}</td>
                                         <td>{{numeral(transaction.payment) }}</td>
                                         <td>{{ transaction.payment_mode }}</td>
-                                        <td class="p-sm-1 text-center" v-if = "transaction.status == 'paid'">
-                                           <span class="badge badge-success">{{ transaction.status }}</span>
+                                        <td class="p-sm-1 text-center" v-if = "transaction.amount == transaction.payment ">
+                                           <span class="badge badge-success">paid</span>
                                         </td>
-                                        <td class="p-sm-1 text-center" v-else-if = "transaction.status == 'pending'">
-                                           <span class="badge badge-warning">{{ transaction.status }}
-                                            </span><br>
-                                           <div class="small"  @click.prevent = "$root.addTransactionComponent(transaction)" >
+                                        <td class="p-sm-1 text-center" v-else-if = "transaction.amount > transaction.payment && transaction.payment > 0">
+                                           <span class="badge badge-warning">pending</span><br>
+                                           <div  class="small"  @click.prevent = "$root.addTransactionComponent(transaction)" >
                                                 <button  title="make transaction" class=" btn-link badge badge-secondary btn-secondary small m-1" data-toggle="" data-target=""  >
-                                                      {{'pay?' }}
+                                                      {{'pay' }}
                                                 </button>
                                             </div>
                                         </td>
-                                        <td class="p-sm-1 text-center" v-else = "transaction.status == 'not-paid'">
-                                            <span class="badge badge-danger">{{ transaction.status }}
+                                        <td class="p-sm-1 text-center" v-else = "transaction.payment == 0">
+                                            <span class="badge badge-danger">not-paid
                                             </span><br>
                                            <div class="small"  @click.prevent = "$root.addTransactionComponent(transaction)" >
                                                 <button  title="make transaction" class=" btn-link badge badge-secondary btn-secondary small m-1" data-toggle="" data-target=""  >
-                                                      {{'pay?' }}
+                                                      {{'pay' }}
                                                 </button>
                                             </div>
                                         </td>
