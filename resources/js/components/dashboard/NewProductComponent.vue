@@ -16,7 +16,10 @@
         <div class="card">
             <div class="">
                 <div class="input-group input-group-sm float-right" >
-            <input  v-model="search" type="text" name="table_search" class="p-lg-3 p-sm-2 p-2 form-control" placeholder="Search product by name here...">
+            <input  v-model="dateSearch" type="text" name="table_search" class="p-lg-3 p-sm-2 p-2 form-control" placeholder="Search Ex: 2021-01-21">
+            <span>
+              <button style="font-size: smaller" @click="loadProducts(dateSearch)" type="button" title="download products" class="btn btn-outline-primary"><i class="fas fa-download"></i></button>
+            </span>
           </div>
             </div> 
         </div>
@@ -61,13 +64,16 @@
 </template>
 
 <script>
+  var d = new Date();
+  var date = d.getFullYear() + '-' +  d.getMonth()+1 + '-' + d.getDate()
     export default {
         mounted() {
           // if(localStorage.purchasedetails){
           //       this.products = JSON.parse(localStorage.purchasedetails)
           //       this.loading = false
           //   }
-          this.loadProducts();
+         
+          this.loadProducts(date);
         },
         props: ['token'],
          data() { 
@@ -80,12 +86,13 @@
               loading : true,
               error : '',
               search : '',
+              dateSearch: '',
               form : new Form(),
               }
         },
         created(){
           Fire.$on('product_created', data => {
-            this.loadProducts();
+            this.loadProducts(date);
           })
           // Echo.channel('purchase')
           //   .listen('UpdatePurchase', (e) => {
@@ -107,13 +114,19 @@
 
         },
         methods: {
-            loadProducts(){
-                this.form.get('./purchasedetails?dateAfter='+this.date)
+            loadProducts(date){
+              this.loading = true
+              var d = new Date(date);
+              d.setDate(d.getDate() + 1)
+              var x = d.getFullYear() + '-' +  d.getMonth()+1 + '-' + d.getDate()
+                this.form.get('./purchasedetails?dateAfter=' + date + '&dateBefore=' + x)
                 .then(response => {
                     this.loading = false;
                     this.products = response.data.data.item;
                 })
                 .catch(error => {
+                  this.loading = false
+                  this.$root.alert('error','error','could not fetch new products')
                     this.error = error.response.data.error;
                 }); 
             },

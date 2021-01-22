@@ -52,7 +52,7 @@ const options = {
     transition: {
         speed: '0.1s',
         opacity: '0.6s',
-        termination: 300
+        termination: 500
     },
     autoRevert: false,
     location: 'top',
@@ -92,6 +92,11 @@ Array.prototype.sum = function(prop) {
     }
     return total
 }
+Date.prototype.addDays = function(date, days){
+    var result = new Date(date);
+    result.setDate(result.getDate() + days)
+    return result;
+};
 
 const app = new Vue({
     el: '#myDiv',
