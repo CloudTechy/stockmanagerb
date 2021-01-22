@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use \BinaryCabin\LaravelUUID\Traits\HasUUID;
+use Carbon\Carbon;
 
 class AttributeProduct extends Model
 {
@@ -38,11 +39,11 @@ class AttributeProduct extends Model
 
                             if ($key == 'dateBefore') {
                                 $val = Carbon::parse($val);
-                                $query->where("created_at", "<=", $val);
+                                $query->where("updated_at", "<=", $val);
                                 continue;
                             } elseif ($key == 'dateAfter') {
                                 $val = Carbon::parse($val);
-                                $query->where("created_at", ">=", $val);
+                                $query->where("updated_at", ">=", $val);
                                 continue;
                             } elseif ($key == 'brand') {
 

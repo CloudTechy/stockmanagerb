@@ -119,9 +119,11 @@ return [
     |
      */
 
-    'key' => env('APP_KEY'),
+    'key' => env('PRINTER_PATH'),
 
     'cipher' => 'AES-256-CBC',
+
+    'printer_path' => env('PRINTER_PATH'),
 
     /*
     |--------------------------------------------------------------------------

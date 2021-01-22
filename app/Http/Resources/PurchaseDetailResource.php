@@ -18,13 +18,14 @@ class PurchaseDetailResource extends JsonResource
         return [
 
             'id' => $this->id,
-            'product' => $this->product . '-' . $this->category . '-' . $this->brand . '-' . $this->size,
+            'product' => $this->product . '-' . $this->size . '-' . $this->brand  . ' / ' . $this->category,
             'TOS' => $this->product . ' ' . $this->category . ' ' . $this->brand . ' ' . $this->size . ' ' . $this->created_at->format('Y-m-d H:i:s'),
             'name' => $this->product,
+            "image" => "default-150x150.png",
             'purchase_id' => $this->purchase_id,
             'invoice_id' => $this->purchase->invoice_id,
             'vendor' => $this->purchase->supplier_name,
-            'user' => $this->purchase->user->username,
+            'user' => $this->purchase->user->last_name . ' ' .$this->purchase->user->first_name,
             'brand' => $this->brand,
             'pku' => $this->pku,
             'size' => $this->size,

@@ -17,15 +17,15 @@ class OrderDetailResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'product' => $this->product . '-' . $this->category . '-' . $this->brand . '-' . $this->size,
+            'product' => $this->product . '-' . $this->size . '-' . $this->brand  . ' / ' . $this->category,
             'TOS' => $this->product . ' ' . $this->category . ' ' . $this->brand . ' ' . $this->size . ' ' . $this->created_at->format('Y-m-d H:i:s'),
             'name' => $this->product,
             'order_id' => $this->order_id,
+            "image" => "default-150x150.png",
             'brand' => $this->brand,
             'pku' => $this->pku,
             'size' => $this->size,
-            'customer' => $this->order->customer_name,
-            'user' => $this->order->user->username,
+            'user' => $this->order->user->last_name . ' ' .$this->order->user->first_name,
             'invoice_id' => $this->order->invoice_id,
             'status' => empty($this->order->invoice->transaction) ? null : $this->order->invoice->transaction->status,
             'payment' => empty($this->order->invoice->transaction) ? 0 : $this->order->invoice->transaction->payment,

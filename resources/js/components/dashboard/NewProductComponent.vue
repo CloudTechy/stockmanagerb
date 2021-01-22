@@ -1,7 +1,7 @@
 <template>
     <div class="card card-primary">
       <div class="card-header">
-        <h3 class="card-title">New Products </h3>
+        <h3 class="card-title">Newly Added Products</h3>
         <div class="card-tools ">
           <button type="button" class="btn btn-tool" data-widget="collapse">
             <i class="fa fa-minus"></i>
@@ -20,24 +20,29 @@
           </div>
             </div> 
         </div>
-        <ul class="products-list product-list-in-card pl-2 pr-2">
-          <li v-if = "loading == false" v-for = "product in  filteredProducts.slice(0,5)" class="item">
+        <ul class="products-list product-list-in-card pl-2 pr-2" style="max-height: 500px; overflow: auto">
+          <li v-if = "loading == false" v-for = "product in  filteredProducts" class="item">
             <div class="product-img">
               <img v-bind:src=" 'img/' + product.image" alt="Product Image" class="img-size-50">
             </div>
             <div class="product-info">
-              <a href="javascript:void(0)" class="product-title"> <span class="small">{{product.name }}</span>
+              <span class="product-description font-weight-bold small">{{ product.product }}</span>
+              <a href="javascript:void(0)" class="product-title"> <span class="small">{{'Price'}}</span>
                 <span class="badge badge-warning float-right"> <span style="text-decoration: line-through">N</span> {{numeral(product.price) }}</span></a>
-              <span class="product-description small">
-                {{ product.category +  ", " + product.brand + ", " + product.size + ", " + product.unit}}.
-              </span>
-              <span v-bind:class = "{badge: true,small : true,'badge-success' :product.stock > 0, 'badge-danger': product.stock == 0, 'float-right' : true}"> {{ product.stock }}</span>
+              <div class="clearfix"></div>
+              <span v-bind:class = "{badge: true, 'badge-success' :product.quantity > 0, 'badge-danger': product.quantity == 0, 'float-right' : true}"> {{ product.quantity }}</span>
               <span  class="text-primary product-description small">Quantity
               </span>
             </div>
+            <div class="product-img">
+            <span class="product-description small">Amount:&nbsp;<span class="badge badge-success"><span style="text-decoration: line-through">N</span>{{$root.numeral(product.amount) }}</span></span>
+            </div>
+            <div class="product-img float-right">
+            <span class="product-description  small">{{'Added by ' +  product.user}}</span>
+            </div>
           </li>
             <li v-if = "loading == false && filteredProducts.length == 0">
-              <h4  class="text-center m-1 p-2 border border-info small text-success">Product Not Found</h4>
+              <h4 class="text-center m-1 p-2 border border-info small text-success">No product added yet</h4>
             </li>
         </ul>
       </div>
@@ -58,16 +63,17 @@
 <script>
     export default {
         mounted() {
-          if(localStorage.products){
-                this.products = JSON.parse(localStorage.products)
-                this.loading = false
-            }
+          // if(localStorage.purchasedetails){
+          //       this.products = JSON.parse(localStorage.purchasedetails)
+          //       this.loading = false
+          //   }
           this.loadProducts();
         },
         props: ['token'],
          data() { 
             var d = new Date();
             return {
+              date : d.getFullYear() + '-' +  d.getMonth()+1 + '-' + d.getDate(),
               month : d.getMonth() + 1,
               year : d.getFullYear(),
               products : [],
@@ -102,7 +108,7 @@
         },
         methods: {
             loadProducts(){
-                this.form.get('./attributeproducts?year='+this.year)
+                this.form.get('./purchasedetails?dateAfter='+this.date)
                 .then(response => {
                     this.loading = false;
                     this.products = response.data.data.item;

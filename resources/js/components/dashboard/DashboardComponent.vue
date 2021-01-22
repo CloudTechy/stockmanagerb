@@ -30,6 +30,7 @@
                     <daily-orders-component></daily-orders-component>
                     <pending-orders-component></pending-orders-component>
                     <new-product-component></new-product-component>
+                    <today-sales-component></today-sales-component>
                     <top-product-component></top-product-component>
                     <invoice-donut-component></invoice-donut-component>
                 </div> 

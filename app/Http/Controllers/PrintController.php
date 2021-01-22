@@ -38,7 +38,8 @@ class PrintController extends Controller
         $user = json_decode($UserJson);
         try {
             $profile = CapabilityProfile::load("simple");
-            $connector = new WindowsPrintConnector("smb://kazzykelson/XP-pos");
+            $connector = new WindowsPrintConnector("smb://" . config('app.printer_path'));
+
             $printer = new Printer($connector, $profile);
             $print_type = $invoice->status == "not-paid" ? "SALES INVOICE" : "ORIGINAL RECEIPT";
             if ( $invoice->status == "not-paid") {
@@ -138,7 +139,10 @@ $printer->feed();
             /* customer and invoice details */
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer->setEmphasis(true);
-            $printer->text("Customer: ");
+            if ($invoice->type == "purchase") {
+                $printer->text("Supplier: ");
+            }
+            else $printer->text("Customer: ");
             $printer->setEmphasis(false);
             $printer->text($invoice->name . "\n");
             $printer->setEmphasis(true);

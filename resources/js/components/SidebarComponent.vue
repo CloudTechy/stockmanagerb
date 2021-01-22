@@ -145,6 +145,15 @@
                 </p>
               </router-link>
             </li>
+            <li class="nav-item">
+               <a href="#"  @click.prevent="$auth.logout()" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i>
+                <p>
+                  Logout
+                </p>
+              </a>
+            </li>
+
 
             <li class="nav-header">Report</li>
 
@@ -179,14 +188,14 @@
               </router-link>
             </li> -->
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                <a href="#"  @click.prevent="$auth.logout()" class="nav-link">
                 <i class="fas fa-sign-out-alt"></i>
                 <p>
                   Logout
                 </p>
               </a>
-            </li>
+            </li> -->
 
           </ul>
         </nav>

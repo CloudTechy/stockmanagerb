@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class PurchaseDetail extends Model
 {
@@ -27,7 +28,7 @@ class PurchaseDetail extends Model
     {
 
         try {
-            $fields = ['purchase_id', 'product', 'category', 'brand', 'quantity', 'percent_sale', 'sale_price', 'price', 'pku', 'size'];
+            $fields = ['purchase_id', 'product', 'category', 'brand', 'quantity', 'percent_sale', 'sale_price', 'price', 'pku', 'size', "dateBefore", "dateAfter"];
 
             return $query->where(
                 function ($query) use ($filter, $fields) {
@@ -35,6 +36,16 @@ class PurchaseDetail extends Model
                     foreach ($filter as $key => $val) {
 
                         if (in_array($key, $fields)) {
+
+                            if ($key == 'dateBefore') {
+                                $val = Carbon::parse($val);
+                                $query->where("updated_at", "<=", $val);
+                                continue;
+                            } elseif ($key == 'dateAfter') {
+                                $val = Carbon::parse($val);
+                                $query->where("updated_at", ">=", $val);
+                                continue;
+                            } 
 
                             $query->where($key, $val);
 
