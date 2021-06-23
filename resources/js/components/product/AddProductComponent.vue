@@ -129,60 +129,7 @@
 </template>
 <script>
 export default {
-    created() {
-        // this.loadSuppliers();
-        // this.loadBrands();
-        // this.loadUnits();
-        // this.loadSizes();
-        // this.loadCategories();
 
-        
-
-        // Echo.channel('brand')
-        // .listen('UpdateBrand', (e) => {
-        //     this.loadBrands();
-        // });
-        // Echo.channel('unit')
-        // .listen('UpdateUnit', (e) => {
-        //     this.loadUnits();
-        // });
-        // Echo.channel('size')
-        // .listen('UpdateSize', (e) => {
-        //     this.loadSizes();
-        // });
-        // Echo.channel('category')
-        // .listen('UpdateCategory', (e) => {
-        //     this.loadCategories();
-        // });
-        // Echo.channel('supplier')
-        // .listen('UpdateSupplier', (e) => {
-        //     this.loadSuppliers();
-        // });
-    },
-    mounted(){
-        
-        this.loadBrands();
-        this.loadUnits();
-        this.loadSizes();
-        this.loadCategories();
-        if(this.$root.suppliers){
-            this.suppliers = this.$root.suppliers
-            this.$root.alert('success', '', 'Suppliers loaded')
-        }
-        else if(localStorage.suppliers){
-                this.suppliers = JSON.parse(localStorage.suppliers)
-                this.$root.alert('success', '', 'Suppliers loaded')
-            }
-        else this.loadSuppliers();
-
-        if (this.$root.purchaseSupplierID) {
-            this.supplierID = this.$root.purchaseSupplierID;
-
-        }
-        
-        
-    },
-    props: [],
     data() {
 
         return {
@@ -214,6 +161,58 @@ export default {
             purchase: '',
         }
     },
+    created() {
+        // this.loadSuppliers();
+        this.loadBrands();
+        // this.loadUnits();
+        // this.loadSizes();
+        // this.loadCategories();
+
+
+
+        // Echo.channel('brand')
+        // .listen('UpdateBrand', (e) => {
+        //     this.loadBrands();
+        // });
+        // Echo.channel('unit')
+        // .listen('UpdateUnit', (e) => {
+        //     this.loadUnits();
+        // });
+        // Echo.channel('size')
+        // .listen('UpdateSize', (e) => {
+        //     this.loadSizes();
+        // });
+        // Echo.channel('category')
+        // .listen('UpdateCategory', (e) => {
+        //     this.loadCategories();
+        // });
+        // Echo.channel('supplier')
+        // .listen('UpdateSupplier', (e) => {
+        //     this.loadSuppliers();
+        // });
+    },
+    mounted() {
+
+        this.loadBrands();
+        // this.loadUnits();
+        // this.loadSizes();
+        // this.loadCategories();
+        if (this.$root.suppliers) {
+            this.suppliers = this.$root.suppliers
+            this.$root.alert('success', '', 'Suppliers loaded')
+        } else if (localStorage.suppliers) {
+            this.suppliers = JSON.parse(localStorage.suppliers)
+            this.$root.alert('success', '', 'Suppliers loaded')
+        } else this.loadSuppliers();
+
+        if (this.$root.purchaseSupplierID) {
+            this.supplierID = this.$root.purchaseSupplierID;
+
+        }
+
+
+    },
+    props: [],
     watch: {
         // supplierID(){
         //    let form = new Form()
@@ -253,14 +252,13 @@ export default {
                 .then(response => {
                     this.$Progress.finish();
                     this.suppliers = response.data.data.item
-                    if(this.suppliers.length == 0){
+                    if (this.suppliers.length == 0) {
                         this.$root.alert('warning', 'Caution', 'you have not registered any supplier yet')
-                    }
-                    else this.$root.alert('success', '', 'Suppliers loaded')
+                    } else this.$root.alert('success', '', 'Suppliers loaded')
                 })
                 .catch(err => {
                     if (err.response) {
-                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                        this.$root.alert('error', err.response.data.error, err.response.data.message)
                     }
                     console.log(err)
                     console.log(err.response)
@@ -282,29 +280,30 @@ export default {
                 })
                 .catch(err => {
                     if (err.response) {
-                        this.$root.alert('error',err.response.data.error, err.response.data.message )
-                    }
-                    else this.$root.alert('error','error', err )
+                        this.$root.alert('error', err.response.data.error, err.response.data.message)
+                    } else this.$root.alert('error', 'error', err)
                     console.log(err)
                     console.log(err.response)
                 })
         },
         loadBrands() {
-            this.$root.alert('error','',axios.defaults.headers.common['Authorization'])
-            this.$root.alert('error','','Bearer ' + localStorage.getItem('Stockmanager'))
-            axios.get('./attributes/',{
-                  headers : {
-                    Authorization : 'Bearer ' + localStorage.getItem('Stockmanager')
-                  }
+            this.$root.alert('error', '', axios.defaults.headers.common['Authorization'])
+            this.$root.alert('error', '', 'Bearer ' + localStorage.getItem('Stockmanager'))
+            this.form.get('./attributes/', {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem('Stockmanager')
+                    },
+                    transformRequest: [(data, headers) => {   
+                        headers.common.Authorization = 'Bearer ' + localStorage.getItem('Stockmanager');
+                        return data }]
                 })
                 .then(response => {
                     this.brands = response.data.data.item
                 })
                 .catch(err => {
                     if (err.response) {
-                        this.$root.alert('error',err.response.data.error, err.response.data.message )
-                    }
-                    else this.$root.alert('error','error', err )
+                        this.$root.alert('error', err.response.data.error, err.response.data.message)
+                    } else this.$root.alert('error', 'error', err)
                     console.log(err)
                     console.log(err.response)
                 })
@@ -316,9 +315,8 @@ export default {
                 })
                 .catch(err => {
                     if (err.response) {
-                        this.$root.alert('error',err.response.data.error, err.response.data.message )
-                    }
-                    else this.$root.alert('error','error', err )
+                        this.$root.alert('error', err.response.data.error, err.response.data.message)
+                    } else this.$root.alert('error', 'error', err)
                     console.log(err)
                     console.log(err.response)
                 })
@@ -330,9 +328,8 @@ export default {
                 })
                 .catch(err => {
                     if (err.response) {
-                        this.$root.alert('error',err.response.data.error, err.response.data.message )
-                    }
-                    else this.$root.alert('error','error', err )
+                        this.$root.alert('error', err.response.data.error, err.response.data.message)
+                    } else this.$root.alert('error', 'error', err)
                     console.log(err)
                     console.log(err.response)
                 })
@@ -344,9 +341,8 @@ export default {
                 })
                 .catch(err => {
                     if (err.response) {
-                        this.$root.alert('error',err.response.data.error, err.response.data.message )
-                    }
-                    else this.$root.alert('error','error', err )
+                        this.$root.alert('error', err.response.data.error, err.response.data.message)
+                    } else this.$root.alert('error', 'error', err)
                     console.log(err)
                     console.log(err.response)
                 })
@@ -376,9 +372,8 @@ export default {
                 .catch(err => {
                     this.$Progress.fail()
                     if (err.response) {
-                        this.$root.alert('error',err.response.data.error, err.response.data.message )
-                    }
-                    else this.$root.alert('error','error', err )
+                        this.$root.alert('error', err.response.data.error, err.response.data.message)
+                    } else this.$root.alert('error', 'error', err)
                     console.log(err)
                     console.log(err.response)
                 })
@@ -399,9 +394,8 @@ export default {
                 })
                 .catch(err => {
                     if (err.response) {
-                        this.$root.alert('error',err.response.data.error, err.response.data.message )
-                    }
-                    else this.$root.alert('error','error', err )
+                        this.$root.alert('error', err.response.data.error, err.response.data.message)
+                    } else this.$root.alert('error', 'error', err)
                     console.log(err)
                     console.log(err.response)
                 })
