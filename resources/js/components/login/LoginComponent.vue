@@ -106,11 +106,13 @@
                     if (redirect) {
                         app.name = redirect.from.name
                     } 
+                    app.$root.alert('success', 'Success',' Login success')
                     loader.hide();
                     app.success = true
                     this.$router.push({name: app.name})
                   },
                   error: function(res) {
+                    app.$root.alert('error', 'error', res)
                     loader.hide();
                     app.has_error = true
                     app.error = res.response.data.error
