@@ -291,10 +291,10 @@ export default {
         },
         loadBrands() {
             this.$root.alert('error','',axios.defaults.headers.common['Authorization'])
-            this.$root.alert('error','','Bearer ' + localStorage.get('Stockmanager'))
+            this.$root.alert('error','','Bearer ' + localStorage.getItem('Stockmanager'))
             axios.get('./attributes/',{
                   headers : {
-                    Authorization : 'Bearer ' + localStorage.get('Stockmanager')
+                    Authorization : 'Bearer ' + localStorage.getItem('Stockmanager')
                   }
                 })
                 .then(response => {
