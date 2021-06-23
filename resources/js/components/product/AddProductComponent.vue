@@ -216,7 +216,8 @@ export default {
     },
     watch: {
         // supplierID(){
-        //     this.form.get('./suppliers/'+ this.supplierID)
+        //    let form = new Form()
+        // form.get('./suppliers/'+ this.supplierID)
         //     .then(response => {
         //         this.supplier_details = response.data.data
         //     })
@@ -248,7 +249,8 @@ export default {
 
         loadSuppliers() {
             this.$Progress.start();
-            this.form.get('./suppliers/')
+            let form = new Form()
+            form.get('./suppliers/')
                 .then(response => {
                     this.$Progress.finish();
                     this.suppliers = response.data.data.item
@@ -273,7 +275,8 @@ export default {
         },
         getPurchase(id) {
             this.$Progress.start();
-            this.form.post('./purchases')
+            let form = new Form()
+            form.post('./purchases')
                 .then(response => {
                     this.$Progress.finish();
                     this.purchase = response.data.data
@@ -289,7 +292,8 @@ export default {
                 })
         },
         loadBrands() {
-            this.form.get('./attributes/')
+            let form = new Form()
+            form.get('./attributes/')
                 .then(response => {
                     this.brands = response.data.data.item
                 })
@@ -303,7 +307,8 @@ export default {
                 })
         },
         loadCategories() {
-            this.form.get('./categories/')
+            let form = new Form()
+            form.get('./categories/')
                 .then(response => {
                     this.categories = response.data.data.item
                 })
@@ -317,7 +322,8 @@ export default {
                 })
         },
         loadSizes() {
-            this.form.get('./sizes/')
+            let form = new Form()
+            form.get('./sizes/')
                 .then(response => {
                     this.sizes = response.data.data.item
                 })
@@ -331,7 +337,8 @@ export default {
                 })
         },
         loadUnits() {
-            this.form.get('./units/')
+            let form = new Form()
+            form.get('./units/')
                 .then(response => {
                     this.units = response.data.data.item
                 })
@@ -384,7 +391,8 @@ export default {
             this.$emit('closingAddProductCart')
         },
         loadBanks() {
-            this.form.get('./banks/')
+            let form = new Form()
+            form.get('./banks/')
                 .then(response => {
                     if (response.data.status == true) {
                         this.banks = response.data.data.item

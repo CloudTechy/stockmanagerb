@@ -236,9 +236,13 @@ export default {
                         this.$Progress.finish()
                         this.$router.push("/login")
                     }
+                    if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
                     this.$Progress.fail()
-                    var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message
-                    this.$root.alert('error', 'error', message)
+                    // var message = error.response.data.error.includes("No connection could be made") ? "No server connection" : error.response.data.message
+                    // this.$root.alert('error', 'error', message)
                     console.log(error.response.data.error)
                     return false
                 });

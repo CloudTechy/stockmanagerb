@@ -62,14 +62,14 @@ const options = {
 window.Fire = new Vue()
 Vue.use(VueProgressBar, options)
 
-// import VueSweetalert2 from 'vue-sweetalert2';
+import VueSweetalert2 from 'vue-sweetalert2';
 
 const sweetOptions = {
     confirmButtonColor: '#41b882',
     cancelButtonColor: '#ff7674'
 }
 
-// Vue.use(VueSweetalert2, sweetOptions)
+Vue.use(VueSweetalert2, sweetOptions)
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 Vue.use(toastr, {

@@ -123,12 +123,14 @@
                 this.form.get('./purchasedetails?dateAfter=' + date + '&dateBefore=' + x)
                 .then(response => {
                     this.loading = false;
-                    this.products = response.data.data.item;
+                    this.products = response.data.data.item.length != 0 ? response.data.data.item[0] : [];
                 })
                 .catch(error => {
                   this.loading = false
-                  this.$root.alert('error','error','could not fetch new products')
-                    this.error = error.response.data.error;
+                  if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
                 }); 
             },
             numeral(value){
