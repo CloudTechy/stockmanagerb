@@ -16,25 +16,26 @@ import auth from './auth'
 import router from './router'
 import axios from 'axios'
 import jQuery from 'jquery'
+import toastr from 'vue-toastr'
 import bootstrap from 'bootstrap'
 import popper from 'popper.js'
 Vue.router = router
 Vue.use(VueRouter)
 
 Vue.use(VueAxios, axios)
-// axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api/`
+axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api/`
 console.log(axios.defaults.baseURL)
-axios.defaults.baseURL = "http://spacehubtech-stockmanager.herokuapp.com/api"
+// axios.defaults.baseURL = "http://spacehubtech-stockmanager.herokuapp.com/api"
 Vue.use(VueAuth, auth)
 
 
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 Vue.use(Loading, {
-  canCancel: false,
-  color: "orange", //28a745
-  backgroundColor: "#fff",
-  loader: "dots" // spinner, dots, bars
+    canCancel: false,
+    color: "orange", //28a745
+    backgroundColor: "#fff",
+    loader: "dots" // spinner, dots, bars
 });
 
 // Vue.component('index', Index)
@@ -61,16 +62,26 @@ const options = {
 window.Fire = new Vue()
 Vue.use(VueProgressBar, options)
 
-import VueSweetalert2 from 'vue-sweetalert2';
+// import VueSweetalert2 from 'vue-sweetalert2';
 
 const sweetOptions = {
     confirmButtonColor: '#41b882',
     cancelButtonColor: '#ff7674'
 }
 
-Vue.use(VueSweetalert2, sweetOptions)
+// Vue.use(VueSweetalert2, sweetOptions)
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
+Vue.use(toastr, {
+    defaultTimeout: 3000,
+    defaultProgressBar: false,
+    defaultProgressBarValue: 0,
+    // defaultType: "error",
+    defaultPosition: "toast-top-right",
+    defaultCloseOnHover: false,
+    // defaultStyle: { "background-color": "red" },
+    defaultClassNames: ["animated", "zoomInUp"]
+})
 VueCookies.config('7d')
 import { Form, HasError, AlertError } from 'vform'
 
@@ -92,7 +103,7 @@ Array.prototype.sum = function(prop) {
     }
     return total
 }
-Date.prototype.addDays = function(date, days){
+Date.prototype.addDays = function(date, days) {
     var result = new Date(date);
     result.setDate(result.getDate() + days)
     return result;
@@ -104,7 +115,7 @@ const app = new Vue({
     data: {
         respond: '',
         VueProgressBar,
-        VueSweetalert2,
+        // VueSweetalert2,
         VueSession,
         VueCookies,
         donutOrders: {},
@@ -113,32 +124,32 @@ const app = new Vue({
         user: {},
         form: new Form(),
         transactions: '',
-        loader : undefined
+        loader: undefined
     },
-//     beforeCreate: function() {
-//         this.$Progress.start()
-// Vue.prototype.$session.start()
-//         window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$session.get('token')
-//         if (!Vue.prototype.$session.exists() || window.axios.defaults.headers.common['Authorization'] == undefined) {
-//             console.log('app routing to login');
-//             this.$router.push('/login')
-//         } else {
-//             window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$session.get('token')
-//         }
-//         var form = new Form()
-//         form.get('./users/?id=1')
-//             .then(response => {
-//                 this.$Progress.finish()
-//             })
-//             .catch((error) => {
-//                 if (error.response.status == 401) {
-//                     this.$Progress.finish()
-//                     this.$router.push("/login")
+    //     beforeCreate: function() {
+    //         this.$Progress.start()
+    // Vue.prototype.$session.start()
+    //         window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$session.get('token')
+    //         if (!Vue.prototype.$session.exists() || window.axios.defaults.headers.common['Authorization'] == undefined) {
+    //             console.log('app routing to login');
+    //             this.$router.push('/login')
+    //         } else {
+    //             window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$session.get('token')
+    //         }
+    //         var form = new Form()
+    //         form.get('./users/?id=1')
+    //             .then(response => {
+    //                 this.$Progress.finish()
+    //             })
+    //             .catch((error) => {
+    //                 if (error.response.status == 401) {
+    //                     this.$Progress.finish()
+    //                     this.$router.push("/login")
 
-//                 }
-//             })
+    //                 }
+    //             })
 
-//     },
+    //     },
     mounted() {
         // this.$nextTick(function () {
         // console.log('test');
@@ -159,7 +170,7 @@ const app = new Vue({
         })
         this.$router.afterEach((to, from) => {
             this.$Progress.finish()
-            if(this.loader){
+            if (this.loader) {
                 this.loader.hide();
             }
         })
@@ -170,14 +181,24 @@ const app = new Vue({
     },
     methods: {
         alert(type, title, message) {
-            this.$swal({
-                toast: true,
-                position: 'top-end',
+            // this.$toastr.defaultType = "error"; // default type : success
+            this.$toastr.Add({
+                title: title,
+                msg: message,
+                position: "toast-top-right",
                 type,
-                title,
-                text: message,
-                showConfirmButton: false,
-                timer: 1500
+                timeout: 5000,
+                progressbar: true,
+                //progressBarValue:"", // if you want set progressbar value
+                style: {},
+                classNames: ["animated", "zoomInUp"],
+                closeOnHover: true,
+                clickClose: false,
+                onCreated: () => {},
+                onClicked: () => {},
+                onClosed: () => {},
+                onMouseOver: () => {},
+                onMouseOut: () => {},
             })
         },
         numeral(value) {

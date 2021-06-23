@@ -116,10 +116,8 @@
                     loader.hide();
                     app.has_error = true
                     app.error = res.response.data.error
-                    console.log(app.error)
                     if(res.response){
-                        app.$root.alert('error','error',res.response.data.message)
-                        console.log(error);
+                        app.$root.alert('error',app.error,res.response.data.message)
                         if(app.error.email){
                             app.$refs.email.classList.add('is-invalid');
                         }

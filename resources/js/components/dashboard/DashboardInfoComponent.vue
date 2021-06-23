@@ -57,22 +57,22 @@
 
     mounted(){
       window.scrollTo(0, 200)
-      if(localStorage.orderDetailsStat){
-        this.orderDetails =  JSON.parse(localStorage.orderDetailsStat)
-        this.loading = false;
-      }
-      if(localStorage.ordersInfoStat){
-        this.orders =  JSON.parse(localStorage.ordersInfoStat)
-        this.loading = false;
-      }
-      if(localStorage.stockStat){
-        this.stock =  JSON.parse(localStorage.stockStat)
-        this.loading = false;
-      }
-      if(localStorage.owedStat){
-        this.owed =  JSON.parse(localStorage.owedStat)
-        this.loading = false;
-      }
+      // if(localStorage.orderDetailsStat){
+      //   this.orderDetails =  JSON.parse(localStorage.orderDetailsStat)
+      //   this.loading = false;
+      // }
+      // if(localStorage.ordersInfoStat){
+      //   this.orders =  JSON.parse(localStorage.ordersInfoStat)
+      //   this.loading = false;
+      // }
+      // if(localStorage.stockStat){
+      //   this.stock =  JSON.parse(localStorage.stockStat)
+      //   this.loading = false;
+      // }
+      // if(localStorage.owedStat){
+      //   this.owed =  JSON.parse(localStorage.owedStat)
+      //   this.loading = false;
+      // }
     },
     watch : {
        	orderDetails : function(){

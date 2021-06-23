@@ -130,11 +130,11 @@
 <script>
 export default {
     created() {
-        this.loadSuppliers();
-        this.loadBrands();
-        this.loadUnits();
-        this.loadSizes();
-        this.loadCategories();
+        // this.loadSuppliers();
+        // this.loadBrands();
+        // this.loadUnits();
+        // this.loadSizes();
+        // this.loadCategories();
 
         
 
@@ -160,6 +160,11 @@ export default {
         // });
     },
     mounted(){
+        this.loadSuppliers();
+        this.loadBrands();
+        this.loadUnits();
+        this.loadSizes();
+        this.loadCategories();
         if (this.$root.purchaseSupplierID) {
             this.supplierID = this.$root.purchaseSupplierID;
 
@@ -237,11 +242,18 @@ export default {
             this.$Progress.start();
             this.form.get('./suppliers/')
                 .then(response => {
-                    this.$Progress.start();
+                    this.$Progress.finish();
                     this.suppliers = response.data.data.item
                     if(this.suppliers.length == 0){
                         this.$root.alert('warning', 'Caution', 'you have not registered any supplier yet')
                     }
+                })
+                .catch(err => {
+                    if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    console.log(err)
+                    console.log(err.response)
                 })
         },
         nextStep() {
@@ -338,7 +350,7 @@ export default {
         },
         loadSupplierDetails() {
             var data = []
-            if (this.supplierID) {
+            if (this.supplierID && this.suppliers) {
                 data = this.suppliers.filter((item) => {
                     return item.id == this.supplierID
                 })
@@ -346,6 +358,7 @@ export default {
                 data = ""
             }
             this.supplier_details = data[0]
+            this.$root.alert('error', 'Error', 'Supplier details not found')
         }
     }
 }

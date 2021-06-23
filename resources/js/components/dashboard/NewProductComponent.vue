@@ -65,7 +65,7 @@
 
 <script>
   var d = new Date();
-  var date = d.getFullYear() + '-' +  d.getMonth()+1 + '-' + d.getDate()
+  var date = d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate()
     export default {
         mounted() {
           // if(localStorage.purchasedetails){
@@ -79,7 +79,7 @@
          data() { 
             var d = new Date();
             return {
-              date : d.getFullYear() + '-' +  d.getMonth()+1 + '-' + d.getDate(),
+              date : d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate(),
               month : d.getMonth() + 1,
               year : d.getFullYear(),
               products : [],
@@ -117,8 +117,9 @@
             loadProducts(date){
               this.loading = true
               var d = new Date(date);
-              d.setDate(d.getDate() + 1)
-              var x = d.getFullYear() + '-' +  d.getMonth()+1 + '-' + d.getDate()
+              d.setDate(parseInt(d.getDate())  + 1)
+              var x = d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate()
+              
                 this.form.get('./purchasedetails?dateAfter=' + date + '&dateBefore=' + x)
                 .then(response => {
                     this.loading = false;
