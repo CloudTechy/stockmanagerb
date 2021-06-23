@@ -167,12 +167,14 @@ export default {
         this.loadCategories();
         if(this.$root.suppliers){
             this.suppliers = this.$root.suppliers
+            this.$root.alert('success', '', 'Suppliers loaded')
         }
         else if(localStorage.suppliers){
                 this.suppliers = JSON.parse(localStorage.suppliers)
+                this.$root.alert('success', '', 'Suppliers loaded')
             }
         else this.loadSuppliers();
-        
+
         if (this.$root.purchaseSupplierID) {
             this.supplierID = this.$root.purchaseSupplierID;
 
@@ -256,6 +258,7 @@ export default {
                     if(this.suppliers.length == 0){
                         this.$root.alert('warning', 'Caution', 'you have not registered any supplier yet')
                     }
+                    else this.$root.alert('success', '', 'Suppliers loaded')
                 })
                 .catch(err => {
                     if (err.response) {
