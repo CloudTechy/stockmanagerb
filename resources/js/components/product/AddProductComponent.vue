@@ -221,12 +221,12 @@ export default {
         //         this.supplier_details = response.data.data
         //     })
         // },
-        // supplierID() {
-        //     if (this.supplierID && this.suppliers) {
-        //         this.loadSupplierDetails();
-        //     }
+        supplierID() {
+            if (this.supplierID && this.suppliers) {
+                this.loadSupplierDetails();
+            }
 
-        // },
+        },
         suppliers() {
             if (this.supplierID && this.suppliers) {
                 this.loadSupplierDetails();
