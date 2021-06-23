@@ -112,7 +112,6 @@
                     this.$router.push({name: app.name})
                   },
                   error: function(res) {
-                    app.$root.alert('error', 'error', res)
                     loader.hide();
                     app.has_error = true
                     app.error = res.response.data.error
@@ -126,8 +125,7 @@
                         }
                     }
                     else {
-                        console.log(app.error)
-                       app.$root.alert('error','error','Server is not running');
+                       app.$root.alert('error', '', res)
                     }
                   },
                   rememberMe: true,
