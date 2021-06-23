@@ -222,13 +222,13 @@ export default {
         //     })
         // },
         supplierID() {
-            if (this.supplierID && this.suppliers) {
+            if (this.supplierID && this.suppliers && this.supplier_details == '') {
                 this.loadSupplierDetails();
             }
 
         },
         suppliers() {
-            if (this.supplierID && this.suppliers) {
+            if (this.supplierID && this.suppliers && this.supplier_details == '') {
                 this.loadSupplierDetails();
             }
         }
