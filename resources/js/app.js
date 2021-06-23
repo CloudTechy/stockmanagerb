@@ -189,6 +189,7 @@ const app = new Vue({
                 type,
                 timeout: 5000,
                 progressbar: true,
+                preventDuplicates: true,
                 //progressBarValue:"", // if you want set progressbar value
                 style: {},
                 classNames: ["animated", "zoomInUp"],

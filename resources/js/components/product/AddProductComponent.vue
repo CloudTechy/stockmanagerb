@@ -280,6 +280,10 @@ export default {
                     this.form.purchaseDetails[0].purchase_id = this.purchase.id
                 })
                 .catch(err => {
+                    if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
                     console.log(err)
                     console.log(err.response)
                 })
@@ -289,11 +293,27 @@ export default {
                 .then(response => {
                     this.brands = response.data.data.item
                 })
+                .catch(err => {
+                    if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
+                    console.log(err)
+                    console.log(err.response)
+                })
         },
         loadCategories() {
             this.form.get('./categories/')
                 .then(response => {
                     this.categories = response.data.data.item
+                })
+                .catch(err => {
+                    if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
+                    console.log(err)
+                    console.log(err.response)
                 })
         },
         loadSizes() {
@@ -301,11 +321,27 @@ export default {
                 .then(response => {
                     this.sizes = response.data.data.item
                 })
+                .catch(err => {
+                    if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
+                    console.log(err)
+                    console.log(err.response)
+                })
         },
         loadUnits() {
             this.form.get('./units/')
                 .then(response => {
                     this.units = response.data.data.item
+                })
+                .catch(err => {
+                    if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
+                    console.log(err)
+                    console.log(err.response)
                 })
         },
         add() {
@@ -330,12 +366,15 @@ export default {
                         console.log(response.data);
                     }
                 })
-                .catch(error => {
+                .catch(err => {
                     this.$Progress.fail()
-                    this.$root.alert('error', 'error', error.response.data.message)
-                    var error = error.response.data.error;
-                    console.log(error);
-                });
+                    if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
+                    console.log(err)
+                    console.log(err.response)
+                })
         },
         closeAddComponent() {
             this.form.reset();
@@ -351,9 +390,13 @@ export default {
                         this.banks = response.data.data.item
                     }
                 })
-                .catch(error => {
-                    var error = error.response.message
-                    console.log(error)
+                .catch(err => {
+                    if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
+                    console.log(err)
+                    console.log(err.response)
                 })
 
         },
