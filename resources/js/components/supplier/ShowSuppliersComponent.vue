@@ -271,6 +271,7 @@
             createPurchase(id,index){
                 this.$root.purchaseSupplierID = id;
                 this.$root.purchaseSupplierId = id;
+                this.$root.suppliers = this.suppliers
                 this.$router.push('/products')
 
             },

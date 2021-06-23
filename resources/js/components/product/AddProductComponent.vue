@@ -160,19 +160,25 @@ export default {
         // });
     },
     mounted(){
-        this.loadSuppliers();
+        
         this.loadBrands();
         this.loadUnits();
         this.loadSizes();
         this.loadCategories();
+        if(this.$root.suppliers){
+            this.suppliers = this.$root.suppliers
+        }
+        else if(localStorage.suppliers){
+                this.suppliers = JSON.parse(localStorage.suppliers)
+            }
+        else this.loadSuppliers();
+        
         if (this.$root.purchaseSupplierID) {
             this.supplierID = this.$root.purchaseSupplierID;
 
         }
-        if (this.$root.purchaseSupplierId) {
-            this.supplierID = this.$root.purchaseSupplierId;
-
-        }
+        
+        
     },
     props: [],
     data() {
@@ -214,15 +220,18 @@ export default {
         //     })
         // },
         supplierID() {
-            if (this.supplierID) {
+            if (this.supplierID && this.suppliers) {
                 this.loadSupplierDetails();
             }
+            else this.$root.alert('warning', '', 'Suppliers not loaded')
 
         },
         suppliers() {
-            if (this.supplierID) {
+            if (this.supplierID && this.suppliers) {
                 this.loadSupplierDetails();
+                console.log(this.suppliers)
             }
+            else this.$root.alert('warning', '', 'Suppliers not loaded')
         }
 
     },
