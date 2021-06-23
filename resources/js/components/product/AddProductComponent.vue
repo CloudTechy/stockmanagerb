@@ -225,15 +225,12 @@ export default {
             if (this.supplierID && this.suppliers) {
                 this.loadSupplierDetails();
             }
-            else this.$root.alert('warning', '', 'Suppliers not loaded')
 
         },
         suppliers() {
             if (this.supplierID && this.suppliers) {
                 this.loadSupplierDetails();
-                console.log(this.suppliers)
             }
-            else this.$root.alert('warning', '', 'Suppliers not loaded')
         }
 
     },
@@ -364,6 +361,7 @@ export default {
             var data = []
             if (this.supplierID && this.suppliers) {
                 data = this.suppliers.filter((item) => {
+                    this.$root.alert('success', '', 'Supplier details found')
                     return item.id == this.supplierID
                 })
             } else {
