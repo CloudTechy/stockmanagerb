@@ -9,7 +9,7 @@ const config = {
   auth: bearer,
   http: axios,
   router: router,
-  tokenDefaultName: 'laravel-jwt-auth',
+  tokenDefaultName: 'Stockmanager',
   tokenStore: ['localStorage'],
   
   // API endpoints used in Vue Auth.
@@ -21,8 +21,7 @@ const config = {
   loginData: {
     url: 'auth/login', 
     method: 'POST',  
-    fetchUser: false,
-    redirect : '',
+    fetchUser: true,
   },
   logoutData: {
     url: 'logout', 

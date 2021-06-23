@@ -106,8 +106,6 @@
                     if (redirect) {
                         app.name = redirect.from.name
                     } 
-                    console.log()
-                    this.$router.push({ name: app.name })
                     loader.hide();
                     app.success = true
                     this.$router.push({name: app.name})
