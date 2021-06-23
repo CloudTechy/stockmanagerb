@@ -249,8 +249,7 @@ export default {
 
         loadSuppliers() {
             this.$Progress.start();
-            let form = new Form()
-            form.get('./suppliers/')
+            axios.get('./suppliers/')
                 .then(response => {
                     this.$Progress.finish();
                     this.suppliers = response.data.data.item
@@ -275,8 +274,7 @@ export default {
         },
         getPurchase(id) {
             this.$Progress.start();
-            let form = new Form()
-            form.post('./purchases')
+            axios.post('./purchases')
                 .then(response => {
                     this.$Progress.finish();
                     this.purchase = response.data.data
@@ -292,8 +290,7 @@ export default {
                 })
         },
         loadBrands() {
-            let form = new Form()
-            form.get('./attributes/')
+            axios.get('./attributes/')
                 .then(response => {
                     this.brands = response.data.data.item
                 })
@@ -307,8 +304,7 @@ export default {
                 })
         },
         loadCategories() {
-            let form = new Form()
-            form.get('./categories/')
+            axios.get('./categories/')
                 .then(response => {
                     this.categories = response.data.data.item
                 })
@@ -322,8 +318,7 @@ export default {
                 })
         },
         loadSizes() {
-            let form = new Form()
-            form.get('./sizes/')
+            axios.get('./sizes/')
                 .then(response => {
                     this.sizes = response.data.data.item
                 })
@@ -337,8 +332,7 @@ export default {
                 })
         },
         loadUnits() {
-            let form = new Form()
-            form.get('./units/')
+            axios.get('./units/')
                 .then(response => {
                     this.units = response.data.data.item
                 })
@@ -391,8 +385,7 @@ export default {
             this.$emit('closingAddProductCart')
         },
         loadBanks() {
-            let form = new Form()
-            form.get('./banks/')
+            axios.get('./banks/')
                 .then(response => {
                     if (response.data.status == true) {
                         this.banks = response.data.data.item
