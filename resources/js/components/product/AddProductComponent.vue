@@ -368,9 +368,9 @@ export default {
                 })
             } else {
                 data = ""
+                this.$root.alert('error', 'Error', 'Supplier details not found')
             }
             this.supplier_details = data[0]
-            this.$root.alert('error', 'Error', 'Supplier details not found')
         }
     }
 }
