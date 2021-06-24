@@ -66,6 +66,7 @@
 <script>
   var d = new Date();
   var date = d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate()
+  // date = date.toString()
     export default {
         mounted() {
           // if(localStorage.purchasedetails){
@@ -116,12 +117,10 @@
         methods: {
             loadProducts(date){
               this.loading = true
+              date = this.dateString(date)
               var d = new Date(date);
               d.setDate(parseInt(d.getDate())  + 1)
-              var x = d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate()
-              x = new Date(x)
-              date = d.toISOString()
-              x = x.toISOString()
+              var x = this.dateString(d)
                 this.form.get('./purchasedetails?dateAfter=' + date + '&dateBefore=' + x)
                 .then(response => {
                     this.loading = false;
@@ -136,6 +135,21 @@
                     console.log(err)
                     console.log(err.response)
                 })
+            },
+            dateString(date){
+              var d = new Date(date);
+              var year = d.getFullYear();
+              var month = d.getMonth()+1;
+              var dt = d.getDate();
+
+              if (dt < 10) {
+                dt = '0' + dt;
+              }
+              if (month < 10) {
+                month = '0' + month;
+              }
+
+             return year + '-' + month + '-' + dt
             },
             numeral(value){
                 return numeral(value).format('0,0');

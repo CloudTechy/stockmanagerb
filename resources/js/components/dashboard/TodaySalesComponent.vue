@@ -110,12 +110,10 @@ export default {
     methods: {
         loadProducts(date) {
             this.loading = true
-            var d = new Date(date);
-            d.setDate(parseInt(d.getDate()) + 1)
-            var x = d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate()
-            x = new Date(x)
-            date = d.toISOString()
-            x = x.toISOString()
+              date = this.dateString(date)
+              var d = new Date(date);
+              d.setDate(parseInt(d.getDate())  + 1)
+              var x = this.dateString(d)
             this.form.get('./orderdetails?dateAfter=' + date + '&dateBefore=' + x)
                 .then(response => {
                     this.loading = false;
@@ -132,6 +130,21 @@ export default {
 
                 });
         },
+        dateString(date){
+              var d = new Date(date);
+              var year = d.getFullYear();
+              var month = d.getMonth()+1;
+              var dt = d.getDate();
+
+              if (dt < 10) {
+                dt = '0' + dt;
+              }
+              if (month < 10) {
+                month = '0' + month;
+              }
+
+             return year + '-' + month + '-' + dt
+            },
         numeral(value) {
             return numeral(value).format('0,0');
         },
