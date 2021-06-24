@@ -58,7 +58,12 @@ Route::resource('users', 'UserController');
     Route::resource('transactions', 'TransactionController');
     Route::resource('invoices', 'InvoiceController');
     
+     Route::resource('announcements', 'AnnouncementController');
+    Route::resource('bankdetails', 'BankDetailController');
     
+    
+  
+    Route::post('/products/image/{product}', 'ProductController@image');
     
     
     
@@ -87,12 +92,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('logout', 'AuthController@logout');
     
     
-    Route::resource('announcements', 'AnnouncementController');
-    Route::resource('bankdetails', 'BankDetailController');
-    
-    
-  
-    Route::post('/products/image/{product}', 'ProductController@image');
+   
     
 });
 

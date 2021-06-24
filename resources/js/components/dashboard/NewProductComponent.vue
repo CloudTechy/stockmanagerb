@@ -125,11 +125,14 @@
                     this.loading = false;
                     this.products = response.data.data.item;
                 })
-                .catch(error => {
-                  this.loading = false
-                  this.$root.alert('error','error','could not fetch new products')
-                    this.error = error.response.data.error;
-                }); 
+                .catch(err => {
+                    if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
+                    console.log(err)
+                    console.log(err.response)
+                })
             },
             numeral(value){
                 return numeral(value).format('0,0');
