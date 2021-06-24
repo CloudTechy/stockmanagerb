@@ -17,7 +17,7 @@
                     <div class="input-group input-group-sm float-right">
                         <input v-model="dateSearch" type="text" name="table_search" class="p-lg-3 p-sm-2 p-2 form-control" placeholder="Search Ex: 2021-01-21">
                         <span>
-                            <button style="font-size: smaller" @click="loadProducts(dateSearch)" type="button" title="download products" class="btn btn-outline-warning"><i class="fas fa-download"></i></button>
+                            <button style="font-size: smaller" :title="dateSearch ? 'download products' : 'input date'" :disabled="dateSearch == ''" @click="loadProducts(dateSearch)" type="button" class="btn btn-outline-warning"><i class="fas fa-download"></i></button>
                         </span>
                     </div>
                 </div>
@@ -109,6 +109,7 @@ export default {
     },
     methods: {
         loadProducts(date) {
+            console.log(date)
             this.loading = true
             var d = new Date(date);
             d.setDate(parseInt(d.getDate()) + 1)
@@ -119,12 +120,14 @@ export default {
                     this.products = response.data.data.item;
                 })
                 .catch(err => {
+                    this.loading = false
                     if (err.response) {
                         this.$root.alert('error',err.response.data.error, err.response.data.message )
                     }
                     else this.$root.alert('error','error', err )
                     console.log(err)
                     console.log(err.response)
+
                 });
         },
         numeral(value) {
