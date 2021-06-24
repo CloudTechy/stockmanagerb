@@ -129,7 +129,60 @@
 </template>
 <script>
 export default {
-  
+    created() {
+        // this.loadSuppliers();
+        // this.loadBrands();
+        // this.loadUnits();
+        // this.loadSizes();
+        // this.loadCategories();
+
+        
+
+        // Echo.channel('brand')
+        // .listen('UpdateBrand', (e) => {
+        //     this.loadBrands();
+        // });
+        // Echo.channel('unit')
+        // .listen('UpdateUnit', (e) => {
+        //     this.loadUnits();
+        // });
+        // Echo.channel('size')
+        // .listen('UpdateSize', (e) => {
+        //     this.loadSizes();
+        // });
+        // Echo.channel('category')
+        // .listen('UpdateCategory', (e) => {
+        //     this.loadCategories();
+        // });
+        // Echo.channel('supplier')
+        // .listen('UpdateSupplier', (e) => {
+        //     this.loadSuppliers();
+        // });
+    },
+    mounted(){
+        
+        this.loadBrands();
+        this.loadUnits();
+        this.loadSizes();
+        this.loadCategories();
+        if(this.$root.suppliers){
+            this.suppliers = this.$root.suppliers
+            this.$root.alert('success', '', 'Suppliers loaded')
+        }
+        else if(localStorage.suppliers){
+                this.suppliers = JSON.parse(localStorage.suppliers)
+                this.$root.alert('success', '', 'Suppliers loaded')
+            }
+        else this.loadSuppliers();
+
+        if (this.$root.purchaseSupplierID) {
+            this.supplierID = this.$root.purchaseSupplierID;
+
+        }
+        
+        
+    },
+    props: [],
     data() {
 
         return {
@@ -161,64 +214,9 @@ export default {
             purchase: '',
         }
     },
-      created() {
-        // this.loadSuppliers();
-        this.loadBrands();
-        // this.loadUnits();
-        // this.loadSizes();
-        // this.loadCategories();
-
-        
-
-        // Echo.channel('brand')
-        // .listen('UpdateBrand', (e) => {
-        //     this.loadBrands();
-        // });
-        // Echo.channel('unit')
-        // .listen('UpdateUnit', (e) => {
-        //     this.loadUnits();
-        // });
-        // Echo.channel('size')
-        // .listen('UpdateSize', (e) => {
-        //     this.loadSizes();
-        // });
-        // Echo.channel('category')
-        // .listen('UpdateCategory', (e) => {
-        //     this.loadCategories();
-        // });
-        // Echo.channel('supplier')
-        // .listen('UpdateSupplier', (e) => {
-        //     this.loadSuppliers();
-        // });
-    },
-    mounted(){
-        
-        this.loadBrands();
-        // this.loadUnits();
-        // this.loadSizes();
-        // this.loadCategories();
-        if(this.$root.suppliers){
-            this.suppliers = this.$root.suppliers
-            this.$root.alert('success', '', 'Suppliers loaded')
-        }
-        else if(localStorage.suppliers){
-                this.suppliers = JSON.parse(localStorage.suppliers)
-                this.$root.alert('success', '', 'Suppliers loaded')
-            }
-        else this.loadSuppliers();
-
-        if (this.$root.purchaseSupplierID) {
-            this.supplierID = this.$root.purchaseSupplierID;
-
-        }
-        
-        
-    },
-    props: [],
     watch: {
         // supplierID(){
-        //    let form = new Form()
-        // form.get('./suppliers/'+ this.supplierID)
+        //     this.form.get('./suppliers/'+ this.supplierID)
         //     .then(response => {
         //         this.supplier_details = response.data.data
         //     })
@@ -290,29 +288,9 @@ export default {
                     console.log(err.response)
                 })
         },
-        async loadBrands() {
-            // this.$root.alert('error','',axios.defaults.headers.common['Authorization'])
-            // this.$root.alert('error','','Bearer ' + localStorage.getItem('Stockmanager'))
-            // axios.get('./attributes/')
-            //     .then(response => {
-            //         this.brands = response.data.data.item
-            //     })
-            //     .catch(err => {
-            //         if (err.response) {
-            //             this.$root.alert('error',err.response.data.error, err.response.data.message )
-            //         }
-            //         else this.$root.alert('error','error', err )
-            //         console.log(err)
-            //         console.log(err.response)
-            //     })
-             // this.$root.alert('success','',  )
-             // console.log(window.axios.defaults.headers.common['Authorization'].keys())
-            // const response = await this.$root.loadBrands()
-            // const{data : brands} = await response
-            // this.brands = brands
-            // await this.$root.alert('success','', response.status )
-            this.$root.loadBrands()
-            .then(response => {
+        loadBrands() {
+            this.form.get('./attributes/')
+                .then(response => {
                     this.brands = response.data.data.item
                 })
                 .catch(err => {
@@ -323,11 +301,9 @@ export default {
                     console.log(err)
                     console.log(err.response)
                 })
-            // console.log(await this.$root.loadBrands())
-
         },
         loadCategories() {
-            axios.get('./categories/')
+            this.form.get('./categories/')
                 .then(response => {
                     this.categories = response.data.data.item
                 })
@@ -341,7 +317,7 @@ export default {
                 })
         },
         loadSizes() {
-            axios.get('./sizes/')
+            this.form.get('./sizes/')
                 .then(response => {
                     this.sizes = response.data.data.item
                 })
@@ -355,7 +331,7 @@ export default {
                 })
         },
         loadUnits() {
-            axios.get('./units/')
+            this.form.get('./units/')
                 .then(response => {
                     this.units = response.data.data.item
                 })
@@ -408,7 +384,7 @@ export default {
             this.$emit('closingAddProductCart')
         },
         loadBanks() {
-            axios.get('./banks/')
+            this.form.get('./banks/')
                 .then(response => {
                     if (response.data.status == true) {
                         this.banks = response.data.data.item

@@ -62,14 +62,14 @@ const options = {
 window.Fire = new Vue()
 Vue.use(VueProgressBar, options)
 
-import VueSweetalert2 from 'vue-sweetalert2';
+// import VueSweetalert2 from 'vue-sweetalert2';
 
 const sweetOptions = {
     confirmButtonColor: '#41b882',
     cancelButtonColor: '#ff7674'
 }
 
-Vue.use(VueSweetalert2, sweetOptions)
+// Vue.use(VueSweetalert2, sweetOptions)
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 Vue.use(toastr, {
@@ -204,23 +204,6 @@ const app = new Vue({
         },
         numeral(value) {
             return numeral(value).format('0,0.00');
-        },
-        async loadBrands() {
-            try{
-                return await axios.get('./attributes/')
-            }
-            catch(error){
-                throw error
-            }
-            
-                // .then(response => {
-                //     this.alert('success', '', 'brands fetched')
-                //     return {status:true, brands : response.data.data.item} 
-                // })
-                // .catch(err => {
-                //     this.alert('error', '', err)
-                //     return {status:false, error : err} 
-                // })
         },
         created_atFilter(list, search) {
 
