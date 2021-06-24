@@ -22,31 +22,38 @@ Route::prefix('auth')->group(function () {
     Route::post('register', 'AuthController@register')->name('register');
     Route::post('login', 'AuthController@login')->name('login');
     Route::get('refresh', 'AuthController@refresh');
+    Route::resource('orderdetails', 'OrderDetailController');
+Route::resource('purchasedetails', 'PurchaseDetailController');
+Route::resource('purchases', 'PurchaseController');
+Route::resource('attributeproducts', 'AttributeProductController');
+    Route::resource('products', 'ProductController');
+    Route::resource('attributes', 'AttributeController');
+Route::resource('types', 'TypeController');
+Route::resource('units', 'UnitController');
+Route::resource('banks', 'BankController');
+    Route::resource('categories', 'CategoryController');
+  Route::resource('sizes', 'SizeController');
 });
-// Below mention routes are public, user can access those without any restriction.
 Route::middleware('auth:api')->group(function () {
     Route::get('user', 'AuthController@user');
     Route::post('logout', 'AuthController@logout');
     Route::resource('users', 'UserController');
     Route::resource('transactions', 'TransactionController');
     Route::resource('invoices', 'InvoiceController');
-    Route::resource('orderdetails', 'OrderDetailController');
+    
     Route::resource('orders', 'OrderController');
-    Route::resource('purchasedetails', 'PurchaseDetailController');
-    Route::resource('purchases', 'PurchaseController');
-    Route::resource('attributeproducts', 'AttributeProductController');
-    Route::resource('products', 'ProductController');
-    Route::resource('attributes', 'AttributeController');
+    
+    
+    
     Route::resource('suppliers', 'SupplierController');
-    Route::resource('types', 'TypeController');
+    
     Route::resource('statuses', 'StatusController');
-    Route::resource('units', 'UnitController');
+    
     Route::resource('announcements', 'AnnouncementController');
     Route::resource('bankdetails', 'BankDetailController');
-    Route::resource('banks', 'BankController');
-    Route::resource('categories', 'CategoryController');
+    
     Route::resource('customers', 'CustomerController');
-    Route::resource('sizes', 'SizeController');
+  
     Route::post('/products/image/{product}', 'ProductController@image');
     Route::get('/print/{invoice}/{user}', 'PrintController@prints');
 
