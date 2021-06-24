@@ -355,7 +355,7 @@ export default {
             this.$swal({
                     title: 'Are you sure?',
                     text: "Note! You cannot delete a valid product",
-                    type: 'warning',
+                    icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',

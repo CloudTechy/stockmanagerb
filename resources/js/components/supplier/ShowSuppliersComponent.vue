@@ -146,6 +146,10 @@
         created(){
             this.$Progress.start()
             this.loadSuppliers();
+            this.loadBrands();
+            this.loadUnits();
+            this.loadSizes();
+            this.loadCategories();
             Fire.$on('supplier_created', (data)=> {
                 this.loadSuppliers();
             })
@@ -216,6 +220,66 @@
                     console.log(error.response.data.error)
                 }); 
             },
+            loadBrands() {
+            this.form.get('./attributes/')
+                .then(response => {
+                    this.$root.brands = response.data.data.item
+                    localStorage.brands = JSON.stringify(this.brands)
+                })
+                .catch(err => {
+                    if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
+                    console.log(err)
+                    console.log(err.response)
+                })
+        },
+        loadCategories() {
+            this.form.get('./categories/')
+                .then(response => {
+                    this.$root.categories = response.data.data.item
+                    localStorage.categories = JSON.stringify(this.categories)
+                })
+                .catch(err => {
+                    if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
+                    console.log(err)
+                    console.log(err.response)
+                })
+        },
+        loadSizes() {
+            this.form.get('./sizes/')
+                .then(response => {
+                    this.$root.sizes = response.data.data.item
+                    localStorage.sizes = JSON.stringify(this.sizes)
+                })
+                .catch(err => {
+                    if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
+                    console.log(err)
+                    console.log(err.response)
+                })
+        },
+        loadUnits() {
+            this.form.get('./units/')
+                .then(response => {
+                    this.$root.units = response.data.data.item
+                    localStorage.units = JSON.stringify(this.units)
+                })
+                .catch(err => {
+                    if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
+                    console.log(err)
+                    console.log(err.response)
+                })
+        },
             classObject (value) {
                 if(value <= 1 && this.current_page == 1){
                     this.$refs.prev.classList.add('disabled')
@@ -300,7 +364,7 @@
             this.$swal({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
-                    type: 'warning',
+                    icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',

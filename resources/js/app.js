@@ -62,16 +62,20 @@ const options = {
 window.Fire = new Vue()
 Vue.use(VueProgressBar, options)
 
-// import VueSweetalert2 from 'vue-sweetalert2';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 const sweetOptions = {
     confirmButtonColor: '#41b882',
     cancelButtonColor: '#ff7674'
 }
 
-// Vue.use(VueSweetalert2, sweetOptions)
+Vue.use(VueSweetalert2, sweetOptions)
+
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
+
+
 Vue.use(toastr, {
     defaultTimeout: 3000,
     defaultProgressBar: false,
@@ -115,7 +119,7 @@ const app = new Vue({
     data: {
         respond: '',
         VueProgressBar,
-        // VueSweetalert2,
+        VueSweetalert2,
         VueSession,
         VueCookies,
         donutOrders: {},
@@ -124,7 +128,11 @@ const app = new Vue({
         user: {},
         form: new Form(),
         transactions: '',
-        loader: undefined
+        loader: undefined,
+        units : '',
+        categories: '',
+        brands : '',
+        sizes:'',
     },
     //     beforeCreate: function() {
     //         this.$Progress.start()

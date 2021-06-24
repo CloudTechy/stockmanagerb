@@ -165,6 +165,7 @@ export default {
         this.loadUnits();
         this.loadSizes();
         this.loadCategories();
+
         if(this.$root.suppliers){
             this.suppliers = this.$root.suppliers
             this.$root.alert('success', '', 'Suppliers loaded')
@@ -174,6 +175,50 @@ export default {
                 this.$root.alert('success', '', 'Suppliers loaded')
             }
         else this.loadSuppliers();
+
+        if(this.$root.brands){
+            this.brands = this.$root.brands
+            this.$root.alert('success', '', 'brands loaded')
+        }
+        else if(localStorage.brands){
+                this.brands = JSON.parse(localStorage.brands)
+                this.$root.alert('success', '', 'brands loaded')
+            }
+        else this.loadBrands();
+
+         if(this.$root.units){
+            this.units = this.$root.units
+            this.$root.alert('success', '', 'units loaded')
+        }
+        else if(localStorage.units){
+                this.units = JSON.parse(localStorage.units)
+                this.$root.alert('success', '', 'units loaded')
+            }
+        else this.loadUnits();
+
+        if(this.$root.sizes){
+            this.sizes = this.$root.sizes
+            this.$root.alert('success', '', 'sizes loaded')
+        }
+        else if(localStorage.sizes){
+                this.sizes = JSON.parse(localStorage.sizes)
+                this.$root.alert('success', '', 'sizes loaded')
+            }
+        else this.loadSizes();
+
+        if(this.$root.categories){
+            this.categories = this.$root.categories
+            this.$root.alert('success', '', 'categories loaded')
+        }
+        else if(localStorage.categories){
+                this.categories = JSON.parse(localStorage.categories)
+                this.$root.alert('success', '', 'categories loaded')
+            }
+        else this.loadCategories();
+
+
+
+
 
         if (this.$root.purchaseSupplierID) {
             this.supplierID = this.$root.purchaseSupplierID;
