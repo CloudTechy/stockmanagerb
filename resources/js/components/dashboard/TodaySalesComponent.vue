@@ -111,17 +111,20 @@ export default {
         loadProducts(date) {
             this.loading = true
             var d = new Date(date);
-            d.setDate(parseInt(d.getDate())  + 1)
+            d.setDate(parseInt(d.getDate()) + 1)
             var x = d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate()
             this.form.get('./orderdetails?dateAfter=' + date + '&dateBefore=' + x)
                 .then(response => {
                     this.loading = false;
                     this.products = response.data.data.item;
                 })
-                .catch(error => {
-                    this.loading = false
-                    this.$root.alert('error', 'error', 'could not fetch new products')
-                    this.error = error.response.data.error;
+                .catch(err => {
+                    if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
+                    console.log(err)
+                    console.log(err.response)
                 });
         },
         numeral(value) {
