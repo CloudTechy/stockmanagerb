@@ -129,7 +129,7 @@
 </template>
 <script>
 export default {
-
+  
     data() {
 
         return {
@@ -161,14 +161,14 @@ export default {
             purchase: '',
         }
     },
-    created() {
+      created() {
         // this.loadSuppliers();
         this.loadBrands();
         // this.loadUnits();
         // this.loadSizes();
         // this.loadCategories();
 
-
+        
 
         // Echo.channel('brand')
         // .listen('UpdateBrand', (e) => {
@@ -191,26 +191,28 @@ export default {
         //     this.loadSuppliers();
         // });
     },
-    mounted() {
-
+    mounted(){
+        
         this.loadBrands();
         // this.loadUnits();
         // this.loadSizes();
         // this.loadCategories();
-        if (this.$root.suppliers) {
+        if(this.$root.suppliers){
             this.suppliers = this.$root.suppliers
             this.$root.alert('success', '', 'Suppliers loaded')
-        } else if (localStorage.suppliers) {
-            this.suppliers = JSON.parse(localStorage.suppliers)
-            this.$root.alert('success', '', 'Suppliers loaded')
-        } else this.loadSuppliers();
+        }
+        else if(localStorage.suppliers){
+                this.suppliers = JSON.parse(localStorage.suppliers)
+                this.$root.alert('success', '', 'Suppliers loaded')
+            }
+        else this.loadSuppliers();
 
         if (this.$root.purchaseSupplierID) {
             this.supplierID = this.$root.purchaseSupplierID;
 
         }
-
-
+        
+        
     },
     props: [],
     watch: {
@@ -248,17 +250,18 @@ export default {
 
         loadSuppliers() {
             this.$Progress.start();
-            axios.get('./suppliers/')
+            this.form.get('./suppliers/')
                 .then(response => {
                     this.$Progress.finish();
                     this.suppliers = response.data.data.item
-                    if (this.suppliers.length == 0) {
+                    if(this.suppliers.length == 0){
                         this.$root.alert('warning', 'Caution', 'you have not registered any supplier yet')
-                    } else this.$root.alert('success', '', 'Suppliers loaded')
+                    }
+                    else this.$root.alert('success', '', 'Suppliers loaded')
                 })
                 .catch(err => {
                     if (err.response) {
-                        this.$root.alert('error', err.response.data.error, err.response.data.message)
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
                     }
                     console.log(err)
                     console.log(err.response)
@@ -272,7 +275,7 @@ export default {
         },
         getPurchase(id) {
             this.$Progress.start();
-            axios.post('./purchases')
+            this.form.post('./purchases')
                 .then(response => {
                     this.$Progress.finish();
                     this.purchase = response.data.data
@@ -280,33 +283,48 @@ export default {
                 })
                 .catch(err => {
                     if (err.response) {
-                        this.$root.alert('error', err.response.data.error, err.response.data.message)
-                    } else this.$root.alert('error', 'error', err)
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
                     console.log(err)
                     console.log(err.response)
                 })
         },
-        loadBrands() {
-            this.$root.alert('error', '', axios.defaults.headers.common['Authorization'])
-            this.$root.alert('error', '', 'Bearer ' + localStorage.getItem('Stockmanager'))
-            this.form.get('./attributes/', {
-                    headers: {
-                        Authorization: 'Bearer ' + localStorage.getItem('Stockmanager')
-                    },
-                    transformRequest: [(data, headers) => {   
-                        headers.common.Authorization = 'Bearer ' + localStorage.getItem('Stockmanager');
-                        return data }]
-                })
-                .then(response => {
+        async loadBrands() {
+            // this.$root.alert('error','',axios.defaults.headers.common['Authorization'])
+            // this.$root.alert('error','','Bearer ' + localStorage.getItem('Stockmanager'))
+            // axios.get('./attributes/')
+            //     .then(response => {
+            //         this.brands = response.data.data.item
+            //     })
+            //     .catch(err => {
+            //         if (err.response) {
+            //             this.$root.alert('error',err.response.data.error, err.response.data.message )
+            //         }
+            //         else this.$root.alert('error','error', err )
+            //         console.log(err)
+            //         console.log(err.response)
+            //     })
+             // this.$root.alert('success','',  )
+             // console.log(window.axios.defaults.headers.common['Authorization'].keys())
+            // const response = await this.$root.loadBrands()
+            // const{data : brands} = await response
+            // this.brands = brands
+            // await this.$root.alert('success','', response.status )
+            this.$root.loadBrands()
+            .then(response => {
                     this.brands = response.data.data.item
                 })
                 .catch(err => {
                     if (err.response) {
-                        this.$root.alert('error', err.response.data.error, err.response.data.message)
-                    } else this.$root.alert('error', 'error', err)
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
                     console.log(err)
                     console.log(err.response)
                 })
+            // console.log(await this.$root.loadBrands())
+
         },
         loadCategories() {
             axios.get('./categories/')
@@ -315,8 +333,9 @@ export default {
                 })
                 .catch(err => {
                     if (err.response) {
-                        this.$root.alert('error', err.response.data.error, err.response.data.message)
-                    } else this.$root.alert('error', 'error', err)
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
                     console.log(err)
                     console.log(err.response)
                 })
@@ -328,8 +347,9 @@ export default {
                 })
                 .catch(err => {
                     if (err.response) {
-                        this.$root.alert('error', err.response.data.error, err.response.data.message)
-                    } else this.$root.alert('error', 'error', err)
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
                     console.log(err)
                     console.log(err.response)
                 })
@@ -341,8 +361,9 @@ export default {
                 })
                 .catch(err => {
                     if (err.response) {
-                        this.$root.alert('error', err.response.data.error, err.response.data.message)
-                    } else this.$root.alert('error', 'error', err)
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
                     console.log(err)
                     console.log(err.response)
                 })
@@ -372,8 +393,9 @@ export default {
                 .catch(err => {
                     this.$Progress.fail()
                     if (err.response) {
-                        this.$root.alert('error', err.response.data.error, err.response.data.message)
-                    } else this.$root.alert('error', 'error', err)
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
                     console.log(err)
                     console.log(err.response)
                 })
@@ -394,8 +416,9 @@ export default {
                 })
                 .catch(err => {
                     if (err.response) {
-                        this.$root.alert('error', err.response.data.error, err.response.data.message)
-                    } else this.$root.alert('error', 'error', err)
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
                     console.log(err)
                     console.log(err.response)
                 })

@@ -23,8 +23,8 @@ Vue.router = router
 Vue.use(VueRouter)
 
 Vue.use(VueAxios, axios)
-// axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api/`
-axios.defaults.baseURL = "http://spacehubtech-stockmanager.herokuapp.com/api"
+axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api/`
+// axios.defaults.baseURL = "http://spacehubtech-stockmanager.herokuapp.com/api"
 console.log(axios.defaults.baseURL)
 Vue.use(VueAuth, auth)
 
@@ -204,6 +204,23 @@ const app = new Vue({
         },
         numeral(value) {
             return numeral(value).format('0,0.00');
+        },
+        async loadBrands() {
+            try{
+                return await axios.get('./attributes/')
+            }
+            catch(error){
+                throw error
+            }
+            
+                // .then(response => {
+                //     this.alert('success', '', 'brands fetched')
+                //     return {status:true, brands : response.data.data.item} 
+                // })
+                // .catch(err => {
+                //     this.alert('error', '', err)
+                //     return {status:false, error : err} 
+                // })
         },
         created_atFilter(list, search) {
 
