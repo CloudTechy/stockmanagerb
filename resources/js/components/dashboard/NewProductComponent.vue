@@ -66,6 +66,7 @@
 <script>
   var d = new Date();
   var date = d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate()
+  date = date.toString()
     export default {
         mounted() {
           // if(localStorage.purchasedetails){
