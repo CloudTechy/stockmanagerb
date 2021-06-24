@@ -119,7 +119,8 @@
               var d = new Date(date);
               d.setDate(parseInt(d.getDate())  + 1)
               var x = d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate()
-              
+              date = '2020-02-02'
+              x = '2020-02-02'
               this.$root.alert('success',d, date )
               this.$root.alert('success',typeof d, typeof date )
                 this.form.get('./purchasedetails?dateAfter=' + date.toString() + '&dateBefore=' + x.toString())
