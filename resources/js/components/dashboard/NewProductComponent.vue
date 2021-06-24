@@ -120,7 +120,8 @@
               d.setDate(parseInt(d.getDate())  + 1)
               var x = d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate()
               
-                this.form.get('./purchasedetails?dateAfter=' + date + '&dateBefore=' + x)
+              
+                this.form.get('./purchasedetails?dateAfter=' + date.toString() + '&dateBefore=' + x.toString())
                 .then(response => {
                     this.loading = false;
                     this.products = response.data.data.item;

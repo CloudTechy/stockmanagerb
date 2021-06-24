@@ -114,7 +114,7 @@ export default {
             var d = new Date(date);
             d.setDate(parseInt(d.getDate()) + 1)
             var x = d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate()
-            this.form.get('./orderdetails?dateAfter=' + date + '&dateBefore=' + x)
+            this.form.get('./orderdetails?dateAfter=' + date.toString() + '&dateBefore=' + x.toString())
                 .then(response => {
                     this.loading = false;
                     this.products = response.data.data.item;
