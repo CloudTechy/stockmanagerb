@@ -51,6 +51,9 @@ Route::resource('units', 'UnitController');
 Route::resource('banks', 'BankController');
     Route::resource('categories', 'CategoryController');
   Route::resource('sizes', 'SizeController');
+  Route::resource('suppliers', 'SupplierController');
+  Route::resource('orders', 'OrderController');
+Route::resource('customers', 'CustomerController');
 });
 
 Route::middleware('auth:api')->group(function () {
@@ -60,18 +63,18 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('transactions', 'TransactionController');
     Route::resource('invoices', 'InvoiceController');
     
-    Route::resource('orders', 'OrderController');
     
     
     
-    Route::resource('suppliers', 'SupplierController');
+    
+    
     
     Route::resource('statuses', 'StatusController');
     
     Route::resource('announcements', 'AnnouncementController');
     Route::resource('bankdetails', 'BankDetailController');
     
-    Route::resource('customers', 'CustomerController');
+    
   
     Route::post('/products/image/{product}', 'ProductController@image');
     Route::get('/print/{invoice}/{user}', 'PrintController@prints');
