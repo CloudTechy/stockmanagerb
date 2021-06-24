@@ -54,12 +54,7 @@ Route::resource('banks', 'BankController');
   Route::resource('suppliers', 'SupplierController');
   Route::resource('orders', 'OrderController');
 Route::resource('customers', 'CustomerController');
-});
-
-Route::middleware('auth:api')->group(function () {
-    Route::get('user', 'AuthController@user');
-    Route::post('logout', 'AuthController@logout');
-    Route::resource('users', 'UserController');
+Route::resource('users', 'UserController');
     Route::resource('transactions', 'TransactionController');
     Route::resource('invoices', 'InvoiceController');
     
@@ -70,14 +65,7 @@ Route::middleware('auth:api')->group(function () {
     
     
     Route::resource('statuses', 'StatusController');
-    
-    Route::resource('announcements', 'AnnouncementController');
-    Route::resource('bankdetails', 'BankDetailController');
-    
-    
-  
-    Route::post('/products/image/{product}', 'ProductController@image');
-    Route::get('/print/{invoice}/{user}', 'PrintController@prints');
+Route::get('/print/{invoice}/{user}', 'PrintController@prints');
 
     // /*
     // |--------------------------------------------------------------------------
@@ -92,6 +80,20 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/statistics/customers', 'StatisticController@customer');
     Route::get('/statistics/suppliers', 'StatisticController@supplier');
 
+});
+
+Route::middleware('auth:api')->group(function () {
+    Route::get('user', 'AuthController@user');
+    Route::post('logout', 'AuthController@logout');
+    
+    
+    Route::resource('announcements', 'AnnouncementController');
+    Route::resource('bankdetails', 'BankDetailController');
+    
+    
+  
+    Route::post('/products/image/{product}', 'ProductController@image');
+    
 });
 
 // /*

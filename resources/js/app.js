@@ -23,7 +23,7 @@ Vue.router = router
 Vue.use(VueRouter)
 
 Vue.use(VueAxios, axios)
-axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api/`
+// axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api/`
 axios.defaults.baseURL = "http://spacehubtech-stockmanager.herokuapp.com/api"
 console.log(axios.defaults.baseURL)
 Vue.use(VueAuth, auth)
