@@ -34,6 +34,25 @@ Route::resource('banks', 'BankController');
     Route::resource('categories', 'CategoryController');
   Route::resource('sizes', 'SizeController');
 });
+
+Route::name('auth')->group(function () {
+// Below mention routes are public, user can access those without any restriction.
+    Route::post('register', 'AuthController@register')->name('register');
+    Route::post('login', 'AuthController@login')->name('login');
+    Route::get('refresh', 'AuthController@refresh');
+    Route::resource('orderdetails', 'OrderDetailController');
+Route::resource('purchasedetails', 'PurchaseDetailController');
+Route::resource('purchases', 'PurchaseController');
+Route::resource('attributeproducts', 'AttributeProductController');
+    Route::resource('products', 'ProductController');
+    Route::resource('attributes', 'AttributeController');
+Route::resource('types', 'TypeController');
+Route::resource('units', 'UnitController');
+Route::resource('banks', 'BankController');
+    Route::resource('categories', 'CategoryController');
+  Route::resource('sizes', 'SizeController');
+});
+
 Route::middleware('auth:api')->group(function () {
     Route::get('user', 'AuthController@user');
     Route::post('logout', 'AuthController@logout');
