@@ -66,7 +66,6 @@
 <script>
   var d = new Date();
   var date = d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate()
-  date = date.toString()
     export default {
         mounted() {
           // if(localStorage.purchasedetails){
@@ -121,11 +120,8 @@
               d.setDate(parseInt(d.getDate())  + 1)
               var x = d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate()
               x = new Date(x)
-
               date = d.toISOString()
               x = x.toISOString()
-              this.$root.alert('success',x, date )
-              this.$root.alert('success',typeof x, typeof date )
                 this.form.get('./purchasedetails?dateAfter=' + date + '&dateBefore=' + x)
                 .then(response => {
                     this.loading = false;

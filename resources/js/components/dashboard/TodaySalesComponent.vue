@@ -109,26 +109,28 @@ export default {
     },
     methods: {
         loadProducts(date) {
-            // console.log(date)
-            // this.loading = true
-            // var d = new Date(date);
-            // d.setDate(parseInt(d.getDate()) + 1)
-            // var x = d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate()
-            // this.form.get('./orderdetails?dateAfter=' + date.toString() + '&dateBefore=' + x.toString())
-            //     .then(response => {
-            //         this.loading = false;
-            //         this.products = response.data.data.item;
-            //     })
-            //     .catch(err => {
-            //         this.loading = false
-            //         if (err.response) {
-            //             this.$root.alert('error',err.response.data.error, err.response.data.message )
-            //         }
-            //         else this.$root.alert('error','error', err )
-            //         console.log(err)
-            //         console.log(err.response)
+            this.loading = true
+            var d = new Date(date);
+            d.setDate(parseInt(d.getDate()) + 1)
+            var x = d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate()
+            x = new Date(x)
+            date = d.toISOString()
+            x = x.toISOString()
+            this.form.get('./orderdetails?dateAfter=' + date + '&dateBefore=' + x)
+                .then(response => {
+                    this.loading = false;
+                    this.products = response.data.data.item;
+                })
+                .catch(err => {
+                    this.loading = false
+                    if (err.response) {
+                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                    }
+                    else this.$root.alert('error','error', err )
+                    console.log(err)
+                    console.log(err.response)
 
-            //     });
+                });
         },
         numeral(value) {
             return numeral(value).format('0,0');
