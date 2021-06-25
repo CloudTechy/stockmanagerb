@@ -59,23 +59,18 @@
     </div>
 </template>
 <script>
-var d = new Date();
-var date = d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate()
+
 export default {
     mounted() {
         // if(localStorage.purchasedetails){
         //       this.products = JSON.parse(localStorage.purchasedetails)
         //       this.loading = false
         //   }
-        this.loadProducts(date);
+        this.loadProducts(new Date());
     },
     props: ['token'],
     data() {
-        var d = new Date();
         return {
-            date: d.getFullYear() + '-' + parseInt(parseInt(d.getMonth()) + 1) + '-' + d.getDate(),
-            month: d.getMonth() + 1,
-            year: d.getFullYear(),
             products: [],
             loading: true,
             error: '',
@@ -86,7 +81,7 @@ export default {
     },
     created() {
         Fire.$on('product_created', data => {
-            this.loadProducts(date);
+            this.loadProducts(new Date());
         })
         // Echo.channel('purchase')
         //   .listen('UpdatePurchase', (e) => {
@@ -110,10 +105,11 @@ export default {
     methods: {
         loadProducts(date) {
             this.loading = true
-              date = this.dateString(date)
-              var d = new Date(date);
-              d.setDate(parseInt(d.getDate())  + 1)
-              var x = this.dateString(d)
+            date = this.dateString(date)
+            var d = new Date(date);
+            d.setDate(parseInt(d.getDate())  + 1)
+            var x = this.dateString(d)
+              
             this.form.get('./orderdetails?dateAfter=' + date + '&dateBefore=' + x)
                 .then(response => {
                     this.loading = false;
@@ -122,7 +118,7 @@ export default {
                 .catch(err => {
                     this.loading = false
                     if (err.response) {
-                        this.$root.alert('error',err.response.data.error, err.response.data.message )
+                        // this.$root.alert('error',err.response.data.error, err.response.data.message )
                     }
                     else this.$root.alert('error','error', err )
                     console.log(err)
