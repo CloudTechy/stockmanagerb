@@ -10,7 +10,7 @@ use App\Helper;
 class Authenticate extends Middleware {
     public function handle($request, Closure $next, ...$guards) {
         if ($this->authenticate($request, $guards) === 'authentication_failed') {
-            return Helper::inValidRequest('Unauthorized', 'Authentication failed!', 400);
+            return Helper::inValidRequest('Unauthorized', 'Authentication failed!', 401);
         }
         return $next($request);
     }

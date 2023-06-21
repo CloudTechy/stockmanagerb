@@ -57,7 +57,7 @@ class Announcement extends Model
                     return $query;
                 });
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug);
         }

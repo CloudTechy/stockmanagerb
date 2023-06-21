@@ -64,7 +64,7 @@ class AttributeProduct extends Model
 
                 });
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug);
         }

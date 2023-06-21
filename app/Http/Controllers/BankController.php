@@ -34,7 +34,7 @@ class BankController extends Controller
 
             return Helper::validRequest($data, 'Banks fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -70,7 +70,7 @@ class BankController extends Controller
             ProcessBank::dispatch();
 
             return Helper::validRequest(new BankResource($bank), 'Bank created successfully', 200);
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
     }
@@ -90,7 +90,7 @@ class BankController extends Controller
 
             return Helper::validRequest($bank, 'specified bank was fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -128,7 +128,7 @@ class BankController extends Controller
 
             return Helper::validRequest(["success" => $bank], 'Bank was updated successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -149,7 +149,7 @@ class BankController extends Controller
 
             return Helper::validRequest(["success" => $bank], 'Bank was deleted successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }

@@ -34,7 +34,7 @@ class BankDetailController extends Controller
 
             $data = Helper::buildData($bankdetails, $total);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -76,7 +76,7 @@ class BankDetailController extends Controller
 
             DB::commit();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -96,7 +96,7 @@ class BankDetailController extends Controller
 
             $bankdetail = new BankDetailResource($bankdetail);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -139,7 +139,7 @@ class BankDetailController extends Controller
 
             DB::commit();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -161,7 +161,7 @@ class BankDetailController extends Controller
 
             DB::commit();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }

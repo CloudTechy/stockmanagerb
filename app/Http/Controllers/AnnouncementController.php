@@ -36,7 +36,7 @@ class AnnouncementController extends Controller
 
             return Helper::validRequest($data, 'Announcements fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -71,7 +71,7 @@ class AnnouncementController extends Controller
             $announcement = Announcement::create($validated);
 
             return Helper::validRequest(new AnnouncementResource($announcement), 'Announcement was sent successfully', 200);
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
     }
@@ -90,7 +90,7 @@ class AnnouncementController extends Controller
 
             return Helper::validRequest($announcement, 'specified announcement was fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -132,7 +132,7 @@ class AnnouncementController extends Controller
 
             return Helper::validRequest(["success" => $announcement], 'Announcement was updated successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -155,7 +155,7 @@ class AnnouncementController extends Controller
 
             return Helper::validRequest(["success" => $announcement], 'Announcement was deleted successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }

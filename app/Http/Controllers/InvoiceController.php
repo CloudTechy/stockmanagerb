@@ -39,7 +39,7 @@ class InvoiceController extends Controller
 
             $data = Helper::buildData($invoices, $total);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -128,7 +128,7 @@ class InvoiceController extends Controller
             DB::commit();
             return Helper::validRequest(new InvoiceDetails($invoice_created), 'Invoice was sent successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -150,7 +150,7 @@ class InvoiceController extends Controller
 
             return Helper::validRequest($invoice, 'specified Invoice was fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -200,7 +200,7 @@ class InvoiceController extends Controller
 
             DB::commit();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }

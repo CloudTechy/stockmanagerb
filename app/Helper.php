@@ -9,7 +9,7 @@ use App\Order;
 use App\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use \DB;
+use Illuminate\Support\Facades\DB;
 
 class Helper
 {
@@ -152,9 +152,9 @@ class Helper
                 return true;
             }
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
-            return $this->exception($bug, 'unknown error', 500);
+            // return $this->exception($bug, 'unknown error', 500);
         }
 
     }
@@ -168,9 +168,9 @@ class Helper
             $transaction = new TransactionController;
             $transaction->store($request);
             ProcessTransaction::dispatch();
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
-            return $this->exception($bug, 'unknown error', 500);
+            // return $this->exception($bug, 'unknown error', 500);
         }
 
 

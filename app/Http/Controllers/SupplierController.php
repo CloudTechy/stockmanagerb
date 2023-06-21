@@ -38,7 +38,7 @@ class SupplierController extends Controller
 
             $data = Helper::buildData($suppliers, $total);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -88,7 +88,7 @@ class SupplierController extends Controller
             DB::commit();
             ProcessSupplier::dispatch();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -107,7 +107,7 @@ class SupplierController extends Controller
 
             $supplier = new SupplierDetails($supplier);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -163,7 +163,7 @@ class SupplierController extends Controller
             DB::commit();
             ProcessSupplier::dispatch();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -190,7 +190,7 @@ class SupplierController extends Controller
             DB::commit();
             ProcessSupplier::dispatch();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }

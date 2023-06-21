@@ -40,7 +40,7 @@ class OrderDetailController extends Controller
 
             $data = Helper::buildData($orderdetails, $total);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -151,7 +151,7 @@ class OrderDetailController extends Controller
             return Helper::validRequest($orderdetails, 'OrderDetail was sent successfully', 200);
             DB::beginTransaction();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -173,7 +173,7 @@ class OrderDetailController extends Controller
 
             return Helper::validRequest($orderdetail, 'specified OrderDetail was fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -230,7 +230,7 @@ class OrderDetailController extends Controller
 
             DB::commit();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -255,7 +255,7 @@ class OrderDetailController extends Controller
             ProcessOrder::dispatch();
             DB::commit();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }

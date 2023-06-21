@@ -21,7 +21,7 @@ class StatisticController extends Controller
             $customers = $customers->getCollection();
             $data = Helper::buildData($customers, $total);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
         return Helper::validRequest($data, 'fetch success', 200);
@@ -37,7 +37,7 @@ class StatisticController extends Controller
             $suppliers = $suppliers->getCollection();
             $data = Helper::buildData($suppliers, $total);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
         return Helper::validRequest($data, 'fetch success', 200);
@@ -53,7 +53,7 @@ class StatisticController extends Controller
             $transactions = $transactions->getCollection();
             $data = Helper::buildData($transactions, $total);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
         return Helper::validRequest($data, 'fetch success', 200);
@@ -69,7 +69,7 @@ class StatisticController extends Controller
             $invoices = $invoices->getCollection();
             $data = Helper::buildData($invoices, $total);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
         return Helper::validRequest($data, 'fetch success', 200);
@@ -85,7 +85,7 @@ class StatisticController extends Controller
             $purchases = $purchases->getCollection();
             $data = Helper::buildData($purchases, $total);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
         return Helper::validRequest($data, 'fetch success', 200);
@@ -101,7 +101,7 @@ class StatisticController extends Controller
             $products = $products->getCollection();
             $data = Helper::buildData($products, $total);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
         return Helper::validRequest($data, 'fetch success', 200);
@@ -117,7 +117,7 @@ class StatisticController extends Controller
             $orders = $orders->getCollection();
             $data = Helper::buildData($orders, $total);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
         return Helper::validRequest($data, 'fetch success', 200);

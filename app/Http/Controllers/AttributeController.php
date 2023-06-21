@@ -32,7 +32,7 @@ class AttributeController extends Controller
 
             $data = Helper::buildData($attributes, $total);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500); 
         }
@@ -68,7 +68,7 @@ class AttributeController extends Controller
 
             $attribute = Attribute::create($validated);
             ProcessBrand::dispatch();
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
 
@@ -88,7 +88,7 @@ class AttributeController extends Controller
 
             $attribute = new AttributeResource($attribute);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -126,7 +126,7 @@ class AttributeController extends Controller
             $attribute = $attribute->update($validated);
             ProcessBrand::dispatch();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -146,7 +146,7 @@ class AttributeController extends Controller
             $attribute = $attribute->delete();
             ProcessBrand::dispatch();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }

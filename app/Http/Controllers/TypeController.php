@@ -34,7 +34,7 @@ class TypeController extends Controller
 
             return Helper::validRequest($data, 'Types fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -69,7 +69,7 @@ class TypeController extends Controller
             $type = Type::create($validated);
 
             return Helper::validRequest(new TypeResource($type), 'Type was sent successfully', 200);
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
     }
@@ -88,7 +88,7 @@ class TypeController extends Controller
 
             return Helper::validRequest($type, 'specified Type was fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -126,7 +126,7 @@ class TypeController extends Controller
 
             return Helper::validRequest(["success" => $type], 'Type was updated successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -146,7 +146,7 @@ class TypeController extends Controller
 
             return Helper::validRequest(["success" => $type], 'Type was deleted successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }

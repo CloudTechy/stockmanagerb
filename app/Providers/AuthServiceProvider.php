@@ -25,8 +25,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Passport::routes();
+        // Passport::routes();
 
         //
+        // Passport::loadKeysFrom( dirname(__DIR__ ,2). '/storage');
     }
 }

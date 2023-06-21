@@ -131,7 +131,7 @@ class Product extends Model
 
                 });
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug);
         }

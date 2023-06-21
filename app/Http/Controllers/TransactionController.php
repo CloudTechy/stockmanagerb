@@ -39,7 +39,7 @@ class TransactionController extends Controller
 
             return Helper::validRequest($data, 'Transactions fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -112,7 +112,7 @@ class TransactionController extends Controller
             DB::commit();
             ProcessTransaction::dispatch();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -134,7 +134,7 @@ class TransactionController extends Controller
 
             return Helper::validRequest($transaction, 'specified Transaction was fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -222,7 +222,7 @@ class TransactionController extends Controller
 
             return Helper::validRequest(["success" => $transaction], 'Transaction was updated successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -250,7 +250,7 @@ class TransactionController extends Controller
 
             return Helper::validRequest(["success" => $transaction], 'Transaction was deleted successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }

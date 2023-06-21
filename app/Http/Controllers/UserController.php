@@ -33,7 +33,7 @@ class UserController extends Controller
 
             $data = Helper::buildData($users, $total);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -91,7 +91,7 @@ class UserController extends Controller
             ProcessUser::dispatch();
 
             return Helper::validRequest(['token' => $token], $message = 'User registration was successful', 200);
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
     }
@@ -110,7 +110,7 @@ class UserController extends Controller
 
             return Helper::validRequest($user, 'specified Type was fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -157,7 +157,7 @@ class UserController extends Controller
 
             return Helper::validRequest(["success" => $user], 'Type was updated successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -181,7 +181,7 @@ class UserController extends Controller
 
             return Helper::validRequest(["success" => $user], 'user was deactivated successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }

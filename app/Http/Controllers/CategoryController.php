@@ -35,7 +35,7 @@ class CategoryController extends Controller
 
             return Helper::validRequest($data, 'Categories fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -72,7 +72,7 @@ class CategoryController extends Controller
             ProcessCategory::dispatch();
 
             return Helper::validRequest(new CategoryResource($category), 'Category created successfully', 200);
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
     }
@@ -92,7 +92,7 @@ class CategoryController extends Controller
 
             return Helper::validRequest($category, 'specified Category was fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -132,7 +132,7 @@ class CategoryController extends Controller
 
             return Helper::validRequest(["success" => $category], 'Category was updated successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -153,7 +153,7 @@ class CategoryController extends Controller
 
             return Helper::validRequest(["success" => $category], 'Category was deleted successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }

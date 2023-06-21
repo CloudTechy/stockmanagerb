@@ -39,7 +39,7 @@ class CustomerController extends Controller
 
             return Helper::validRequest($data, 'Customers fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -77,7 +77,7 @@ class CustomerController extends Controller
             ProcessCustomer::dispatch();
 
             return Helper::validRequest(new CustomerDetails($customer), 'Customer was sent successfully', 200);
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
     }
@@ -96,7 +96,7 @@ class CustomerController extends Controller
 
             return Helper::validRequest($customer, 'specified Customer was fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -146,7 +146,7 @@ class CustomerController extends Controller
 
             return Helper::validRequest(["success" => $customer], 'Customer was updated successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -170,7 +170,7 @@ class CustomerController extends Controller
 
             return Helper::validRequest(["success" => $customer], 'Customer was deleted successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }

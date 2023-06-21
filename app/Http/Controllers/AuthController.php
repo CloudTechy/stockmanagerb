@@ -6,8 +6,8 @@ use App\Helper;
 use App\Http\Requests\ValidateUserRequest;
 use App\Http\Resources\User as UserResource;
 use App\User;
-use Auth;
-use Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
@@ -16,10 +16,16 @@ use App\Notifications\UserRegistered;
 use \DB;
 use \Exception;
 
+use function PHPSTORM_META\type;
+
 class AuthController extends Controller {
-	use SendsPasswordResetEmails, ResetsPasswords {
-		SendsPasswordResetEmails::broker insteadof ResetsPasswords;
-		ResetsPasswords::credentials insteadof SendsPasswordResetEmails;
+	// use SendsPasswordResetEmails, ResetsPasswords {
+	// 	SendsPasswordResetEmails::broker insteadof ResetsPasswords;
+	// 	ResetsPasswords::credentials insteadof SendsPasswordResetEmails;
+	// }
+	public function __construct()
+	{
+		$this->middleware('auth:api', ['except' => ['login', 'register']]);
 	}
 	/**
 	 * Register a new user
@@ -50,7 +56,7 @@ class AuthController extends Controller {
             'city' => $request->city
         ]);
 
-        if ($token = $this->guard()->attempt($request->only(['email','password']))) {
+        if ($token = Auth::attempt($request->only(['email','password']))) {
         	return Helper::validRequest(['token' => $token],'User registration was successful', 200)->header('Authorization', $token);
 			} else {
 				return Helper::invalidRequest('Authentication failed','Login attempt failed validation',  401);
@@ -68,16 +74,16 @@ class AuthController extends Controller {
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
-
-        try
+	    try
 		{
-			if ($token = $this->guard()->attempt($credentials)) {
+			
+			if ($token = Auth::attempt($credentials)) {
 				return response()->json(['status' => 'success', 'token' => $token], 200)->header('Authorization', $token);
 			} else {
 				return Helper::invalidRequest('Authentication failed','Login attempt failed validation',  401);
 			}
 
-		} catch (Exception $bug) {
+		} catch (\Exception $bug) {
 			return $this->exception($bug, 'Login failed', 500);
 		}
 
@@ -89,13 +95,13 @@ class AuthController extends Controller {
 	function logout() {
 		try
 		{
-			$logout = $this->guard()->logout();
+			Auth::logout();
 			return response()->json([
 				'status' => 'success',
 				'msg' => 'Logged out Successfully.',
 			], 200);
 
-		} catch (Exception $bug) {
+		} catch (\Exception $bug) {
 			return $this->exception($bug, 'unknown error', 500);
 		}
 	}
@@ -112,7 +118,7 @@ class AuthController extends Controller {
 				'data' => new UserResource($user),
 			]);
 
-		} catch (Exception $bug) {
+		} catch (\Exception $bug) {
 			return $this->exception($bug, 'unknown error', 500);
 		}
 
@@ -122,9 +128,10 @@ class AuthController extends Controller {
 	 * Refresh JWT token
 	 */
 	function refresh() {
+		dd('hey');
 		try
 		{
-			if ($token = $this->guard()->refresh()) {
+			if ($token = Auth::refresh()) {
 				return response()
 					->json(['status' => 'successs'], 200)
 					->header('Authorization', $token);
@@ -132,7 +139,7 @@ class AuthController extends Controller {
 				return Helper::invalidRequest(['error' => 'refresh_token_error'], 'Authentication error', 401);
 			}
 
-		} catch (Exception $bug) {
+		} catch (\Exception $bug) {
 			return $this->exception($bug, 'unknown error', 401);
 		}
 	}
@@ -153,7 +160,7 @@ class AuthController extends Controller {
 			$req = new Request($validated);
 			return $this->sendResetLinkEmail($req);
 
-		} catch (Exception $bug) {
+		} catch (\Exception $bug) {
 			return $this->exception($bug, 'Unknown error', 500);
 		}
 
@@ -163,7 +170,7 @@ class AuthController extends Controller {
 		{
 			return Helper::validRequest($response, 'Password reset email sent.', 200);
 
-		} catch (Exception $bug) {
+		} catch (\Exception $bug) {
 			return $this->exception($bug, 'Unknown error', 500);
 		}
 

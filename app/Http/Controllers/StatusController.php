@@ -34,7 +34,7 @@ class StatusController extends Controller
 
             return Helper::validRequest($data, 'statuses fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -69,7 +69,7 @@ class StatusController extends Controller
             $status = Status::create($validated);
 
             return Helper::validRequest(new StatusResource($status), 'Status was sent successfully', 200);
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
     }
@@ -88,7 +88,7 @@ class StatusController extends Controller
 
             return Helper::validRequest($status, 'specified Status was fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -126,7 +126,7 @@ class StatusController extends Controller
 
             return Helper::validRequest(["success" => $status], 'Status was updated successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -146,7 +146,7 @@ class StatusController extends Controller
 
             return Helper::validRequest(["success" => $status], 'Status was deleted successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }

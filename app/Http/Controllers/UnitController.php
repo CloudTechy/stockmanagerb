@@ -35,7 +35,7 @@ class UnitController extends Controller
 
             return Helper::validRequest($data, 'Units fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -71,7 +71,7 @@ class UnitController extends Controller
             ProcessUnit::dispatch();
 
             return Helper::validRequest(new UnitResource($unit), 'Unit was sent successfully', 200);
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
     }
@@ -90,7 +90,7 @@ class UnitController extends Controller
 
             return Helper::validRequest($unit, 'specified Unit was fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -128,7 +128,7 @@ class UnitController extends Controller
             ProcessUnit::dispatch();
             return Helper::validRequest(["success" => $unit], 'Unit was updated successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -148,7 +148,7 @@ class UnitController extends Controller
             ProcessUnit::dispatch();
             return Helper::validRequest(["success" => $unit], 'Unit was deleted successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }

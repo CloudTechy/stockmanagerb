@@ -36,7 +36,7 @@ class AttributeProductController extends Controller
 
             $data = Helper::buildData($attributeproducts, $total);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -77,7 +77,7 @@ class AttributeProductController extends Controller
             DB::commit();
             ProcessProduct::dispatch();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -100,7 +100,7 @@ class AttributeProductController extends Controller
 
             return Helper::validRequest($attributeproduct, 'specified AttributeProduct was fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -147,7 +147,7 @@ class AttributeProductController extends Controller
 
             DB::commit();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -173,7 +173,7 @@ class AttributeProductController extends Controller
 
             DB::commit();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }

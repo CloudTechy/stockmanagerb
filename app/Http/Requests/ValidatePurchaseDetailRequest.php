@@ -28,10 +28,12 @@ class ValidatePurchaseDetailRequest extends FormRequest
             'purchaseDetails' => 'array|required',
             //'description' => 'required|string|min:3',
         ];
+        if (!empty($this->input('purchaseDetails')) && is_array($this->input('purchaseDetails'))) {
 
-        if (!empty($this->request->get('purchaseDetails')) && is_array($this->request->get('purchaseDetails'))) {
-
-            foreach ($this->request->get('purchaseDetails') as $purhcaseDetail => $value) {
+            $purchaseDetails =  $this->input('purchaseDetails') ;
+            $products = isset($purchaseDetails) ? $purchaseDetails : [];
+           
+            foreach ($products as $purhcaseDetail => $value) {
 
                 $rules['purchaseDetails.' . $purhcaseDetail . '.purchase_id'] = 'required|numeric|exists:purchases,id';
                 $rules['purchaseDetails.' . $purhcaseDetail . '.product'] = 'required|string|max:200|min:2';
@@ -55,9 +57,9 @@ class ValidatePurchaseDetailRequest extends FormRequest
     /* public function messages()
     {
     $messages = [];
-    if (!empty($this->request->get('purchaseDetails')) && is_array($this->request->get('purchaseDetails'))) {
+    if (!empty($this->input('purchaseDetails')) && is_array($this->input('purchaseDetails'))) {
 
-    foreach ($this->request->get('purchaseDetails') as $purhcaseDetail => $value) {
+    foreach ($this->input('purchaseDetails') as $purhcaseDetail => $value) {
     $messages['purchaseDetails.' . $purhcaseDetail . '.*.required'] = ':attribute field is required.';
     $messages['purchaseDetails.' . $purhcaseDetail . '.*.max'] = 'field must be less than :max characters.';
     $messages['purchaseDetails.' . $purhcaseDetail . '.*.min'] = 'field must be at least :min characters.';

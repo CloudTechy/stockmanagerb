@@ -40,7 +40,7 @@ class ProductController extends Controller
 
             return Helper::validRequest($data, 'products fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -81,7 +81,7 @@ class ProductController extends Controller
             DB::commit();
             ProcessProduct::dispatch();
             return Helper::validRequest(new ProductResource($product), 'Product was sent successfully', 200);
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -101,7 +101,7 @@ class ProductController extends Controller
 
             return Helper::validRequest($product, 'specified Product was fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -151,7 +151,7 @@ class ProductController extends Controller
             ProcessProduct::dispatch();
             return Helper::validRequest(["success" => $product], 'Product was updated successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -176,7 +176,7 @@ class ProductController extends Controller
             ProcessProduct::dispatch();
             return Helper::validRequest(["success" => $product], 'Product was deleted successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -204,7 +204,7 @@ class ProductController extends Controller
             ProcessProduct::dispatch();
             return Helper::validRequest(["success" => $product], 'Product was updated successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }

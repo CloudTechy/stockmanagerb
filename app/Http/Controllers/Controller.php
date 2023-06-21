@@ -13,7 +13,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected function exception(Exception $bug, $message, $code = 500)
+    protected function exception(\Exception $bug, $message, $code = 500)
     {
 
         if ($code == 500) {

@@ -62,7 +62,7 @@ class PassportController extends Controller
         ]);
 
         try {
-            if (auth()->attempt($credentials)) {
+            if (auth()->validate($credentials)) {
                 $token = auth()->user()->createToken('stockManager')->accessToken;
                 return Helper::validRequest(['token' => $token], $message = 'User login was successful', 200);
             } else {

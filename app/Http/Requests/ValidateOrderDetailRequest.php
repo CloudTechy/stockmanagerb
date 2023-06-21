@@ -31,9 +31,9 @@ class ValidateOrderDetailRequest extends FormRequest
         //     //'description' => 'required|string|min:3',
         // ];
 
-        // if (!empty($this->request->get('orderDetails')) && is_array($this->request->get('orderDetails'))) {
+        // if (!empty($this->input('orderDetails')) && is_array($this->input('orderDetails'))) {
 
-        //     foreach ($this->request->get('orderDetails') as $orderDetail => $quantity) {
+        //     foreach ($this->input('orderDetails') as $orderDetail => $quantity) {
         //         dd('orderDetails.' . $orderDetail . '.id');
 
         //         $rules['orderDetails.' . $orderDetail . '.id'] = 'required|numeric|exists:purchases,id';

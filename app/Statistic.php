@@ -4,7 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use \DB;
+use Illuminate\Support\Facades\DB;
 
 class Statistic extends Model
 {
@@ -60,7 +60,7 @@ class Statistic extends Model
                     }
                 }
             }
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug);
         }
     }
@@ -116,7 +116,7 @@ class Statistic extends Model
                     }
                 }
             }
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug);
         }
     }
@@ -174,7 +174,7 @@ class Statistic extends Model
                     }
                 }
             }
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug);
         }
     }
@@ -208,7 +208,7 @@ class Statistic extends Model
                     }
                 }
             }
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug);
         }
     }
@@ -247,7 +247,7 @@ class Statistic extends Model
                     }
                 }
             }
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug);
         }
     }
@@ -285,7 +285,7 @@ class Statistic extends Model
                     }
                 }
             }
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug);
         }
     }
@@ -330,7 +330,7 @@ class Statistic extends Model
 
                 }
             }
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug);
         }
     }
@@ -347,7 +347,7 @@ class Statistic extends Model
             $queryMade = $queryMade->whereRaw(' YEAR(' . $table . '.created_at) = ' . $filter['year']);
         }
         if (!empty($filter['start_date'])) {
-            $queryMade = $query->whereRaw($table . ".created_at BETWEEN " . "'" . $filter['start_date'] . "'" . " AND " . "'" . $filter['end_date'] . "'");
+            $queryMade = $queryMade->whereRaw($table . ".created_at BETWEEN " . "'" . $filter['start_date'] . "'" . " AND " . "'" . $filter['end_date'] . "'");
         }
         return $queryMade;
     }

@@ -35,7 +35,7 @@ class SizeController extends Controller
 
             return Helper::validRequest($data, 'Sizes fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -71,7 +71,7 @@ class SizeController extends Controller
             ProcessSize::dispatch();
 
             return Helper::validRequest(new SizeResource($size), 'Size was sent successfully', 200);
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             return $this->exception($bug, 'unknown error', 500);
         }
     }
@@ -90,7 +90,7 @@ class SizeController extends Controller
 
             return Helper::validRequest($size, 'specified Size was fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -129,7 +129,7 @@ class SizeController extends Controller
 
             return Helper::validRequest(["success" => $size], 'Size was updated successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -150,7 +150,7 @@ class SizeController extends Controller
 
             return Helper::validRequest(["success" => $size], 'Size was deleted successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }

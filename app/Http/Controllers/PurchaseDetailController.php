@@ -41,7 +41,7 @@ class PurchaseDetailController extends Controller
 
             $data = Helper::buildData($purchasedetails, $total);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -155,7 +155,7 @@ class PurchaseDetailController extends Controller
 
             return Helper::validRequest($purchasedetails, 'PurchaseDetail was sent successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -177,7 +177,7 @@ class PurchaseDetailController extends Controller
 
             return Helper::validRequest($purchasedetail, 'specified PurchaseDetail was fetched successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -234,7 +234,7 @@ class PurchaseDetailController extends Controller
             DB::commit();
             ProcessPurchase::dispatch();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }
@@ -260,7 +260,7 @@ class PurchaseDetailController extends Controller
             DB::commit();
             ProcessPurchase::dispatch();
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
             DB::rollback();
             return $this->exception($bug, 'unknown error', 500);
         }

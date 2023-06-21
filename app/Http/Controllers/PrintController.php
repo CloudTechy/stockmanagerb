@@ -55,7 +55,7 @@ class PrintController extends Controller
 
             return Helper::validRequest($user->names, 'invoice printed successfully', 200);
 
-        } catch (Exception $bug) {
+        } catch (\Exception $bug) {
 
             return $this->exception($bug, 'unknown error', 500);
         }
