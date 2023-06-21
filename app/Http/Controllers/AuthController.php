@@ -128,7 +128,6 @@ class AuthController extends Controller {
 	 * Refresh JWT token
 	 */
 	function refresh() {
-		dd('hey');
 		try
 		{
 			if ($token = Auth::refresh()) {
