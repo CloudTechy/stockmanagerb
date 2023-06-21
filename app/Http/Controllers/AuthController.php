@@ -13,7 +13,7 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use App\Notifications\UserRegistered;
-use \DB;
+use Illuminate\Support\Facades\DB;
 use \Exception;
 
 use function PHPSTORM_META\type;

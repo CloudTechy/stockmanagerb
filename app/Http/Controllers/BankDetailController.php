@@ -6,7 +6,7 @@ use App\BankDetail;
 use App\Helper;
 use App\Http\Resources\BankDetailResource;
 use Illuminate\Http\Request;
-use \DB;
+use Illuminate\Support\Facades\DB;
 use \Exception;
 
 class BankDetailController extends Controller

@@ -10,7 +10,7 @@ use App\Jobs\ProcessTransaction;
 use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
-use \DB;
+use Illuminate\Support\Facades\DB;
 use \Exception;
 
 class TransactionController extends Controller
@@ -28,7 +28,7 @@ class TransactionController extends Controller
 
             $pageSize = request()->query('pageSize', 10000000000000000);
             $transactions = Transaction::filter(request()->all())
-                ->orderBy("updated_at", "created_at")
+                ->orderBy("updated_at", "created_at", 'asc')
                 ->paginate($pageSize);
 
             $total = $transactions->total();

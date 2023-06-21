@@ -11,7 +11,7 @@ use App\Jobs\ProcessInvoice;
 use App\Order;
 use App\Purchase;
 use Illuminate\Http\Request;
-use \DB;
+use Illuminate\Support\Facades\DB;
 use \Exception;
 
 class InvoiceController extends Controller

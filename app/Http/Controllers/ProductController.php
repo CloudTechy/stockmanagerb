@@ -10,7 +10,7 @@ use App\Jobs\ProcessProduct;
 use App\Product;
 use App\User;
 use Illuminate\Http\Request;
-use \DB;
+use Illuminate\Support\Facades\DB;
 use \Exception;
 
 class ProductController extends Controller

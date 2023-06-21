@@ -9,7 +9,7 @@ use App\Http\Resources\PurchaseDetailsResource;
 use App\Purchase;
 use App\Supplier;
 use Illuminate\Http\Request;
-use \DB;
+use Illuminate\Support\Facades\DB;
 use \Exception;
 
 class PurchaseController extends Controller

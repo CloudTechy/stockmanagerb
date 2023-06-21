@@ -13,7 +13,7 @@ use App\Product;
 use App\Purchase;
 use App\PurchaseDetail;
 use Illuminate\Http\Request;
-use \DB;
+use Illuminate\Support\Facades\DB;
 use \Exception;
 
 class PurchaseDetailController extends Controller

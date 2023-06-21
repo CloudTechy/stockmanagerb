@@ -9,7 +9,7 @@ use App\Http\Resources\OrderDetailsResource;
 use App\Order;
 use App\Customer;
 use Illuminate\Http\Request;
-use \DB;
+use Illuminate\Support\Facades\DB;
 use \Exception;
 
 class OrderController extends Controller

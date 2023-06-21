@@ -8,7 +8,7 @@ use App\Http\Requests\ValidateAttributeProductRequest;
 use App\Http\Resources\AttributeProductResource;
 use App\Jobs\ProcessProduct;
 use Illuminate\Http\Request;
-use \DB;
+use Illuminate\Support\Facades\DB;
 use \Exception;
 
 class AttributeProductController extends Controller

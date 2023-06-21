@@ -10,7 +10,7 @@ use App\Jobs\ProcessSupplier;
 use App\Supplier;
 use App\User;
 use Illuminate\Http\Request;
-use \DB;
+use Illuminate\Support\Facades\DB;
 use \Exception;
 
 class SupplierController extends Controller
