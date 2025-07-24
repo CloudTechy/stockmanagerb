@@ -11,18 +11,19 @@
         "php": "^7.3||^8.1.6",
         "binarycabin/laravel-uuid": "^1.0",
         "calcinai/php-imagick": "^0.1.2",
+        "fakerphp/faker": "^1.24",
         "fideloper/proxy": "^4.0",
-        "fruitcake/laravel-cors": "^2.0",
-        "fzaninotto/faker": "^1.4",
         "gladcodes/keygen": "^1.1",
         "laravel/framework": "^9.0",
         "laravel/passport": "^11.8",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^4.2",
+        "league/flysystem": "3.8",
         "mike42/escpos-php": "^2.1",
         "nesbot/carbon": "^2.67",
         "php-open-source-saver/jwt-auth": "^2.1",
-        "pusher/pusher-php-server": "^5.0"
+        "pusher/pusher-php-server": "^5.0",
+        "psr/log": "^1.0|^2.0|^3.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
