@@ -12,6 +12,6 @@ class AttributeTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Attribute::class, 2)->create();
+        Attribute::factory()->count(2)->create();
     }
 }

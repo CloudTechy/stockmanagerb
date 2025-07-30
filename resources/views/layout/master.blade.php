@@ -55,87 +55,70 @@ Stockmanager Web Application by Spacehub Technologies
 }
 
 #myDiv {
-  display: none;
-}
-</style>
+      display: none;
+    }
+  </style>
 </head>
-<div id = "loader"  id="" >
-   <img src="{{ asset( 'img/medium2.png')}}" class=" " alt="User Image">
-  <div style="width: 300px; margin-left: -60px" class="p-4 m-4 text-secondary font-weight-bold">
-   <i class="fas fa-cog fa-spin"></i> loading app...
-</div>
-</div>
 
-<body id="body" class="hold-transition sidebar-mini m-0 p-0"  style="height: auto;" onload="myFunction()">
+<body id="body" class="hold-transition sidebar-mini m-0 p-0" onload="myFunction()" style="height: auto;">
 
-  <div  id = "myDiv" style="display:none;">
-    <div class="m-0 p-0 animate-bottom" id="dashboard" >
+  <div id="loader">
+    <img src="{{ asset('img/medium2.png')}}" alt="User Image">
+    <div style="width: 300px;" class="p-4 m-4 text-secondary font-weight-bold">
+      <i class="fas fa-cog fa-spin"></i> loading app...
+    </div>
+  </div>
+
+  <div id="myDiv">
+    <div id="dashboard" class="animate-bottom">
       <div class="wrapper" style="min-height: 90vh">
-        <router-view  ></router-view>
+        <router-view></router-view>
         <vue-progress-bar></vue-progress-bar>
       </div>
       <footer class="main-footer no-print text-left">
-          <div class="float-right d-none d-sm-inline">
-           Version 0.1.1
-          </div>
-          <strong>Copyright &copy; <span>SpaceHub Technologies</span>.</strong> All rights reserved.
-        </footer>
-  </div> 
+        <div class="float-right d-none d-sm-inline">Version 0.1.2</div>
+        <strong>&copy; <span>SpaceHub Technologies</span>.</strong> All rights reserved.
+      </footer>
+    </div>
   </div>
 
-<!-- REQUIRED SCRIPTS -->
-<script type="text/javascript" src= "{{ asset('js/app.js') }}"></script>
-<!-- jQuery -->
-</script><script src="{{ asset( 'script/jquery-3.2.1.min.js')}}" type="text/javascript"></script>
-<!--===============================================================================================-->
-  <script src="{{ asset( 'script/popper.js')}}" type="text/javascript"></script>
-  <script src="{{ asset( 'script/bootstrap.min.js')}}" type="text/javascript"></script>
-<!--===============================================================================================-->
-  <script src="{{ asset( 'script/select2.min.js')}}" type="text/javascript"></script>
-<!--===============================================================================================-->
-  <script src="{{ asset( 'script/tilt.jquery.min.js')}}" type="text/javascript"></script>
-  <script type="text/javascript">
-    $('.js-tilt').tilt({
-      scale: 1.1
-    })
-  </script>
-<script type="text/javascript">
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Load scripts AFTER Vue mounts -->
+  <script src="{{ asset('js/app.js') }}"></script>
+  <script src="{{ asset('script/jquery-3.2.1.min.js') }}"></script>
+  <script src="{{ asset('script/popper.js') }}"></script>
+  <script src="{{ asset('script/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('script/select2.min.js') }}"></script>
+  <script src="{{ asset('script/tilt.jquery.min.js') }}"></script>
+  <script>
+    $('.js-tilt').tilt({ scale: 1.1 });
 
-  gtag('config', 'UA-23581568-13');
-</script>
+    var myVar;
 
-<!--===============================================================================================-->
-  <script src="{{ asset( 'script/main.js')}}" type="text/javascript"></script>
-
-<script>
-var myVar;
-
-function myFunction() {
-  myVar = setTimeout(showPage, 0);
-}
-
-function showPage() {
-  document.getElementById("loader").style.display = "none";
-  document.getElementById("myDiv").style.display = "block";
-  window.dispatchEvent(new Event('resize'));
-}
-window.addEventListener('sidebar_min', () => {
-  document.getElementById('body').classList.add('sidebar-mini', 'sidebar-collapse')
-})
-window.addEventListener('close_sidebar_min', () => {
-  document.getElementById('body').classList.remove('sidebar-mini', 'sidebar-collapse')
-})
-
-</script>
-<script>
-    if('serviceWorker' in navigator) {
-      navigator.serviceWorker
-               .register('/sw.js')
-               .then(function() { console.log("Service Worker Registered"); });
+    function myFunction() {
+      myVar = setTimeout(showPage, 500); // You can increase delay slightly if needed
     }
+
+    function showPage() {
+      document.getElementById("loader").style.display = "none";
+      document.getElementById("myDiv").style.display = "block";
+      window.dispatchEvent(new Event('resize'));
+      console.log('App loaded successfully');
+    }
+
+    window.addEventListener('sidebar_min', () => {
+      document.getElementById('body').classList.add('sidebar-mini', 'sidebar-collapse');
+    });
+
+    window.addEventListener('close_sidebar_min', () => {
+      document.getElementById('body').classList.remove('sidebar-mini', 'sidebar-collapse');
+    });
+  </script>
+<script>
+    // if('serviceWorker' in navigator) {
+    //   navigator.serviceWorker
+    //            .register('/sw.js')
+    //            .then(function() { console.log("Service Worker Registered"); });
+    // }
 </script>
 </body>
 </html>

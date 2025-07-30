@@ -12,6 +12,6 @@ class SizeTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Size::class, 3)->create();
+        Size::factory()->count(3)->create();
     }
 }

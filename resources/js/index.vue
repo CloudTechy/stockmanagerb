@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="m-0 p-0 animate-bottom" id="dashboard" >
       <div class="wrapper" style="min-height: 90vh">
         <router-view  ></router-view>
@@ -14,4 +14,4 @@
 </template>
 <script type="text/javascript">
   
-</script>
+</script> -->

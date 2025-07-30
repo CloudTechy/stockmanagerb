@@ -12,6 +12,6 @@ class AnnouncementTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Announcement::class, 50)->create();
+        Announcement::factory()->count(50)->create();
     }
 }

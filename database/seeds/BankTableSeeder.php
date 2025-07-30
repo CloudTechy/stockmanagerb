@@ -11,6 +11,6 @@ class BankTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Bank::class, 8)->create();
+        App\Bank::factory()->count(8)->create();
     }
 }

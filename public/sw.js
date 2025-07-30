@@ -1,11 +1,11 @@
 
-const version = "v1:1:11"; //Change if you want to regenerate cache
+const version = "v1:2:13"; //Change if you want to regenerate cache
 const staticCacheName = `${version}static-resources`;
 
 self.addEventListener('install', event => {
   event.waitUntil(
     caches
-      .open('stockmanager')
+      .open('stockmanagers')
       .then(cache =>
         cache.addAll([
           'favicon.ico',

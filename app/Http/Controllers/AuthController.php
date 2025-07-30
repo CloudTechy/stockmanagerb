@@ -132,7 +132,7 @@ class AuthController extends Controller {
 		{
 			if ($token = Auth::refresh()) {
 				return response()
-					->json(['status' => 'successs'], 200)
+					->json(['status' => 'successs', 'token' => $token], 200)
 					->header('Authorization', $token);
 			} else {
 				return Helper::invalidRequest(['error' => 'refresh_token_error'], 'Authentication error', 401);

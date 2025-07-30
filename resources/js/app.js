@@ -15,29 +15,71 @@ import VueRouter from 'vue-router'
 import auth from './auth'
 import router from './router'
 import axios from 'axios'
-import jQuery from 'jquery'
+import jquery from 'jquery'
 import toastr from 'vue-toastr'
+import 'admin-lte'; 
 import bootstrap from 'bootstrap'
-import popper from 'popper.js'
+import * as Popper from '@popperjs/core'
+// AdminLTE + Bootstrap + FontAwesome (Order matters!)
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'admin-lte/dist/css/adminlte.min.css';
+// import '@fortawesome/fontawesome-free/css/all.min.css';
+
+// // Import JS if needed (e.g., dropdowns)
+// import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+// import 'admin-lte/dist/js/adminlte.min.js';
+
 Vue.router = router
 Vue.use(VueRouter)
+$(document).ready(() => {
+    $('[data-widget="treeview"]').Treeview?.('init'); // Safe initialization
+  });
 
-Vue.use(VueAxios, axios)
 axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api/`
-axios.defaults.baseURL = "http://spacehubtech-stockmanager.herokuapp.com/api"
-// axios.defaults.baseURL = "http://localhost:8000/api";
+axios.defaults.headers.common['Accept'] = 'application/json';
+// axios.defaults.baseURL = "http://spacehubtech-stockmanager.herokuapp.com/api"
+axios.defaults.baseURL = "http://localhost:8000/api";
 console.log(axios.defaults.baseURL)
-Vue.use(VueAuth, auth)
 
+const token = localStorage.getItem('stockmanager');
+
+if (token) {
+  axios.defaults.headers.common['Authorization'] = token;
+}
+window.axios = axios
+Vue.use(VueAxios, axios)
+Vue.use(VueAuth, auth)
 
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
-Vue.use(Loading, {
+Vue.use(Loading)
+let loader = null;
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.progress !== undefined) {
+    Vue.prototype.$Progress.parseMeta(to.meta.progress)
+  }
+
+  Vue.prototype.$Progress.start()
+  loader = Vue.prototype.$loading.show({
+    // Optional custom config
     canCancel: false,
     color: "orange", //28a745
     backgroundColor: "#fff",
-    loader: "dots" // spinner, dots, bars
-});
+    loader: "dots" 
+  })
+  next()
+})
+
+router.afterEach(() => {
+  Vue.prototype.$Progress.finish()
+  if (loader) {
+    loader.hide()
+    loader = null
+  }
+})
+
+
 
 // Vue.component('index', Index)
 
@@ -135,30 +177,7 @@ const app = new Vue({
         brands : '',
         sizes:'',
     },
-    //     beforeCreate: function() {
-    //         this.$Progress.start()
-    // Vue.prototype.$session.start()
-    //         window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$session.get('token')
-    //         if (!Vue.prototype.$session.exists() || window.axios.defaults.headers.common['Authorization'] == undefined) {
-    //             console.log('app routing to login');
-    //             this.$router.push('/login')
-    //         } else {
-    //             window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + Vue.prototype.$session.get('token')
-    //         }
-    //         var form = new Form()
-    //         form.get('./users/?id=1')
-    //             .then(response => {
-    //                 this.$Progress.finish()
-    //             })
-    //             .catch((error) => {
-    //                 if (error.response.status == 401) {
-    //                     this.$Progress.finish()
-    //                     this.$router.push("/login")
-
-    //                 }
-    //             })
-
-    //     },
+  
     mounted() {
         // this.$nextTick(function () {
         // console.log('test');
@@ -168,21 +187,21 @@ const app = new Vue({
 
         this.$Progress.start()
         // this.loader = this.$loading.show({});
-        this.$router.beforeEach((to, from, next) => {
-            if (to.meta.progress !== undefined) {
-                let meta = to.meta.progress
-                this.$Progress.parseMeta(meta)
-            }
-            this.$Progress.start()
-            this.loader = this.$loading.show({});
-            next()
-        })
-        this.$router.afterEach((to, from) => {
-            this.$Progress.finish()
-            if (this.loader) {
-                this.loader.hide();
-            }
-        })
+        // this.$router.beforeEach((to, from, next) => {
+        //     if (to.meta.progress !== undefined) {
+        //         let meta = to.meta.progress
+        //         this.$Progress.parseMeta(meta)
+        //     }
+        //     this.$Progress.start()
+        //     this.loader = this.$loading.show({});
+        //     next()
+        // })
+        // this.$router.afterEach((to, from) => {
+        //     this.$Progress.finish()
+        //     if (this.loader) {
+        //         this.loader.hide();
+        //     }
+        // })
         // })
         Fire.$on('user_login', (data) => {
             // this.loadUser(data);

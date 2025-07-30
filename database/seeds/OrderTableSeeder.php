@@ -18,7 +18,8 @@ class OrderTableSeeder extends Seeder
     public function run()
     {
 
-        factory(App\Order::class, 10)->create()->each(function ($order) {
+        
+        App\Order::class::factory()->count(10)->create()->each(function ($order) {
 
             factory(App\OrderDetail::class, mt_rand(1, 5))->create(['order_id' => $order->id]);
 

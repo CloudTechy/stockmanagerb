@@ -6,11 +6,22 @@ import router from '@websanova/vue-auth/drivers/router/vue-router.2.x'
  * Authentication configuration, some of the options can be override in method calls
  */
 const config = {
-  auth: bearer,
+  auth: {
+    request: function (req, token) {
+      // Attach the token directly without Bearer prefix
+      req.headers['Authorization'] = 'Bearer ' + token;
+    },
+    response: function (res) {
+      // Extract the token from the response (e.g., res.data.token)
+      return res.data.token;
+    }
+  },
   http: axios,
   router: router,
-  tokenDefaultName: 'Stockmanager',
+  tokenDefaultName: 'stockmanager',
   tokenStore: ['localStorage'],
+  tokenType: 'Bearer',
+  // tokenName: 'token',
   
   // API endpoints used in Vue Auth.
   registerData: {
