@@ -128,7 +128,14 @@
     </div>
 </template>
 <script>
+import InvoiceDetailComponent from '@/components/invoice/InvoiceDetailComponent.vue';
+import PrintBarComponent from '@/components/invoice/PrintBarComponent.vue';
 export default {
+    name: 'PaymentComponent',
+    components: {
+        InvoiceDetailComponent,
+        PrintBarComponent
+    },
     created() {
         // Fire.$on('create_transaction',(data) => {
         //     console.log(data);

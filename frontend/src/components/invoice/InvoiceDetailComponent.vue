@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="card-body">
+        <div class="card-body pl-sm-0 pr-sm-0">
             <table class="table table-small table-striped table-valign-middle">
                 <thead>
                     <tr>
@@ -23,7 +23,7 @@
             </table>
         </div>
         <div class="row">
-            <div style="width: 50vw" class="offset-6 col-6 card-body ">
+            <div style="width: 50vw" class="card-body col-md-6 col-sm-12 offset-md-6 offset-sm-0 ">
                 <p v-if="invoice.due_date != null" class="lead text-center">{{'Amount Due ' + invoice.due_date }}</p>
                 <table class="table table-small table-valign-middle">
                     <tbody>
