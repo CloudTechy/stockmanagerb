@@ -13,13 +13,7 @@
 
 Route::get('/', function () {
 
-    return view('dashboard');
-});
-Route::get('/home', function () {
-
-    return view('dashboard');
+    return response()->json(['message' => 'API running'], 200);;
 });
 
-Route::get('{path}', function ($path) {
-    return view('dashboard');
-})->where('path', '([A-z\-\/_.]+)?');
+
