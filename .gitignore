@@ -13,3 +13,4 @@ yarn-error.log
 composer.lock
 package-lock.json
 frontend/node_modules
+backend/vendor

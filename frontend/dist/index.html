@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<!--
+Stockmanager Web Application by Spacehub Technologies
+-->
+<html lang="en" style="height: auto">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <title>Stock Manager</title>
+
+        <!-- CSRF meta for compatibility with Laravel backend if needed -->
+        <meta name="csrf-token" content="" />
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="/img/medium2.png" />
+
+        <!-- Main App Styles -->
+        <link rel="stylesheet" href="/css/app.css" />
+
+        <!-- Inline Loader Styles -->
+        <style>
+            #loader {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                bottom: 50%;
+                z-index: 1;
+                width: 120px;
+                height: 120px;
+                margin: -95px 0 0 -95px;
+            }
+            .swal2-popup.swal2-modal {
+                display: block !important;
+            }
+
+            @-webkit-keyframes spin {
+                0% {
+                    -webkit-transform: rotate(0deg);
+                }
+                100% {
+                    -webkit-transform: rotate(360deg);
+                }
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .animate-bottom {
+                position: relative;
+                -webkit-animation-name: animatebottom;
+                -webkit-animation-duration: 1s;
+                animation-name: animatebottom;
+                animation-duration: 1s;
+            }
+
+            @-webkit-keyframes animatebottom {
+                from {
+                    bottom: -100px;
+                    opacity: 0;
+                }
+                to {
+                    bottom: 0px;
+                    opacity: 1;
+                }
+            }
+
+            @keyframes animatebottom {
+                from {
+                    bottom: -100px;
+                    opacity: 0;
+                }
+                to {
+                    bottom: 0;
+                    opacity: 1;
+                }
+            }
+
+            #myDiv {
+                display: none;
+            }
+        </style>
+
+        <!-- Vite injects scripts here -->
+        
+      <script type="module" crossorigin src="/assets/index-04c3fd37.js"></script>
+      <link rel="stylesheet" href="/assets/index-e0954cdb.css">
+    </head>
+
+    <body
+        id="body"
+        class="hold-transition sidebar-mini m-0 p-0"
+        onload="myFunction()"
+        style="height: auto"
+    >
+        <!-- Preloader -->
+        <div id="loader">
+            <img src="/img/medium2.png" alt="User Image" />
+            <div
+                style="width: 300px"
+                class="p-4 m-4 text-secondary font-weight-bold"
+            >
+                <i class="fas fa-cog fa-spin"></i> loading app...
+            </div>
+        </div>
+
+        <!-- Vue App Root -->
+        <div id="myDiv">
+            <div id="dashboard" class="animate-bottom">
+                <div class="wrapper" style="min-height: 90vh">
+                    <div id="app"></div>
+                </div>
+
+                <footer class="main-footer no-print text-left">
+                    <div class="float-right d-none d-sm-inline">
+                        Version 0.1.2
+                    </div>
+                    <strong>&copy; <span>SpaceHub Technologies</span>.</strong>
+                    All rights reserved.
+                </footer>
+            </div>
+        </div>
+
+        <!-- Legacy Scripts -->
+        <script src="/script/jquery-3.2.1.min.js"></script>
+        <script src="/script/popper.js"></script>
+        <script src="/script/bootstrap.min.js"></script>
+        <script src="/script/select2.min.js"></script>
+        <script defer src="/script/tilt.jquery.min.js"></script>
+
+        <script>
+            // initialize js-tilt when jQuery is ready
+            $(document).ready(function () {
+                $(".js-tilt").tilt({ scale: 1.1 });
+            });
+
+            
+            function myFunction() {
+                let myVar;
+                myVar = setTimeout(showPage, 500);
+            }
+
+            function showPage() {
+                document.getElementById("loader").style.display = "none";
+                document.getElementById("myDiv").style.display = "block";
+                window.dispatchEvent(new Event("resize"));
+                console.log("App loaded successfully");
+            }
+
+            window.addEventListener("sidebar_min", () => {
+                document
+                    .getElementById("body")
+                    .classList.add("sidebar-mini", "sidebar-collapse");
+            });
+
+            window.addEventListener("close_sidebar_min", () => {
+                document
+                    .getElementById("body")
+                    .classList.remove("sidebar-mini", "sidebar-collapse");
+            });
+        </script>
+    </body>
+</html>
