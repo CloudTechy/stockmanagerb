@@ -35,10 +35,8 @@ $(document).ready(() => {
     $('[data-widget="treeview"]').Treeview?.('init'); // Safe initialization
   });
 
-axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api/`
 axios.defaults.headers.common['Accept'] = 'application/json';
-// axios.defaults.baseURL = "http://spacehubtech-stockmanager.herokuapp.com/api"
-axios.defaults.baseURL = "http://localhost:8000/api";
+axios.defaults.baseURL = process.env.VUE_APP_API_URL || 'http://localhost:8000/api';
 console.log(axios.defaults.baseURL)
 
 const token = localStorage.getItem('stockmanager');
@@ -46,7 +44,7 @@ const token = localStorage.getItem('stockmanager');
 if (token) {
   axios.defaults.headers.common['Authorization'] = token;
 }
-window.axios = axios
+window.axios = axios 
 Vue.use(VueAxios, axios)
 Vue.use(VueAuth, auth)
 

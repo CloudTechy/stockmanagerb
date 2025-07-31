@@ -12,3 +12,4 @@ yarn-error.log
 *.lock
 composer.lock
 package-lock.json
+frontend/node_modules
