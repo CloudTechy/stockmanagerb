@@ -1,4 +1,3 @@
-# Use an official PHP image with Apache
 FROM php:8.2-apache
 
 # Set working directory
@@ -19,10 +18,16 @@ RUN apt-get update && apt-get install -y \
 # Enable Apache Rewrite Module
 RUN a2enmod rewrite
 
+# Set Apache Document Root to Laravel public/
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+
+# Update Apache config to use new DocumentRoot
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/000-default.conf /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy existing application directory contents
+# Copy application code
 COPY . /var/www/html
 
 # Set permissions
@@ -32,5 +37,4 @@ RUN chown -R www-data:www-data /var/www/html \
 # Expose port 80
 EXPOSE 80
 
-# Start Apache
 CMD ["apache2-foreground"]
