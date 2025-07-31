@@ -193,7 +193,7 @@
         },
         methods: {
             loadUsers(){
-                this.form.get('./users')
+                this.form.get('/users')
                 .then (response =>{
                     this.loading = false;
                     this.users = response.data.data.data.item;

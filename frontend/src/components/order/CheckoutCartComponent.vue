@@ -83,7 +83,7 @@
 <script>
 export default {
     mounted() {
-        this.loadCustomers();
+        
         if (this.$root.checkoutCart) {
             this.cart = this.$root.checkoutCart;
             this.$root.checkoutCart = '';
@@ -94,10 +94,16 @@ export default {
         }
         if (this.customer_details == "") {
             this.$root.alert('warning', 'CAUTION', 'Assign customer for checkout')
-            this.$router.push('/customers')
+            console.log('No customer details found by mounted, redirecting to customers page')
+            // Redirect to customers page if no customer details found with a 3 sec timeout
+            setTimeout(() => {
+                this.$router.push('/customers')
+            }, 1000)
         }
+        
 
     },
+    created(){this.loadCustomers();},
     data() {
         return {
             form: new Form({
@@ -152,12 +158,13 @@ export default {
             }
         },
         customer_details() {
-            if (this.customer_details == "") {
+            if (!this.customer_details && this.customerStatus) {
                 if (this.$root.customer_details && this.customer_id) {
                     this.customer_details = this.$root.customer_details
                     return
                 }
-                this.$router.push('/customers')
+                console.log('No customer details found by watch')
+                this.$router.push('/customers') 
             }
         }
     },
@@ -171,7 +178,7 @@ export default {
             this.loading = true
         },
         loadCustomers() {
-            this.form.get('./customers/')
+            this.form.get('/customers')
                 .then(response => {
                     this.customers = response.data.data.item
                 })
@@ -209,7 +216,7 @@ export default {
         },
         getOrders() {
             this.$Progress.start();
-            this.form.post('./orders')
+            this.form.post('/orders')
                 .then(response => {
                     this.$Progress.finish();
                     this.orders = response.data.data
@@ -247,6 +254,9 @@ export default {
 
                 this.$emit('closeViewCheckoutCart')
             }
+            if (this.transaction) {
+                this.$emit('closeViewCheckoutCart')
+            }
 
         },
         buildCart(cart) {
@@ -268,7 +278,7 @@ export default {
             this.form.orderDetails = this.orderdetails;
             this.form.order_id = this.orderID;
 
-            this.form.post('./orderdetails')
+            this.form.post('/orderdetails')
                 .then(response => {
                     this.$Progress.finish();
                     if (response.data.status) {
@@ -299,7 +309,7 @@ export default {
         loadPayment() {
             this.$Progress.start();
             let loader = this.$loading.show({});
-            this.form.get('./orders/' + this.orderID)
+            this.form.get('/orders/' + this.orderID)
                 .then(response => {
                     this.$Progress.finish();
                     this.invoice_id = response.data.data.invoice_id
@@ -322,7 +332,7 @@ export default {
         loadTransactionId() {
             this.$Progress.start();
             let loader = this.$loading.show({});
-            this.form.get('./invoices/' + this.invoice_id)
+            this.form.get('/invoices/' + this.invoice_id)
                 .then(response => {
                     this.$Progress.finish();
                     loader.hide()
@@ -346,7 +356,7 @@ export default {
         getTransaction() {
             this.$Progress.start();
             this.loading = false
-            this.form.get('./transactions/' + this.transaction_id)
+            this.form.get('/transactions/' + this.transaction_id)
                 .then(response => {
                     this.$Progress.finish()
                     this.transaction = response.data.data;

@@ -50,7 +50,7 @@
         methods: {
             addSize(){
                 this.$Progress.start();
-                this.form.post('./sizes')
+                this.form.post('/sizes')
                 .then(response => {
                     this.$refs.closeButton.click()
                     if(response.data.status == true){

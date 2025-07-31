@@ -46,7 +46,7 @@
         methods: {
             addUnit(){
                 this.$Progress.start();
-                this.form.post('./units')
+                this.form.post('/units')
                 .then(response => {
                     this.$refs.closeButton.click()
                     if(response.data.status == true){

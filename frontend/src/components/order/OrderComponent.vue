@@ -79,7 +79,7 @@
         },
         methods: {
             loadorders(){
-                this.form.get('./attributeproducts')
+                this.form.get('/attributeproducts')
                 .then (response =>{
                   if(response.data.status == true){
                     this.loading = false;
@@ -96,7 +96,7 @@
                 }); 
             },
             loadorderStat(){
-              this.form.get('./statistics/orders?count')
+              this.form.get('/statistics/orders?count')
               .then (response =>{
                   if(response.data.status == true){
                     this.loading = false;

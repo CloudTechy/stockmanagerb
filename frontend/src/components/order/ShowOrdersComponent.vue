@@ -328,6 +328,7 @@ export default {
         },
         closecheckOutCart() {
             this.checkoutCartShow = false;
+            console.log('checkout cart closed')
             this.refreshCart()
 
         },

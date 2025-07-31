@@ -64,31 +64,31 @@ Vue.use(toastr,  {
   defaultClassNames: ["animated", "zoomInUp"]
 });
 Vue.use(Loading); 
-// let loader = null;
+let loader = null;
 
-// router.beforeEach((to, from, next) => {
-//   if (to.meta.progress !== undefined) {
-//     Vue.prototype.$Progress.parseMeta(to.meta.progress)
-//   }
+router.beforeEach((to, from, next) => {
+  if (to.meta.progress !== undefined) {
+    Vue.prototype.$Progress.parseMeta(to.meta.progress)
+  }
 
-//   Vue.prototype.$Progress.start()
-//   loader = Vue.prototype.$loading.show({
-//     // Optional custom config
-//     canCancel: false,
-//     color: "orange", //28a745
-//     backgroundColor: "#fff",
-//     loader: "dots" 
-//   })
-//   next()
-// })
+  Vue.prototype.$Progress.start()
+  loader = Vue.prototype.$loading.show({
+    // Optional custom config
+    canCancel: false,
+    color: "orange", //28a745
+    backgroundColor: "#fff",
+    loader: "dots" 
+  })
+  next()
+})
 
-// router.afterEach(() => {
-//   Vue.prototype.$Progress.finish()
-//   if (loader) {
-//     loader.hide()
-//     loader = null
-//   }
-// })
+router.afterEach(() => {
+  Vue.prototype.$Progress.finish()
+  if (loader) {
+    loader.hide()
+    loader = null
+  }
+})
 
 Vue.use(VueProgressBar, {
     color: "#ffc107",

@@ -135,7 +135,7 @@
         methods: {
             add(){
                 this.$Progress.start();
-                this.form.post('./suppliers')
+                this.form.post('/suppliers')
                 .then(response => {
                     this.$refs.closeButton.click()
                     window.dispatchEvent(new Event('close_sidebar_min'));
@@ -193,7 +193,7 @@
                 return true;
             },
             loadBanks(){
-                this.form.get('./banks/')
+                this.form.get('/banks/')
                 .then(response => {
                     if(response.data.status == true){
                         this.banks = response.data.data.item

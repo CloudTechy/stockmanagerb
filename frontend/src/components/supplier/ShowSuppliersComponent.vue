@@ -286,7 +286,7 @@
 
             },
             getsupplierOrders(supplier_id) {
-            this.form.get('./purchases?pageSize=10000000&supplier_id=' + supplier_id)
+            this.form.get('/purchases?pageSize=10000000&supplier_id=' + supplier_id)
                 .then(response => {
                     if (response.data.status == true) {
                         this.$root.addTransactionComponent(response.data.data.item, 'purchase')
@@ -319,7 +319,7 @@
                 .then((result) => {
                     if (result.value) {
                         this.$Progress.start();
-                        this.form.delete('./suppliers/'+id)
+                        this.form.delete('/suppliers/'+id)
                         .then(response => {
                             if(response.data.status == true){
                                 Fire.$emit('supplier_deleted', response.data.data)

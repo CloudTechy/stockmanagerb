@@ -227,7 +227,7 @@ export default {
             return true;
         },
         loadBanks() {
-            this.form.get('./banks/')
+            this.form.get('/banks/')
                 .then(response => {
                     if (response.data.status == true) {
                         this.banks = response.data.data.item

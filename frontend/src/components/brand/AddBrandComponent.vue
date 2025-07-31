@@ -54,7 +54,7 @@
             
             addBrand(){
                 this.$Progress.start();
-                this.form.post('./attributes')
+                this.form.post('/attributes')
                 .then(response => {
                     this.$refs.closeButton.click()
                     if(response.data.status == true){
