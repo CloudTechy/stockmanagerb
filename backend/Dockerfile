@@ -1,7 +1,5 @@
+# Start from official PHP image with Apache
 FROM php:8.2-apache
-
-# Set working directory
-WORKDIR /var/www/html
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -13,28 +11,36 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     libzip-dev \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
 
-# Enable Apache Rewrite Module
+# Enable Apache rewrite module
 RUN a2enmod rewrite
 
-# Set Apache Document Root to Laravel public/
+# Set working directory inside container
+WORKDIR /var/www/html
+
+# Copy Laravel project into container
+COPY . /var/www/html
+
+# Set correct Apache document root to Laravel's public folder
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 
-# Update Apache config to use new DocumentRoot
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/000-default.conf /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+# Update Apache config to use the new document root
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
+    && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy application code
-COPY . /var/www/html
+# Install Laravel dependencies
+RUN composer install --no-interaction --no-dev --optimize-autoloader
 
-# Set permissions
+# Set correct permissions
 RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage
+    && chmod -R 755 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expose port 80
+# Expose Apache port
 EXPOSE 80
 
+# Start Apache in foreground
 CMD ["apache2-foreground"]
