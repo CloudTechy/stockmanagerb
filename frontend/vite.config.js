@@ -15,6 +15,8 @@ export default defineConfig({
             },
         },
     },
+    base: '/stockmanagerb/',
+    plugins: [vue(), ghPages()],
 
     // define: {
     //     $: "jquery",
@@ -38,6 +40,7 @@ export default defineConfig({
         rollupOptions: {
             external: ['uglify-js', 'terser-webpack-plugin', 'laravel-mix', '@swc/core', 'esbuild'],
           },
+          sourcemap: false, 
     },
 
     resolve: {

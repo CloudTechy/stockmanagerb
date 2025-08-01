@@ -231,7 +231,7 @@ export default {
                         Fire.$emit('products_loaded', response.data.data)
                         window.dispatchEvent(new Event('sidebar_min'))
                         this.products = response.data.data.item.length != 0 ? response.data.data.item : [];
-                        localStorage.products = JSON.stringify(this.products)
+                        localStorage.productCart = JSON.stringify(this.products)
                         return true
                     } else {
                         this.$Progress.fail()
