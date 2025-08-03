@@ -15,5 +15,14 @@ Route::get('/', function () {
 
     return response()->json(['message' => 'API running'], 200);;
 });
+// routes/web.php
+Route::get('/db-test', function () {
+    try {
+        \DB::connection()->getPdo();
+        return "Connected to: " . \DB::connection()->getDatabaseName();
+    } catch (\Exception $e) {
+        return "Error: " . $e->getMessage();
+    }
+});
 
 

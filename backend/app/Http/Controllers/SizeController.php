@@ -6,6 +6,7 @@ use App\Helper;
 use App\Http\Resources\SizeResource;
 use App\Jobs\ProcessSize;
 use App\Size;
+use App\AttributeProduct;
 use Illuminate\Http\Request;
 use \Exception;
 
@@ -124,7 +125,14 @@ class SizeController extends Controller
         ]);
         try {
 
-            $size = $size->update($validated);
+            if ($request['update_products']) {
+                
+                $attributeProducts = AttributeProduct::where('size', $size->name)->get();
+                $size->update($validated);
+                foreach ($attributeProducts as $attributeProduct) {
+                    $attributeProduct->update(['size' => $validated['name']]);
+                }
+            }
             ProcessSize::dispatch();
 
             return Helper::validRequest(["success" => $size], 'Size was updated successfully', 200);

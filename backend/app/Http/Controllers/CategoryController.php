@@ -126,8 +126,16 @@ class CategoryController extends Controller
 
         ]);
         try {
+            if ($request['update_products']) {
+                
+                $attributeProducts = AttributeProduct::where('category', $category->name)->get();
+                $category = $category->update($validated);
+                foreach ($attributeProducts as $attributeProduct) {
+                    $attributeProduct->update(['category' => $validated['name']]);
+                }
+            }
 
-            $category = $category->update($validated);
+            
             event(new UpdateCategory());
 
             return Helper::validRequest(["success" => $category], 'Category was updated successfully', 200);

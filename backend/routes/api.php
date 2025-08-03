@@ -18,7 +18,9 @@ Route::prefix('auth')->group(function () {
     Route::post('register', 'AuthController@register')->name('register');
     Route::post('login', 'AuthController@login')->name('login');
     Route::get('refresh', 'AuthController@refresh');
+    Route::post('logout', 'AuthController@logout');
 });
+
 
 // Protected routes (require authentication)
 Route::middleware('auth:api')->group(function () {
