@@ -1,7 +1,7 @@
 # Start from official PHP image with Apache
 FROM php:8.2-apache
 
-# Install system dependencies
+# Install system dependencies including PostgreSQL dev library
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -11,7 +11,18 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     libzip-dev \
-    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
+    libpq-dev \
+    && docker-php-ext-install \
+        pdo \
+        pdo_mysql \
+        pdo_pgsql \
+        pgsql \
+        mbstring \
+        exif \
+        pcntl \
+        bcmath \
+        gd \
+        zip
 
 # Enable Apache rewrite module
 RUN a2enmod rewrite
@@ -29,7 +40,7 @@ ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
     && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Install Composer
+# Install Composer from the official Composer image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Install Laravel dependencies
