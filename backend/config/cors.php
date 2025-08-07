@@ -21,7 +21,7 @@ return [
      * You can enable CORS for 1 or multiple paths.
      * Example: ['api/*']
      */
-    'paths' => ['*'],
+    'paths' => ['*', 'api/*', 'sanctum/csrf-cookie'],
 
     /*
     * Matches the request method. `[*]` allows all methods.
@@ -31,7 +31,7 @@ return [
     /*
      * Matches the request origin. `[*]` allows all origins. Wildcards can be used, eg `*.mydomain.com`
      */
-    'allowed_origins' => ['http://localhost:8080','http://192.168.0.1','http://127.0.0.1:8000','*'],
+    'allowed_origins' => ['http://localhost:8080','http://192.168.0.1','http://127.0.0.1:8000', 'http://127.0.0.1:3000', 'https://spacehub-stockmanager.netlify.app' ],
 
     /*
      * Patterns that can be used with `preg_match` to match the origin.
