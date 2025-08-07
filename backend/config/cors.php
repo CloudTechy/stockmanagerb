@@ -4,57 +4,42 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Laravel CORS Options
+    | Cross-Origin Resource Sharing (CORS) Configuration
     |--------------------------------------------------------------------------
-    |
-    | The allowed_methods and allowed_headers options are case-insensitive.
-    |
-    | You don't need to provide both allowed_origins and allowed_origins_patterns.
-    | If one of the strings passed matches, it is considered a valid origin.
-    |
-    | If array('*') is provided to allowed_methods, allowed_origins or allowed_headers
-    | all methods / origins / headers are allowed.
-    |
     */
 
-    /*
-     * You can enable CORS for 1 or multiple paths.
-     * Example: ['api/*']
-     */
-    'paths' => ['*', 'api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
-    /*
-    * Matches the request method. `[*]` allows all methods.
-    */
-    'allowed_methods' => ['*'],
+    'allowed_methods' => ['*'], // Allow all HTTP methods (GET, POST, etc.)
 
-    /*
-     * Matches the request origin. `[*]` allows all origins. Wildcards can be used, eg `*.mydomain.com`
-     */
-    'allowed_origins' => ['http://localhost:8080','http://192.168.0.1','http://127.0.0.1:8000', 'http://127.0.0.1:3000', 'https://spacehub-stockmanager.netlify.app' ],
+    'allowed_origins' => [
+        'https://spacehub-stockmanager.netlify.app',
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+        'http://localhost:8080',
+    ],
 
-    /*
-     * Patterns that can be used with `preg_match` to match the origin.
-     */
-    'allowed_origins_patterns' => ['*'],
+    'allowed_origins_patterns' => [], // Don't use if specific origins are listed
 
-    /*
-     * Sets the Access-Control-Allow-Headers response header. `[*]` allows all headers.
-     */
-    'allowed_headers' => ['*'],
+    'allowed_headers' => [
+        'Content-Type',
+        'X-Requested-With',
+        'Authorization',
+        'Accept',
+        'Origin',
+        'DNT',
+        'User-Agent',
+        'X-Custom-Header',
+        'Upgrade-Insecure-Requests',
+        'Referer',
+    ],
 
-    /*
-     * Sets the Access-Control-Expose-Headers response header with these headers.
-     */
-    'exposed_headers' => ['X-Custom-Header', 'Upgrade-Insecure-Requests', '*'],
+    'exposed_headers' => [
+        'Authorization',
+        'X-Custom-Header',
+    ],
 
-    /*
-     * Sets the Access-Control-Max-Age response header when > 0.
-     */
-    'max_age' => 0,
+    'max_age' => 3600, // Optional, cache preflight for 1 hour
 
-    /*
-     * Sets the Access-Control-Allow-Credentials header.
-     */
-    'supports_credentials' => false,
+    'supports_credentials' => true, // Important if you're using Authorization headers
 ];
