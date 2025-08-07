@@ -105,7 +105,7 @@ class PurchaseDetailController extends Controller
                         $newPurchaseDetail['attribute_id'] = $attribute_id;
                         $newPurchaseDetail['available_stock'] = $validated['quantity'];
                         $newPurchaseDetail['user_id'] = auth()->id();
-                        $newPurchaseDetail['purchase_price'] = $validated['price'];
+                        $newPurchaseDetail['price'] = $validated['price'];
                         $newPurchaseDetail['sale_price'] = $validated['sale_price'];
                         $purchasedetail = PurchaseDetail::create($validated);
                         $productAttribute = AttributeProduct::create($newPurchaseDetail);
@@ -130,7 +130,7 @@ class PurchaseDetailController extends Controller
                     $newPurchaseDetail['attribute_id'] = $attribute_id;
                     $newPurchaseDetail['available_stock'] = $validated['quantity'];
                     $newPurchaseDetail['user_id'] = auth()->id();
-                    $newPurchaseDetail['purchase_price'] = $validated['price'];
+                    $newPurchaseDetail['price'] = $validated['price'];
                     $newPurchaseDetail['sale_price'] = $validated['sale_price'];
 
                     $purchasedetail = PurchaseDetail::create($validated);

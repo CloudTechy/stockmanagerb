@@ -40,6 +40,7 @@ class ValidatePurchaseDetailRequest extends FormRequest
                 $rules['purchaseDetails.' . $purhcaseDetail . '.brand'] = 'required|string|exists:attributes,type';
                 $rules['purchaseDetails.' . $purhcaseDetail . '.quantity'] = 'required|numeric';
                 $rules['purchaseDetails.' . $purhcaseDetail . '.price'] = 'required|numeric';
+                $rules['purchaseDetails.' . $purhcaseDetail . '.purchase_price'] = 'required|numeric';
                 $rules['purchaseDetails.' . $purhcaseDetail . '.sale_price'] = 'required|numeric';
                 $rules['purchaseDetails.' . $purhcaseDetail . '.percent_sale'] = 'numeric|min:0|max:100|nullable';
                 $rules['purchaseDetails.' . $purhcaseDetail . '.pku'] = 'required|string|exists:units,name';
