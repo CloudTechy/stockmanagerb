@@ -33,7 +33,7 @@ return [
      */
     'allowed_origins' => ['http://localhost:8080','http://192.168.0.1','http://127.0.0.1:8000','https://spacehub-stockmanager.netlify.app',
      'http://127.0.0.1:3000',
-     'http://spacehub-stockmanager.netlify.app'],
+     'http://spacehub-stockmanager.netlify.app',"*"],
 
     /*
      * Patterns that can be used with `preg_match` to match the origin.

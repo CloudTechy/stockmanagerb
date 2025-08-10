@@ -23,28 +23,39 @@ class AttributeProductController extends Controller
 
         try {
             $page = request()->query('page', 1);
-
             $pageSize = request()->query('pageSize', 10000000);
+            $search = request()->query('search', null);
 
-            $attributeproducts = AttributeProduct::with([
+            $query = AttributeProduct::with([
                 'product:id,name,category,pku,image,description,discount,discount_start,discount_end,discontinued',
                 'attribute:id,type',
                 'user:id,first_name,last_name'
-            ])->filter(request()->all())
-                ->latest("size")
-                ->paginate($pageSize);
+            ]);
+            // Apply search if present
+            if ($search) {
+                $query->whereHas('product', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('category', 'like', "%{$search}%");
+                })
+                ->orWhereHas('attribute', function ($q) use ($search) {
+                    $q->where('type', 'like', "%{$search}%");
+                });
+            }
 
-            $total = $attributeproducts->total();
+            $attributeproducts = $query
+            ->latest("size")
+            ->paginate($pageSize);
 
-            $attributeproducts = AttributeProductResource::collection($attributeproducts);
+        $total = $attributeproducts->total();
+        $attributeproducts = AttributeProductResource::collection($attributeproducts);
 
-            $data = Helper::buildData($attributeproducts, $total);
+        $data = Helper::buildData($attributeproducts, $total);
 
-        } catch (\Exception $bug) {
+    } catch (\Exception $bug) {
+        return $this->exception($bug, 'unknown error', 500);
+    }
 
-            return $this->exception($bug, 'unknown error', 500);
-        }
-        return Helper::validRequest($data, 'attributeProducts fetched successfully', 200);
+    return Helper::validRequest($data, 'attributeProducts fetched successfully', 200);
     }
 
     /**
