@@ -15,33 +15,50 @@ class AttributeProductResource extends JsonResource
      */
     public function toArray($request)
     {
+        // Use whenLoaded to avoid N+1 queries
+        $product = $this->whenLoaded('product');
+        $attribute = $this->whenLoaded('attribute');
+        $user = $this->whenLoaded('user');
 
         return [
-
             'id' => $this->id,
             'product_id' => $this->product_id,
-            'product' =>   $this->size . ' ' .  $this->attribute->type . ' ' .$this->product->category . ' - ' .$this->product->name,
-            'TOS' => $this->product->name . ' ' . $this->product->category . ' ' . $this->attribute->type . ' ' . $this->size . ' ' . $this->created_at->format('Y-m-d H:i:s') . ' ' . $this->updated_at->format('Y-m-d H:i:s'),
-            'name' => $this->product->name,
-            'brand' => $this->attribute->type,
-            'category' => $this->product->category,
+
+            'product' => $this->size . ' ' . 
+                         optional($attribute)->type . ' ' . 
+                         optional($product)->category . ' - ' . 
+                         optional($product)->name,
+
+            'TOS' => optional($product)->name . ' ' . 
+                     optional($product)->category . ' ' . 
+                     optional($attribute)->type . ' ' . 
+                     $this->size . ' ' . 
+                     $this->created_at->format('Y-m-d H:i:s') . ' ' . 
+                     $this->updated_at->format('Y-m-d H:i:s'),
+
+            'name' => optional($product)->name,
+            'brand' => optional($attribute)->type,
+            'category' => optional($product)->category,
             'size' => $this->size,
-            'unit' => $this->product->pku,
-            'image' => $this->product->image,
-            'description' => $this->product->description,
+            'unit' => optional($product)->pku,
+            'image' => optional($product)->image,
+            'description' => optional($product)->description,
             'purchase_price' => $this->purchase_price,
-            "price" => (float) $this->price,
+            'price' => (float) $this->price,
             'amount' => $this->amount,
-            'discount' => $this->product->discount,
-            'discount_start' => $this->product->discount_start,
-            'discount_end' => $this->product->discount_end,
+            'discount' => optional($product)->discount,
+            'discount_start' => optional($product)->discount_start,
+            'discount_end' => optional($product)->discount_end,
             'stock' => $this->available_stock,
-            'discontinued' => $this->product->discontinued,
-            "added_by" => empty($this->updated_by) ? $this->user->first_name . ' ' . $this->user->last_name : $this->updated_by,
-            "updated_by" => $this->updated_by,
+            'discontinued' => optional($product)->discontinued,
+
+            'added_by' => empty($this->updated_by)
+                ? (optional($user)->first_name . ' ' . optional($user)->last_name)
+                : $this->updated_by,
+
+            'updated_by' => $this->updated_by,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'date' => Carbon::createFromTimeStamp(strtotime($this->updated_at))->diffForHumans(),
-
         ];
     }
 }
