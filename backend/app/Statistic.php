@@ -121,63 +121,7 @@ class Statistic extends Model
         }
     }
 
-    public function scopeTransactionFilter($queryx, $filter)
-    {
-        if (empty($filter['end_date'])) {
-            $filter['end_date'] = Carbon::now()->toDateString();
-        }
-
-        try {
-
-            $query = DB::table('transactions')
-                ->join('invoices', 'transactions.invoice_id', '=', 'invoices.id');
-            $queryMade = '';
-            foreach ($filter as $key => $val) {
-                if (in_array($key, $this->fields)) {
-                    if ($key == 'count') {
-                        $queryMade = $query->select(DB::raw('COUNT(transactions.id) as count'));
-                    }
-                    if ($key == 'type') {
-                        $queryMade = $query
-                            ->select(DB::raw('SUM(transactions.payment) as balance, SUM(transactions.amount) as amount, COUNT(transactions.id) as ' . '"' . $val . '"'))
-                            ->where('invoices.' . $key, $val);
-                    }
-                    if ($key == 'revenue') {
-                        $queryMade = $query
-                            ->select(DB::raw('SUM(transactions.payment) as revenue, SUM(transactions.amount) as cost, COUNT(transactions.id) as count,SUM(transactions.payment   - transactions.cost) as profit'));
-                    }
-                    if ($key == 'order_revenue') {
-                        $queryMade = $query
-                            ->select(DB::raw('SUM(transactions.payment) as amount, SUM(transactions.cost) as cost, COUNT(transactions.id) as count,SUM(transactions.payment   - transactions.cost) as profit'))
-                            ->whereRaw('transactions.payment > 0 AND invoices.type = "order"');
-                    }
-                    if ($key == 'status') {
-                        $queryMade = $query
-                            ->select(DB::raw(' SUM(transactions.amount) as amount , COUNT(transactions.id) as count , SUM(transactions.payment) as balance'))
-                            ->where('transactions.' . $key, $val);
-                    }
-
-                    if ($key == 'date' && !empty($filter['transactionType'])) {
-
-                        $queryMade = $query
-                            ->select(DB::raw('SUM(transactions.payment) as amount,  COUNT(transactions.id) as transactions, ' . strtoupper($val) . '(transactions.created_at) as ' . strtolower($val)))
-                            ->where('invoices.type', $filter['transactionType'])
-                            ->groupBy(DB::raw(strtoupper($val) . '(transactions.created_at)'));
-                    }
-                    //Date Filtering
-                    //dd($queryMade->toSql());
-
-                    if (!empty($queryMade)) {
-                        return $this->dateFilter($queryMade, 'transactions', $filter);
-                    } else {
-                        return $query;
-                    }
-                }
-            }
-        } catch (\Exception $bug) {
-            return $this->exception($bug);
-        }
-    }
+    
     public function scopeInvoiceFilter($queryx, $filter)
     {
         if (empty($filter['end_date'])) {
@@ -335,20 +279,146 @@ class Statistic extends Model
         }
     }
 
-    public function dateFilter($queryMade, $table, $filter)
-    {
-        if (!empty($filter['day'])) {
-            $queryMade = $queryMade->whereRaw(' DAY(' . $table . '.created_at) = ' . $filter['day']);
-        }
-        if (!empty($filter['month'])) {
-            $queryMade = $queryMade->whereRaw(' MONTH(' . $table . '.created_at) = ' . $filter['month']);
-        }
-        if (!empty($filter['year'])) {
-            $queryMade = $queryMade->whereRaw(' YEAR(' . $table . '.created_at) = ' . $filter['year']);
-        }
-        if (!empty($filter['start_date'])) {
-            $queryMade = $queryMade->whereRaw($table . ".created_at BETWEEN " . "'" . $filter['start_date'] . "'" . " AND " . "'" . $filter['end_date'] . "'");
-        }
-        return $queryMade;
+    protected function datePartExpr(string $unit, string $qualifiedColumn): string
+{
+    $driver = DB::getDriverName();      // 'mysql', 'pgsql', ...
+    $unit   = strtolower($unit);
+
+    if (!in_array($unit, ['day','month','year'], true)) {
+        throw new \InvalidArgumentException("Unsupported date unit: {$unit}");
     }
+
+    // PostgreSQL -> EXTRACT(PART FROM column)
+    if ($driver === 'pgsql') {
+        return 'EXTRACT(' . strtoupper($unit) . " FROM {$qualifiedColumn})";
+    }
+
+    // MySQL/MariaDB -> PART(column)
+    return strtoupper($unit) . "({$qualifiedColumn})";
+}
+
+public function scopeTransactionFilter($queryx, $filter)
+{
+    if (empty($filter['end_date'])) {
+        $filter['end_date'] = Carbon::now()->toDateString();
+    }
+
+    try {
+        $query = DB::table('transactions')
+            ->join('invoices', 'transactions.invoice_id', '=', 'invoices.id');
+
+        $queryMade = '';
+
+        foreach ($filter as $key => $val) {
+            if (in_array($key, $this->fields)) {
+                if ($key == 'count') {
+                    $queryMade = $query->select(DB::raw('COUNT(transactions.id) as count'));
+                }
+
+                if ($key == 'type') {
+                    $queryMade = $query
+                        ->select(DB::raw(
+                            'SUM(transactions.payment) as balance, ' .
+                            'SUM(transactions.amount)  as amount, '  .
+                            'COUNT(transactions.id)    as "' . $val . '"'
+                        ))
+                        ->where('invoices.' . $key, $val);
+                }
+
+                if ($key == 'revenue') {
+                    $queryMade = $query
+                        ->select(DB::raw(
+                            'SUM(transactions.payment)                     as revenue, ' .
+                            'SUM(transactions.amount)                      as cost, '    .
+                            'COUNT(transactions.id)                        as count, '   .
+                            'SUM(transactions.payment - transactions.cost) as profit'
+                        ));
+                }
+
+                if ($key == 'order_revenue') {
+                    // safer and DB-agnostic vs the previous whereRaw with double quotes
+                    $queryMade = $query
+                        ->select(DB::raw(
+                            'SUM(transactions.payment)                     as amount, ' .
+                            'SUM(transactions.cost)                        as cost, '   .
+                            'COUNT(transactions.id)                        as count, '  .
+                            'SUM(transactions.payment - transactions.cost) as profit'
+                        ))
+                        ->where('transactions.payment', '>', 0)
+                        ->where('invoices.type', 'order');
+                }
+
+                if ($key == 'status') {
+                    $queryMade = $query
+                        ->select(DB::raw(
+                            'SUM(transactions.amount)  as amount, '  .
+                            'COUNT(transactions.id)    as count, '   .
+                            'SUM(transactions.payment) as balance'
+                        ))
+                        ->where('transactions.' . $key, $val);
+                }
+
+                if ($key == 'date' && !empty($filter['transactionType'])) {
+                    // Build full, DB-agnostic date-part expression (no extra () appended later)
+                    $dateExpr = $this->datePartExpr($val, 'transactions.created_at');
+                    $alias    = strtolower($val);
+
+                    $queryMade = $query
+                        ->select(DB::raw(
+                            'SUM(transactions.payment) as amount, '   .
+                            'COUNT(transactions.id)    as transactions, ' .
+                            $dateExpr . '             as ' . $alias
+                        ))
+                        ->where('invoices.type', $filter['transactionType'])
+                        ->groupBy(DB::raw($dateExpr));
+                }
+
+                // keep your original “first match returns” behavior
+                if (!empty($queryMade)) {
+                    return $this->dateFilter($queryMade, 'transactions', $filter);
+                } else {
+                    return $query;
+                }
+            }
+        }
+    } catch (\Exception $bug) {
+        return $this->exception($bug);
+    }
+}
+
+public function dateFilter($queryMade, $table, $filter)
+{
+    $col    = $table . '.created_at';
+    $driver = DB::getDriverName();
+
+    if (!empty($filter['day'])) {
+        $expr = ($driver === 'pgsql')
+            ? 'EXTRACT(DAY FROM ' . $col . ')'
+            : 'DAY(' . $col . ')';
+        $queryMade = $queryMade->whereRaw($expr . ' = ?', [$filter['day']]);
+    }
+
+    if (!empty($filter['month'])) {
+        $expr = ($driver === 'pgsql')
+            ? 'EXTRACT(MONTH FROM ' . $col . ')'
+            : 'MONTH(' . $col . ')';
+        $queryMade = $queryMade->whereRaw($expr . ' = ?', [$filter['month']]);
+    }
+
+    if (!empty($filter['year'])) {
+        $expr = ($driver === 'pgsql')
+            ? 'EXTRACT(YEAR FROM ' . $col . ')'
+            : 'YEAR(' . $col . ')';
+        $queryMade = $queryMade->whereRaw($expr . ' = ?', [$filter['year']]);
+    }
+
+    if (!empty($filter['start_date'])) {
+        // DB-agnostic and safe
+        $start = $filter['start_date'];
+        $end   = $filter['end_date'] ?? $start;
+        $queryMade = $queryMade->whereBetween($col, [$start, $end]);
+    }
+
+    return $queryMade;
+}
 }
