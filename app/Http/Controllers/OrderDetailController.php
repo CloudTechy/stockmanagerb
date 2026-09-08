@@ -11,6 +11,7 @@ use App\Jobs\ProcessOrder;
 use App\Order;
 use App\OrderDetail;
 use App\Product;
+use App\Services\IdempotencyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use \Exception;
@@ -67,13 +68,21 @@ class OrderDetailController extends Controller
     public function store(ValidateOrderDetailRequest $request)
     {
 
-
+        DB::beginTransaction();
         try
         {
             $validated = $request->validated();
+            $idempotencyService = app(IdempotencyService::class);
+            [$idempotencyRecord, $idempotencyResponse] = $idempotencyService->begin($request, 'orderdetails.store', (int) auth()->id());
+            if (!empty($idempotencyResponse)) {
+                DB::commit();
+                return $idempotencyResponse;
+            }
             $orders = $validated['orderDetails'];
             $order_id = $validated['order_id'];
             $orderDetails = [];
+            $order = Order::where('id', $order_id)->lockForUpdate()->first();
+            $customer = $order->customer()->lockForUpdate()->first();
 
             foreach ($orders as $id => $value) {
                 $val = array_keys($value);
@@ -82,7 +91,7 @@ class OrderDetailController extends Controller
                 $quantityPrice = explode(" ", $quan[0]);
                 $quantity = intval($quantityPrice[0]) ;
                 $price =  intval($quantityPrice[1]);
-                $productAttribute = AttributeProduct::find($id);
+                $productAttribute = AttributeProduct::where('id', $id)->lockForUpdate()->first();
                 $brand = Attribute::find($productAttribute->attribute_id);
                 $product = Product::find($productAttribute->product_id);
                 if ($product->discountValidity) {
@@ -96,10 +105,10 @@ class OrderDetailController extends Controller
                 //check to see that the stock is not exceeded
                 if (($productAttribute->available_stock - $quantity) < 0) {
 
-                    return Helper::invalidRequest($product->name . ': quantity(' . $quantity . ') exceeded the available stock(' . $productAttribute->available_stock . ') ', 400);
+                    throw new Exception($product->name . ': quantity(' . $quantity . ') exceeded the available stock(' . $productAttribute->available_stock . ') ');
                 }
                 //check if the order has been placed before and update it
-                $order_detail_counter = OrderDetail::where(['order_id' => $order_id, 'brand' => $brand->type, 'category' => $product->category, 'size' => $productAttribute->size]);
+                $order_detail_counter = OrderDetail::where(['order_id' => $order_id, 'brand' => $brand->type, 'category' => $product->category, 'size' => $productAttribute->size])->lockForUpdate();
 
                 if ($order_detail_counter->count() != 0) {
                     $orderdetail = $order_detail_counter->first();
@@ -108,10 +117,9 @@ class OrderDetailController extends Controller
                     //update product attribute
                     $productAttribute->update(['available_stock' => $productAttribute->available_stock - $quantity]);
                     // update customer
-                    $order = Order::find($order_id);
-                    $debit = $orderDetail['price'] * $quantity + (float) $order->customer->owing;
-
-                    $order->customer->update(['owing' => $debit]);
+                    $debit = $orderDetail['price'] * $quantity + (float) $customer->owing;
+                    $customer->update(['owing' => $debit]);
+                    $customer = $customer->fresh();
 
                     array_push($orderDetails, $orderdetail);
                     continue;
@@ -141,18 +149,24 @@ class OrderDetailController extends Controller
 
             }
             ProcessOrder::dispatch();
-            DB::commit();
 
             $orderdetails = collect($orderDetails)->map(function ($row) {
                 return OrderDetailResource::make($row)->resolve();
 
             });
 
-            return Helper::validRequest($orderdetails, 'OrderDetail was sent successfully', 200);
-            DB::beginTransaction();
+            $response = Helper::validRequest($orderdetails, 'OrderDetail was sent successfully', 200);
+            if (!empty($idempotencyRecord)) {
+                $idempotencyService->complete($idempotencyRecord, $response);
+            }
+            DB::commit();
+            return $response;
 
         } catch (\Exception $bug) {
             DB::rollback();
+            if (strpos($bug->getMessage(), 'exceeded the available stock') !== false) {
+                return Helper::invalidRequest($bug->getMessage(), 'Bad Request', 400);
+            }
             return $this->exception($bug, 'unknown error', 500);
         }
 
