@@ -11,7 +11,7 @@ class ValidatePurchaseDetailRequest extends FormRequest
      *
      * @return bool
      */
-    public function purhcaseDetailize()
+    public function authorize()
     {
         return true;
     }

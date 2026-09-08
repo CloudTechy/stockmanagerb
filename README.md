@@ -107,6 +107,14 @@ Now, the application should be available at `http://localhost:8000` (or the port
 * Set stock quantities, price details, and expiry dates.
 * View stock details and history for complete transparency.
 
+### Bulk insert idempotency (Sales and Purchases)
+
+For bulk Sales (`POST /api/orderdetails`) and bulk Purchases (`POST /api/purchasedetails`), send an idempotency key per client operation to prevent duplicate stock mutations on retries:
+
+* Preferred: `Idempotency-Key` header (fallback: `idempotency_key` or `idempotencyKey` in payload).
+* Replaying the same key with the same payload returns the stored response without re-applying stock changes.
+* Replaying the same key with a different payload returns a `409 Conflict`.
+
 ### Reports & Analytics
 
 * Generate reports on stock movements, sales trends, and product performance.
@@ -143,4 +151,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
 * [Vue.js](https://vuejs.org/) – A progressive JavaScript framework.
 * [Laravel](https://laravel.com/) – The PHP framework for web artisans.
 * [PostgreSQL](https://www.postgresql.org/) – Open source object-relational database system.
-
