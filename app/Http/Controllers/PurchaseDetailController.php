@@ -12,6 +12,7 @@ use App\Jobs\ProcessPurchase;
 use App\Product;
 use App\Purchase;
 use App\PurchaseDetail;
+use App\Services\IdempotencyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use \Exception;
@@ -67,47 +68,51 @@ class PurchaseDetailController extends Controller
 
     public function store(ValidatePurchaseDetailRequest $request)
     {
-
+        if (!auth()->user()->activated) {
+            return Helper::inValidRequest('User not activated', 'Unauthorized Access!', 400);
+        }
         DB::beginTransaction();
 
         try
         {
-
             $validated = $request->validated();
             $validated = $validated['purchaseDetails'];
-            if (!auth()->user()->activated) {
-                return Helper::inValidRequest('User not activated', 'Unauthorized Access!', 400);
+            $idempotencyService = app(IdempotencyService::class);
+            [$idempotencyRecord, $idempotencyResponse] = $idempotencyService->begin($request, 'purchasedetails.store', (int) auth()->id());
+            if (!empty($idempotencyResponse)) {
+                DB::commit();
+                return $idempotencyResponse;
             }
 
             $purchasedetails = [];
 
             foreach ($validated as $purchaseDetails => $purchaseDetail) {
 
-                $validated = $purchaseDetail;
-                $purchase = Purchase::find($validated['purchase_id']);
-                $attribute_id = Attribute::where('type', $validated['brand'])->first()->id;
-                $product = Product::where('name', $validated['product']);
+                $validatedDetail = $purchaseDetail;
+                $purchase = Purchase::where('id', $validatedDetail['purchase_id'])->lockForUpdate()->first();
+                $attribute_id = Attribute::where('type', $validatedDetail['brand'])->first()->id;
+                $product = Product::where('name', $validatedDetail['product'])->lockForUpdate();
                 if (!empty($product->count())) {
                     $product_id = $product->first()->id;
-                    $prdAttribute = AttributeProduct::where(['product_id' => $product_id, "size" => $validated['size'], "attribute_id" => $attribute_id]);
+                    $prdAttribute = AttributeProduct::where(['product_id' => $product_id, "size" => $validatedDetail['size'], "attribute_id" => $attribute_id])->lockForUpdate();
                     if ($prdAttribute->count() != 0) {
                         //create new purchase detail and update product attribute here
-                        $quantity = $prdAttribute->first()->available_stock + $validated['quantity'];
-                        $purchasedetail = PurchaseDetail::create($validated);
+                        $quantity = $prdAttribute->first()->available_stock + $validatedDetail['quantity'];
+                        $purchasedetail = PurchaseDetail::create($validatedDetail);
                         $user = auth()->user()->first_name . ' ' . auth()->user()->last_name;
-                        if ($prdAttribute->update(['available_stock' => $quantity, 'purchase_price' => $validated['price'], 'sale_price' => $validated['sale_price'], 'updated_by' => $user])) {
+                        if ($prdAttribute->update(['available_stock' => $quantity, 'purchase_price' => $validatedDetail['price'], 'sale_price' => $validatedDetail['sale_price'], 'updated_by' => $user])) {
                             array_push($purchasedetails, $purchasedetail);
                         }
 
                     } else {
-                        $newPurchaseDetail = $validated;
+                        $newPurchaseDetail = $validatedDetail;
                         $newPurchaseDetail['product_id'] = $product_id;
                         $newPurchaseDetail['attribute_id'] = $attribute_id;
-                        $newPurchaseDetail['available_stock'] = $validated['quantity'];
+                        $newPurchaseDetail['available_stock'] = $validatedDetail['quantity'];
                         $newPurchaseDetail['user_id'] = auth()->id();
-                        $newPurchaseDetail['purchase_price'] = $validated['price'];
-                        $newPurchaseDetail['sale_price'] = $validated['sale_price'];
-                        $purchasedetail = PurchaseDetail::create($validated);
+                        $newPurchaseDetail['purchase_price'] = $validatedDetail['price'];
+                        $newPurchaseDetail['sale_price'] = $validatedDetail['sale_price'];
+                        $purchasedetail = PurchaseDetail::create($validatedDetail);
                         $productAttribute = AttributeProduct::create($newPurchaseDetail);
                         array_push($purchasedetails, $purchasedetail);
 
@@ -118,22 +123,22 @@ class PurchaseDetailController extends Controller
                 } else {
 
                     //create new product and product attribute here
-                    $newProduct = $validated;
-                    $newProduct['name'] = $validated['product'];
+                    $newProduct = $validatedDetail;
+                    $newProduct['name'] = $validatedDetail['product'];
                     $newProduct['user_id'] = auth()->id();
                     $newProduct['supplier_id'] = $purchase->supplier_id;
 
                     $product = Product::create($newProduct);
                     //create the attribute
-                    $newPurchaseDetail = $validated;
+                    $newPurchaseDetail = $validatedDetail;
                     $newPurchaseDetail['product_id'] = $product->id;
                     $newPurchaseDetail['attribute_id'] = $attribute_id;
-                    $newPurchaseDetail['available_stock'] = $validated['quantity'];
+                    $newPurchaseDetail['available_stock'] = $validatedDetail['quantity'];
                     $newPurchaseDetail['user_id'] = auth()->id();
-                    $newPurchaseDetail['purchase_price'] = $validated['price'];
-                    $newPurchaseDetail['sale_price'] = $validated['sale_price'];
+                    $newPurchaseDetail['purchase_price'] = $validatedDetail['price'];
+                    $newPurchaseDetail['sale_price'] = $validatedDetail['sale_price'];
 
-                    $purchasedetail = PurchaseDetail::create($validated);
+                    $purchasedetail = PurchaseDetail::create($validatedDetail);
                     $productAttribute = AttributeProduct::create($newPurchaseDetail);
                     array_push($purchasedetails, $purchasedetail);
 
@@ -141,19 +146,24 @@ class PurchaseDetailController extends Controller
 
             }
             ProcessPurchase::dispatch();
-            DB::commit();
             $purchasedetails = collect($purchasedetails)->map(function ($row) {
                 return PurchaseDetailResource::make($row)->resolve();
 
             });
 
-            if (!Helper::createInvoice($validated['purchase_id'], 'purchase')) {
+            $firstPurchaseDetail = reset($validated);
+            if (!Helper::createInvoice($firstPurchaseDetail['purchase_id'], 'purchase')) {
 
                 throw new Exception("Error Processing invoice request", 1);
 
             }
 
-            return Helper::validRequest($purchasedetails, 'PurchaseDetail was sent successfully', 200);
+            $response = Helper::validRequest($purchasedetails, 'PurchaseDetail was sent successfully', 200);
+            if (!empty($idempotencyRecord)) {
+                $idempotencyService->complete($idempotencyRecord, $response);
+            }
+            DB::commit();
+            return $response;
 
         } catch (\Exception $bug) {
             DB::rollback();
